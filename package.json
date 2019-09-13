@@ -1,0 +1,22 @@
+{
+  "name": "rnbbot",
+  "version": "1.0.0",
+  "description": "Slack bot that informs channel of important JIRA updates (and maybe more).",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stephengladney/rnbbot.git"
+  },
+  "author": "Gladney",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stephengladney/rnbbot/issues"
+  },
+  "homepage": "https://github.com/stephengladney/rnbbot#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
