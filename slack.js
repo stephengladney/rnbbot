@@ -31,17 +31,17 @@ const notify = {
   readyForReview: (channel, jiraCard, cardTitle) => {
     sendMessage(
       channel,
-      `:eyes: [<https://salesloft.atlassian.net/browse/${jiraCard}|${jiraCard}>] [_${truncateTitle(
+      `:eyes: [<https://salesloft.atlassian.net/browse/${jiraCard}|${jiraCard}>] \`${truncateTitle(
         cardTitle
-      )}_] is *ready for review* <!here|here>`
+      )}\` is *ready for review* <!here|here>`
     );
   },
   readyForMerge: (channel, jiraCard, cardTitle, engineerSlackHandle) => {
     sendMessage(
       channel,
-      `:merged: [<https://salesloft.atlassian.net/browse/${jiraCard}|${jiraCard}>] [_${truncateTitle(
+      `:merged: [<https://salesloft.atlassian.net/browse/${jiraCard}|${jiraCard}>] \`${truncateTitle(
         cardTitle
-      )}_] is *ready for merge* <@${engineerSlackHandle}>`
+      )}\` is *ready for merge* <@${engineerSlackHandle}>`
     );
   }
 };
