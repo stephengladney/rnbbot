@@ -4,10 +4,6 @@ const slack = require("./slack");
 const team = require("./team");
 
 app
-  .get("/helloworld", () => {
-    console.log("HELLO WORLD endpoint hit!");
-  })
-
   .get("/qa", () => {
     slack.notify.readyForQA(
       "emailnotifications",
