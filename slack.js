@@ -13,23 +13,35 @@ const sendMessage = (channel, message) => {
   });
 };
 
+const truncateTitle = title => {
+  return String(title).length <= 50
+    ? title
+    : `${String(title).substr(0, 50)}...`;
+};
+
 const notify = {
-  readyForQA: (channel, jiraCard, qaEngineerSlackHandle) => {
+  readyForQA: (channel, jiraCard, cardTitle, qaEngineerSlackHandle) => {
     sendMessage(
       channel,
-      `:in_qa: [<https://salesloft.atlassian.net/browse/${jiraCard}|${jiraCard}>] is *ready for QA* <@${qaEngineerSlackHandle}>`
+      `:in_qa: [<https://salesloft.atlassian.net/browse/${jiraCard}|${jiraCard}>] \`${truncateTitle(
+        cardTitle
+      )}\` is *ready for QA* <@${qaEngineerSlackHandle}>`
     );
   },
-  readyForReview: (channel, jiraCard) => {
+  readyForReview: (channel, jiraCard, cardTitle) => {
     sendMessage(
       channel,
-      `:eyes: [<https://salesloft.atlassian.net/browse/${jiraCard}|${jiraCard}>] is *ready for review* <!here|here>`
+      `:eyes: [<https://salesloft.atlassian.net/browse/${jiraCard}|${jiraCard}>] [_${truncateTitle(
+        cardTitle
+      )}_] is *ready for review* <!here|here>`
     );
   },
-  readyForMerge: (channel, jiraCard, engineerSlackHandle) => {
+  readyForMerge: (channel, jiraCard, cardTitle, engineerSlackHandle) => {
     sendMessage(
       channel,
-      `:merged: [<https://salesloft.atlassian.net/browse/${jiraCard}|${jiraCard}>] is *ready for merge* <@${engineerSlackHandle}>`
+      `:merged: [<https://salesloft.atlassian.net/browse/${jiraCard}|${jiraCard}>] [_${truncateTitle(
+        cardTitle
+      )}_] is *ready for merge* <@${engineerSlackHandle}>`
     );
   }
 };

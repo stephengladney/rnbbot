@@ -11,15 +11,25 @@ app
   .get("/qa", () => {
     slack.notify.readyForQA(
       "emailnotifications",
-      "SL-3424",
-      team.findEngineerByEmail("stephen.gladney@salesloft.com").slackHandle
+      "SL-13561",
+      "New One Off --- insert template with attachments not showing name of attachment",
+      "gladney"
     );
   })
   .get("/r4r", () => {
-    slack.notify.readyForReview("emailnotifications", "SL-3424");
+    slack.notify.readyForReview(
+      "emailnotifications",
+      "SL-13561",
+      "Implement attachments for Workflow email pane"
+    );
   })
   .get("/r4m", () => {
-    slack.notify.readyForMerge("emailnotifications", "SL-3424", "gladney");
+    slack.notify.readyForMerge(
+      "emailnotifications",
+      "SL-13561",
+      "Implement attachments for Workflow email pane",
+      "gladney"
+    );
   })
 
   .listen(process.env.PORT || 5000, process.env.IP, () => {
