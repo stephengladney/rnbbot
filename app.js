@@ -27,6 +27,9 @@ app
       "gladney"
     );
   })
+  .get("/jirahook", () => {
+    
+  })
 
   .listen(process.env.PORT || 5000, process.env.IP, () => {
     console.log("rnbBot server is now running!");
