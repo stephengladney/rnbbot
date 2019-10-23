@@ -35,7 +35,7 @@ app
     console.log(req)
     res.status(200).send("OK")
   })
-  .get("amirunning", (req, res) => {
+  .get("/amirunning", (req, res) => {
     res.send("Yes, I am running!")
   })
 
