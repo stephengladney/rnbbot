@@ -1,5 +1,3 @@
-import { qaEngineer } from "./team"
-
 require("dotenv").config()
 const axios = require("axios")
 const { designer, qaEngineer, engineers } = require("./team")
