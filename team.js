@@ -4,20 +4,20 @@ function TeamMember({ firstName, lastName, email, slackHandle }) {
   this.email = email
   this.slackHandle = slackHandle
 }
-const qaEngineer = new TeamMember({
+export const qaEngineer = new TeamMember({
   firstName: "Belinda",
   lastName: "Goodman",
   email: "belinda.goodman@salesloft.com",
   slackHandle: "belinda.goodman"
 })
 
-const designer = new TeamMember({
+export const designer = new TeamMember({
   firstName: "Sam",
   lastName: "Solomon",
   email: "sam.solomon@salesloft.com",
   slackHandle: "sam.solomon"
 })
-const engineers = [
+export const engineers = [
   new TeamMember({
     firstName: "Stephen",
     lastName: "Gladney",
@@ -49,13 +49,6 @@ const engineers = [
     slackHandle: "matt.brooke"
   })
 ]
-const findEngineerByEmail = email => {
+export const findEngineerByEmail = email => {
   return engineers.find(engineer => engineer.email === email)
-}
-
-module.exports = {
-  qaEngineer: qaEngineer,
-  designer: designer,
-  engineers: engineers,
-  findEngineerByEmail: email => findEngineerByEmail(email)
 }
