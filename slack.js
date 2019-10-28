@@ -5,7 +5,7 @@ const { designer, qaEngineer, engineers } = require("./team")
 const atMention = person => `<@${person.slackHandle}>`
 const atHere = "<!here|here>"
 
-export const sendMessage = ({ channel, message }) => {
+const sendMessage = ({ channel, message }) => {
   axios({
     method: "post",
     url: "https://slack.com/api/chat.postMessage",
@@ -17,13 +17,13 @@ export const sendMessage = ({ channel, message }) => {
   })
 }
 
-export const truncateTitle = title => {
+const truncateTitle = title => {
   return String(title).length <= 50
     ? title
     : `${String(title).substr(0, 50)}...`
 }
 
-export const notify = {
+const notify = {
   readyForQA: ({ channel, jiraCard, cardTitle }) => {
     sendMessage({
       channel: channel,
@@ -48,4 +48,10 @@ export const notify = {
       )}\` is *ready for merge* ${atMention(engineer)}`
     })
   }
+}
+
+module.exports = {
+  sendMessage: sendMessage,
+  truncateTitle: truncateTitle,
+  notify: notify
 }
