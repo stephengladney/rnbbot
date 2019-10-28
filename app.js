@@ -9,8 +9,7 @@ app
       channel: "emailnotifications",
       jiraCard: "SL-13561",
       cardTitle:
-        "New One Off --- insert template with attachments not showing name of attachment",
-      qaEngineerSlackHandle: "gladney"
+        "New One Off --- insert template with attachments not showing name of attachment"
     })
     res.status(200).send("OK")
   })
@@ -27,7 +26,7 @@ app
       channel: "emailnotifications",
       jiraCard: "SL-13561",
       cardTitle: "Implement attachments for Workflow email pane",
-      engineerSlackHandle: "gladney"
+      engineer: "stephen.gladney@salesloft.com"
     })
     res.status(200).send("OK")
   })
