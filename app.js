@@ -30,7 +30,7 @@ app
     })
     res.status(200).send("OK")
   })
-  .get("/jirahook", (req, res) => {
+  .post("/jirahook", (req, res) => {
     console.log("~~~ Hook endpoint hit! ~~~")
     console.log(req)
     res.status(200).send("OK")
