@@ -53,7 +53,7 @@ const notify = {
   readyForReview: ({ cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
-      message: `:eyes: [ ${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}> ${githubEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|1486> ] \`${truncateTitle(
+      message: `:eyes: [ ${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}> ${githubEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|#1486> ] \`${truncateTitle(
         cardTitle
       )}\` is *ready for review* ${atHere}`
     })

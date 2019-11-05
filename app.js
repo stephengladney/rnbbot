@@ -8,7 +8,7 @@ app.use(bodyParser.json())
 
 app
   .post("/jirahook", (req, res) => {
-    const cardNumber = String(req.body.issue.key).substr(3)
+    const cardNumber = String(req.body.issue.key)
     const cardTitle = req.body.issue.fields.summary
     const assignee = team.findEngineerByEmail(
       req.body.issue.fields.assignee.emailAddress
