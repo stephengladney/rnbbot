@@ -1,6 +1,6 @@
 const express = require("express")
 const app = express()
-const jira = require("./jira")
+const { processChange } = require("./jira")
 const team = require("./team")
 const bodyParser = require("body-parser")
 
@@ -15,7 +15,13 @@ app
     )
     const oldStatus = req.body.changelog.items[0].fromString
     const newStatus = req.body.changelog.items[0].toString
-
+    processChange({
+      assignee: assignee,
+      cardNumber: cardNumber,
+      cardTitle: cardTitle,
+      newStatus: newStatus,
+      oldStatus: oldStatus
+    })
     res.status(200).send("OK")
   })
   .get("/amirunning", (req, res) => {

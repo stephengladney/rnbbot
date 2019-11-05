@@ -1,4 +1,4 @@
-const slackChannel = "rnb-private"
+const slackChannel = "emailnotifications"
 
 function TeamMember({ firstName, lastName, email, slackHandle }) {
   this.firstName = firstName

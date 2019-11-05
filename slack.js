@@ -32,10 +32,10 @@ const notify = {
       )}\` is *ready for QA* ${atMention(qaEngineer)}>`
     })
   },
-  readyForReview: ({ jiraCard, cardTitle }) => {
+  readyForReview: ({ cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
-      message: `:eyes: [<https://salesloft.atlassian.net/browse/${jiraCard}|${jiraCard}>] \`${truncateTitle(
+      message: `:eyes: [<https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
         cardTitle
       )}\` is *ready for review* ${atHere}`
     })

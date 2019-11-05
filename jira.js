@@ -13,8 +13,8 @@ const status = {
 }
 function processChange({
   assignee,
+  cardNumber,
   cardTitle,
-  jiraCard,
   newStatus,
   oldStatus
 }) {
@@ -24,7 +24,7 @@ function processChange({
   ) {
     slack.notify.readyForReview({
       cardTitle: cardTitle,
-      jiraCard: jiraCard
+      cardNumber: cardNumber
     })
   }
 }
