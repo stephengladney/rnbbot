@@ -4,7 +4,7 @@ const slack = require("./slack")
 const team = require("./team")
 const bodyParser = require("body-parser")
 
-app.use(bodyParser.text({}))
+app.use(bodyParser.raw())
 
 app
   .get("/qa", (req, res) => {
