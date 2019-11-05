@@ -12,17 +12,18 @@ const status = {
   GA: "GA"
 }
 function processChange({
-  jiraCard,
+  assignee,
   cardTitle,
-  oldStatus,
+  jiraCard,
   newStatus,
-  assignee
+  oldStatus
 }) {
   if (
     oldStatus == status.inDevelopment &&
-    newStatus == "Ready for Code Review"
+    newStatus == status.readyForCodeReview
   ) {
     slack.notify.readyForReview({
+      cardTitle: cardTitle,
       jiraCard: jiraCard
     })
   }

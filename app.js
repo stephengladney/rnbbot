@@ -1,6 +1,6 @@
 const express = require("express")
 const app = express()
-const slack = require("./slack")
+const jira = require("./jira")
 const team = require("./team")
 const bodyParser = require("body-parser")
 
