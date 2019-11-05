@@ -35,7 +35,13 @@ app
   })
   .post("/jirahook", (req, res) => {
     console.log("~~~ Hook endpoint hit! ~~~")
-    console.log(JSON.stringify(req.body))
+    const ticket = req.body.issue.key
+    const engineer = team.findEngineerByEmail(
+      req.body.issue.fields.assignee.emailAddress
+    )
+    const oldStatus = req.body.issue.changelog.fromString
+    const newStatus = req.body.issue.changelog.toString
+    console.log(`${engineer} moved ${ticket} from ${oldStatus} to ${newStatus}`)
     res.status(200).send("OK")
   })
   .get("/amirunning", (req, res) => {
