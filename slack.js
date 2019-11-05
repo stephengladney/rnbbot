@@ -24,10 +24,10 @@ const truncateTitle = title => {
 }
 
 const notify = {
-  readyForQA: ({ jiraCard, cardTitle }) => {
+  readyForQA: ({ cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
-      message: `:in_qa: [<https://salesloft.atlassian.net/browse/${jiraCard}|${jiraCard}>] \`${truncateTitle(
+      message: `:in_qa: [<https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
         cardTitle
       )}\` is *ready for QA* ${atMention(qaEngineer)}>`
     })
@@ -40,10 +40,10 @@ const notify = {
       )}\` is *ready for review* ${atHere}`
     })
   },
-  readyForMerge: ({ jiraCard, cardTitle, engineer }) => {
+  readyForMerge: ({ cardNumber, cardTitle, engineer }) => {
     sendMessage({
       channel: slackChannel,
-      message: `:merged: [<https://salesloft.atlassian.net/browse/${jiraCard}|${jiraCard}>] \`${truncateTitle(
+      message: `:merged: [<https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
         cardTitle
       )}\` is *ready for merge* ${atMention(engineer)}`
     })

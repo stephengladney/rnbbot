@@ -18,13 +18,21 @@ function processChange({
   newStatus,
   oldStatus
 }) {
+  //IN PROG > R4R
   if (
     oldStatus == status.inDevelopment &&
     newStatus == status.readyForCodeReview
   ) {
     slack.notify.readyForReview({
-      cardTitle: cardTitle,
-      cardNumber: cardNumber
+      cardNumber: cardNumber,
+      cardTitle: cardTitle
+    })
+  }
+  // R4QA
+  if (newStatus == status.readyForQa) {
+    slack.notify.readyForQA({
+      cardNumber: cardNumber,
+      cardTitle: cardTitle
     })
   }
 }
