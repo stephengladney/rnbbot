@@ -1,4 +1,12 @@
-const slack = require("./slack")
+const {
+  notify: {
+    readyForAcceptance,
+    readyForDesignReview,
+    readyForMerge,
+    readyForQA,
+    readyForReview
+  }
+} = require("./slack")
 const status = {
   designReview: "Design Review",
   inDevelopment: "In Development",
@@ -19,35 +27,31 @@ function processChange({
   newStatus,
   oldStatus
 }) {
+  jiraData = {
+    cardNumber: cardNumber,
+    cardTitle: cardTitle,
+    assignee: assignee
+  }
+
   // R4R
   if (newStatus == status.readyForCodeReview) {
-    slack.notify.readyForReview({
-      cardNumber: cardNumber,
-      cardTitle: cardTitle
-    })
+    readyForReview(jiraData)
   }
   // R4QA
   if (newStatus == status.readyForQa) {
-    slack.notify.readyForQA({
-      cardNumber: cardNumber,
-      cardTitle: cardTitle
-    })
+    readyForQA(jiraData)
   }
   // R4DR
   if (newStatus == status.designReview) {
-    //x
+    readyForDesignReview(jiraData)
   }
   //R4A
   if (newStatus == status.readyForAcceptance) {
-    //x
+    readyForAcceptance(jiraData)
   }
   //R4M
   if (newStatus == status.readyForMerge) {
-    slack.notify.readyForMerge({
-      cardNumber: cardNumber,
-      cardTitle: cardTitle,
-      engineer: assignee
-    })
+    readyForMerge(jiraData)
   }
 }
 

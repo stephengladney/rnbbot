@@ -1,6 +1,6 @@
 require("dotenv").config()
 const axios = require("axios")
-const { designer, qaEngineer, engineers, slackChannel } = require("./team")
+const { designer, qaEngineer, productManager, slackChannel } = require("./team")
 
 const atMention = person => `<@${person.slackHandle}>`
 const atHere = "<!here|here>"
@@ -24,6 +24,22 @@ const truncateTitle = title => {
 }
 
 const notify = {
+  readyForAcceptance: ({ cardNumber, cardTitle }) => {
+    sendMessage({
+      channel: slackChannel,
+      message: `:parking: [<https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
+        cardTitle
+      )}\` is *ready for Acceptance* ${atMention(productManager)}`
+    })
+  },
+  readyForDesignReview: ({ cardNumber, cardTitle }) => {
+    sendMessage({
+      channel: slackChannel,
+      message: `:pencil2: [<https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
+        cardTitle
+      )}\` is *ready for QA* ${atMention(designer)}`
+    })
+  },
   readyForQA: ({ cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
@@ -40,12 +56,12 @@ const notify = {
       )}\` is *ready for review* ${atHere}`
     })
   },
-  readyForMerge: ({ cardNumber, cardTitle, engineer }) => {
+  readyForMerge: ({ cardNumber, cardTitle, assignee }) => {
     sendMessage({
       channel: slackChannel,
-      message: `:merged: [<https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
+      message: `:white_check_mark: [<https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
         cardTitle
-      )}\` is *ready for merge* ${atMention(engineer)}`
+      )}\` is *ready for merge* ${atMention(assignee)}`
     })
   }
 }

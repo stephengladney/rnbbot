@@ -19,6 +19,14 @@ const designer = new TeamMember({
   email: "sam.solomon@salesloft.com",
   slackHandle: "sam.solomon"
 })
+
+const productManager = new TeamMember({
+  firstName: "Daniel",
+  lastName: "Andrews",
+  email: "daniel.andrews@salesloft.com",
+  slackHandle: "daniel"
+})
+
 const engineers = [
   new TeamMember({
     firstName: "Stephen",
@@ -51,6 +59,7 @@ const engineers = [
     slackHandle: "matt.brooke"
   })
 ]
+
 const findEngineerByEmail = email => {
   return engineers.find(engineer => engineer.email === email)
 }
@@ -59,6 +68,7 @@ module.exports = {
   designer: designer,
   engineers: engineers,
   findEngineerByEmail: findEngineerByEmail,
+  productManager: productManager,
   qaEngineer: qaEngineer,
   slackChannel: slackChannel
 }
