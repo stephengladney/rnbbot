@@ -4,7 +4,7 @@ const slack = require("./slack")
 const team = require("./team")
 const bodyParser = require("body-parser")
 
-app.use(bodyParser.raw())
+app.use(bodyParser.json())
 
 app
   .get("/qa", (req, res) => {
@@ -35,7 +35,7 @@ app
   })
   .post("/jirahook", (req, res) => {
     console.log("~~~ Hook endpoint hit! ~~~")
-    console.log(req.params)
+    console.log(req.body)
     res.status(200).send("OK")
   })
   .get("/amirunning", (req, res) => {
