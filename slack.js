@@ -27,7 +27,7 @@ const notify = {
   readyForAcceptance: ({ cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
-      message: `:parking: [<https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
+      message: `:parking: [:jira: <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
         cardTitle
       )}\` is *ready for Acceptance* ${atMention(productManager)}`
     })
@@ -35,15 +35,15 @@ const notify = {
   readyForDesignReview: ({ cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
-      message: `:pencil2: [<https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
+      message: `:pencil2: [:jira: <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
         cardTitle
-      )}\` is *ready for QA* ${atMention(designer)}`
+      )}\` is *ready for Design Review* ${atMention(designer)}`
     })
   },
   readyForQA: ({ cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
-      message: `:in_qa: [<https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
+      message: `:in_qa: [:jira: <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
         cardTitle
       )}\` is *ready for QA* ${atMention(qaEngineer)}`
     })
@@ -51,7 +51,7 @@ const notify = {
   readyForReview: ({ cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
-      message: `:eyes: [<https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
+      message: `:eyes: [:jira: <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
         cardTitle
       )}\` is *ready for review* ${atHere}`
     })
@@ -59,7 +59,7 @@ const notify = {
   readyForMerge: ({ cardNumber, cardTitle, assignee }) => {
     sendMessage({
       channel: slackChannel,
-      message: `:white_check_mark: [<https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
+      message: `:white_check_mark: [:jira: <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
         cardTitle
       )}\` is *ready for merge* ${atMention(assignee)}`
     })
