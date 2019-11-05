@@ -2,6 +2,9 @@ const express = require("express")
 const app = express()
 const slack = require("./slack")
 const team = require("./team")
+const bodyParser = require("body-parser")
+
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app
   .get("/qa", (req, res) => {
