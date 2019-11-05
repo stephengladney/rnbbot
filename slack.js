@@ -5,6 +5,7 @@ const { designer, qaEngineer, productManager, slackChannel } = require("./team")
 const atMention = person => `<@${person.slackHandle}>`
 const atHere = "<!here|here>"
 const jiraEmoji = ":jira2:"
+const githubEmoji = ":github"
 
 const sendMessage = ({ channel, message }) => {
   axios({
@@ -52,7 +53,7 @@ const notify = {
   readyForReview: ({ cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
-      message: `:eyes: [ ${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}> ] \`${truncateTitle(
+      message: `:eyes: [ ${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}> ${githubEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|1486> ] \`${truncateTitle(
         cardTitle
       )}\` is *ready for review* ${atHere}`
     })
