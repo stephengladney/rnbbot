@@ -29,7 +29,7 @@ const notify = {
       channel: slackChannel,
       message: `:in_qa: [<https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
         cardTitle
-      )}\` is *ready for QA* ${atMention(qaEngineer)}>`
+      )}\` is *ready for QA* ${atMention(qaEngineer)}`
     })
   },
   readyForReview: ({ cardNumber, cardTitle }) => {

@@ -1,5 +1,6 @@
 const slack = require("./slack")
 const status = {
+  designReview: "Design Review",
   inDevelopment: "In Development",
   readyForCodeReview: "Ready for Code Review",
   readyForQa: "Ready for QA",
@@ -18,11 +19,8 @@ function processChange({
   newStatus,
   oldStatus
 }) {
-  //IN PROG > R4R
-  if (
-    oldStatus == status.inDevelopment &&
-    newStatus == status.readyForCodeReview
-  ) {
+  // R4R
+  if (newStatus == status.readyForCodeReview) {
     slack.notify.readyForReview({
       cardNumber: cardNumber,
       cardTitle: cardTitle
@@ -33,6 +31,22 @@ function processChange({
     slack.notify.readyForQA({
       cardNumber: cardNumber,
       cardTitle: cardTitle
+    })
+  }
+  // R4DR
+  if (newStatus == status.designReview) {
+    //x
+  }
+  //R4A
+  if (newStatus == status.readyForAcceptance) {
+    //x
+  }
+  //R4M
+  if (newStatus == status.readyForMerge) {
+    slack.notify.readyForMerge({
+      cardNumber: cardNumber,
+      cardTitle: cardTitle,
+      engineer: assignee
     })
   }
 }
