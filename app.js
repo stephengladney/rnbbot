@@ -38,9 +38,9 @@ app
     const ticket = req.body.issue.key
     const engineer = team.findEngineerByEmail(
       req.body.issue.fields.assignee.emailAddress
-    )
-    const oldStatus = req.body.changelog.fromString
-    const newStatus = req.body.changelog.toString
+    ).firstName
+    const oldStatus = req.body.changelog.items[0].fromString
+    const newStatus = req.body.changelog.items[0].toString
     console.log(`${engineer} moved ${ticket} from ${oldStatus} to ${newStatus}`)
     res.status(200).send("OK")
   })
