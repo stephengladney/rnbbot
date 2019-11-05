@@ -28,3 +28,7 @@ function processChange({
     })
   }
 }
+
+module.exports = {
+  processChange: processChange
+}
