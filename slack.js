@@ -4,6 +4,7 @@ const { designer, qaEngineer, productManager, slackChannel } = require("./team")
 
 const atMention = person => `<@${person.slackHandle}>`
 const atHere = "<!here|here>"
+const jiraEmoji = ":jira2:"
 
 const sendMessage = ({ channel, message }) => {
   axios({
@@ -27,7 +28,7 @@ const notify = {
   readyForAcceptance: ({ cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
-      message: `:parking: [:jira: <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
+      message: `:parking: [${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
         cardTitle
       )}\` is *ready for Acceptance* ${atMention(productManager)}`
     })
@@ -35,7 +36,7 @@ const notify = {
   readyForDesignReview: ({ cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
-      message: `:pencil2: [:jira: <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
+      message: `:pencil2: [${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
         cardTitle
       )}\` is *ready for Design Review* ${atMention(designer)}`
     })
@@ -43,7 +44,7 @@ const notify = {
   readyForQA: ({ cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
-      message: `:in_qa: [:jira: <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
+      message: `:in_qa: [${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
         cardTitle
       )}\` is *ready for QA* ${atMention(qaEngineer)}`
     })
@@ -51,7 +52,7 @@ const notify = {
   readyForReview: ({ cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
-      message: `:eyes: [:jira: <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
+      message: `:eyes: [${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
         cardTitle
       )}\` is *ready for review* ${atHere}`
     })
@@ -59,7 +60,7 @@ const notify = {
   readyForMerge: ({ cardNumber, cardTitle, assignee }) => {
     sendMessage({
       channel: slackChannel,
-      message: `:white_check_mark: [:jira: <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
+      message: `:white_check_mark: [${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>] \`${truncateTitle(
         cardTitle
       )}\` is *ready for merge* ${atMention(assignee)}`
     })
