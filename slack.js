@@ -5,7 +5,7 @@ const { designer, qaEngineer, productManager, slackChannel } = require("./team")
 const atMention = person => `<@${person.slackHandle}>`
 const atHere = "<!here|here>"
 const jiraEmoji = ":jira2:"
-const githubEmoji = ":github"
+const githubEmoji = ":github:"
 
 const sendMessage = ({ channel, message }) => {
   axios({
