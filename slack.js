@@ -1,6 +1,6 @@
 require("dotenv").config()
 const axios = require("axios")
-const { designer, qaEngineer, engineers } = require("./team")
+const { designer, qaEngineer, engineers, slackChannel } = require("./team")
 
 const atMention = person => `<@${person.slackHandle}>`
 const atHere = "<!here|here>"
@@ -24,25 +24,25 @@ const truncateTitle = title => {
 }
 
 const notify = {
-  readyForQA: ({ channel, jiraCard, cardTitle }) => {
+  readyForQA: ({ jiraCard, cardTitle }) => {
     sendMessage({
-      channel: channel,
+      channel: slackChannel,
       message: `:in_qa: [<https://salesloft.atlassian.net/browse/${jiraCard}|${jiraCard}>] \`${truncateTitle(
         cardTitle
       )}\` is *ready for QA* ${atMention(qaEngineer)}>`
     })
   },
-  readyForReview: ({ channel, jiraCard, cardTitle }) => {
+  readyForReview: ({ jiraCard, cardTitle }) => {
     sendMessage({
-      channel: channel,
+      channel: slackChannel,
       message: `:eyes: [<https://salesloft.atlassian.net/browse/${jiraCard}|${jiraCard}>] \`${truncateTitle(
         cardTitle
       )}\` is *ready for review* ${atHere}`
     })
   },
-  readyForMerge: ({ channel, jiraCard, cardTitle, engineer }) => {
+  readyForMerge: ({ jiraCard, cardTitle, engineer }) => {
     sendMessage({
-      channel: channel,
+      channel: slackChannel,
       message: `:merged: [<https://salesloft.atlassian.net/browse/${jiraCard}|${jiraCard}>] \`${truncateTitle(
         cardTitle
       )}\` is *ready for merge* ${atMention(engineer)}`

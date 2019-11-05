@@ -1,3 +1,5 @@
+const slackChannel = "rnb-private"
+
 function TeamMember({ firstName, lastName, email, slackHandle }) {
   this.firstName = firstName
   this.lastName = lastName
@@ -54,8 +56,9 @@ const findEngineerByEmail = email => {
 }
 
 module.exports = {
-  qaEngineer: qaEngineer,
   designer: designer,
   engineers: engineers,
-  findEngineerByEmail: findEngineerByEmail
+  findEngineerByEmail: findEngineerByEmail,
+  qaEngineer: qaEngineer,
+  slackChannel: slackChannel
 }
