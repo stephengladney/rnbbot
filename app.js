@@ -32,7 +32,7 @@ app
   })
   .post("/jirahook", (req, res) => {
     console.log("~~~ Hook endpoint hit! ~~~")
-    console.log(req)
+    console.log(req.body)
     res.status(200).send("OK")
   })
   .get("/amirunning", (req, res) => {
