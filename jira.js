@@ -8,12 +8,7 @@ const {
   }
 } = require("./slack")
 
-const r4DesignReview = "Design Review"
 const inDevelopment = "In Development"
-const r4CodeReview = "Ready for Code Review"
-const r4Qa = "Ready for QA"
-const r4Acceptance = "Ready for Acceptance"
-const r4Merge = "Ready for Merge"
 const merged = {
   newStatus: "Done",
   oldStatus: "Merged"
@@ -34,19 +29,19 @@ function processChange({
   }
 
   switch (newStatus) {
-    case r4CodeReview:
+    case "Ready for Code Review":
       readyForReview(jiraData)
       break
-    case r4Qa:
+    case "Ready for QA":
       readyForQA(jiraData)
       break
-    case r4DesignReview:
+    case "Design Review":
       readyForDesignReview(jiraData)
       break
-    case r4Acceptance:
+    case "Ready for Acceptance":
       readyForAcceptance(jiraData)
       break
-    case r4Merge:
+    case "Ready for Merge":
       readyForMerge(jiraData)
     default:
   }
