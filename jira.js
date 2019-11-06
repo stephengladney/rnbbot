@@ -58,7 +58,7 @@ function checkforStagnants(arr) {
     const currentStatus = lastStatus
     let howLongInColumn = String(arr[i].lastColumnChangeTime.fromNow())
     howLongInColumn = howLongInColumn.substr(0, howLongInColumn.length - 4)
-    const howLongSinceLastAlert = arr[i].lastAlert.fromNow()
+    const howLongSinceLastAlert = arr[i].lastAlertTime.fromNow()
     if (
       lastStatus === currentStatus &&
       (currentStatus === "Ready for Code Review" ||
