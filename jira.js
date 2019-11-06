@@ -64,7 +64,7 @@ function checkforStagnants(arr) {
       (currentStatus === "Ready for Code Review" ||
         currentStatus === "Ready for Merge") &&
       String(howLongInColumn).includes("minutes") &&
-      String(howLongSinceLastAlert).includes("minutes")
+      String(howLongSinceLastAlert).includes("2 minutes")
     ) {
       arr[i].alertCount++
       arr[i].lastAlert = moment()
