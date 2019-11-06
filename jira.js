@@ -53,7 +53,8 @@ function processChange({
 function checkforStagnants(arr) {
   for (let i = 0; i < arr.length; i++) {
     const lastStatus = arr[i].lastStatus
-    const currentStatus = getCardStatus(arr[i].cardNumber)
+    // const currentStatus = getCardStatus(arr[i].cardNumber)
+    const currentStatus = lastStatus
     let howLongInColumn = String(arr[i].lastColumnChangeTime.fromNow())
     howLongInColumn = howLongInColumn.substr(0, howLongInColumn.length - 4)
     const howLongSinceLastAlert = arr[i].lastAlert.fromNow()
