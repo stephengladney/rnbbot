@@ -33,23 +33,11 @@ function processChange({
     assignee: assignee
   }
 
-  switch (newStatus) {
-    case readyForCodeReview:
-      readyForReview(jiraData)
-      break
-    case readyForQa:
-      readyForQA(jiraData)
-      break
-    case designReview:
-      readyForDesignReview(jiraData)
-      break
-    case readyForAcceptance:
-      readyForAcceptance(jiraData)
-      break
-    case readyForMerge:
-      readyForMerge(jiraData)
-    default:
-  }
+  if (newStatus == readyForCodeReview) readyForReview(jiraData)
+  if (newStatus == readyForQa) readyForQA(jiraData)
+  if (newStatus == designReview) readyForDesignReview(jiraData)
+  if (newStatus == readyForAcceptance) readyForAcceptance(jiraData)
+  if (newStatus == readyForMerge) readyForMerge(jiraData)
 }
 
 module.exports = {
