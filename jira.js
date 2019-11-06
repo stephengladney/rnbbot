@@ -51,6 +51,7 @@ function processChange({
 }
 
 function checkforStagnants(arr) {
+  if (arr.length === 0) return
   for (let i = 0; i < arr.length; i++) {
     const lastStatus = arr[i].lastStatus
     // const currentStatus = getCardStatus(arr[i].cardNumber)
