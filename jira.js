@@ -4,10 +4,10 @@ const {
     readyForAcceptance,
     readyForDesignReview,
     readyForMerge,
-    remindOfReadyforMerge,
+    remindOfReadyForMerge,
     readyForQA,
     readyForReview,
-    remindOfReadyforReview
+    remindOfReadyForReview
   }
 } = require("./slack")
 
@@ -63,8 +63,8 @@ function checkforStagnants(arr) {
       lastStatus === currentStatus &&
       (currentStatus === "Ready for Code Review" ||
         currentStatus === "Ready for Merge") &&
-      String(howLongInColumn).includes("hours") &&
-      String(howLongSinceLastAlert).includes("hours")
+      String(howLongInColumn).includes("minutes") &&
+      String(howLongSinceLastAlert).includes("minutes")
     ) {
       arr[i].alertCount++
       arr[i].lastAlert = moment()

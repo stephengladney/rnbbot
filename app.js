@@ -9,9 +9,9 @@ const slack = require("./slack")
 
 app.use(bodyParser.json())
 
-// let statusPoller = setInterval(() => {
-//   checkforStagnants(cards), 900000
-// })
+let statusPoller = setInterval(() => {
+  checkforStagnants(cards)
+}, 60000)
 
 app
   .post("/jirahook", (req, res) => {

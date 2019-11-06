@@ -47,7 +47,7 @@ const notify = {
       )}\` is *ready for acceptance* | ${atMention(productManager)}`
     })
   },
-  remindOfReadyforAcceptance: ({ age, cardNumber, cardTitle, nthAlert }) => {
+  remindOfReadyForAcceptance: ({ age, cardNumber, cardTitle, nthAlert }) => {
     sendMessage({
       channel: slackChannel,
       message: `:parking: ${ordinal(
@@ -83,7 +83,7 @@ const notify = {
       )}\` is *ready for review* | ${atHere}`
     })
   },
-  remindOfReadyforReview: ({ age, cardNumber, cardTitle, nthAlert }) => {
+  remindOfReadyForReview: ({ age, cardNumber, cardTitle, nthAlert }) => {
     sendMessage({
       channel: slackChannel,
       message: `:eyes: ${ordinal(
@@ -103,7 +103,7 @@ const notify = {
       )}\` is *ready for merge* | ${atMention(assignee)}`
     })
   },
-  remindOfReadyforMerge: ({ age, cardNumber, cardTitle, nthAlert }) => {
+  remindOfReadyForMerge: ({ age, cardNumber, cardTitle, nthAlert }) => {
     sendMessage({
       channel: slackChannel,
       message: `:white_check_mark: ${ordinal(
