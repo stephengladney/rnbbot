@@ -62,6 +62,8 @@ function checkforStagnants(arr) {
     const hoursSinceLastAlert = Number(
       howLongSinceLastAlert.substr(0, howLongSinceLastAlert.length - 8)
     )
+    console.log("raw phrase: " + howLongSinceLastAlert)
+    console.log("minutes since last alert:" + hoursSinceLastAlert)
     if (
       lastStatus === currentStatus &&
       (currentStatus === "Ready for Code Review" ||
