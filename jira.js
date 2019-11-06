@@ -60,7 +60,7 @@ function checkforStagnants(arr) {
     howLongInColumn = howLongInColumn.substr(0, howLongInColumn.length - 4)
     const howLongSinceLastAlert = arr[i].lastAlertTime.fromNow()
     const hoursSinceLastAlert = Number(
-      howLongSinceLastAlert.substr(0, howLongSinceLastAlert.length - 8)
+      howLongSinceLastAlert.substr(0, howLongSinceLastAlert.length - 12)
     )
     console.log("raw phrase: " + howLongSinceLastAlert)
     console.log("minutes since last alert:" + hoursSinceLastAlert)
