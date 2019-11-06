@@ -29,25 +29,25 @@ const notify = {
   readyForAcceptance: ({ cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
-      message: `:parking: ${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}> \`${truncateTitle(
+      message: `:parking: | ${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}> | \`${truncateTitle(
         cardTitle
-      )}\` is *ready for Acceptance* ${atMention(productManager)}`
+      )}\` is *ready for Acceptance* | ${atMention(productManager)}`
     })
   },
   readyForDesignReview: ({ cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
-      message: `:pencil2: ${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}> \`${truncateTitle(
+      message: `:pencil2: | ${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}> | \`${truncateTitle(
         cardTitle
-      )}\` is *ready for Design Review* ${atMention(designer)}`
+      )}\` is *ready for Design Review* | ${atMention(designer)}`
     })
   },
   readyForQA: ({ cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
-      message: `:in_qa: ${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}> \`${truncateTitle(
+      message: `:in_qa: | ${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}> | \`${truncateTitle(
         cardTitle
-      )}\` is *ready for QA* ${atMention(qaEngineer)}`
+      )}\` is *ready for QA* | ${atMention(qaEngineer)}`
     })
   },
   readyForReview: ({ cardNumber, cardTitle }) => {
@@ -61,9 +61,9 @@ const notify = {
   readyForMerge: ({ cardNumber, cardTitle, assignee }) => {
     sendMessage({
       channel: slackChannel,
-      message: `:white_check_mark: ${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}> \`${truncateTitle(
+      message: `:white_check_mark: | ${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}> | \`${truncateTitle(
         cardTitle
-      )}\` is *ready for merge* ${atMention(assignee)}`
+      )}\` is *ready for merge* | ${atMention(assignee)}`
     })
   }
 }
