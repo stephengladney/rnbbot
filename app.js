@@ -1,6 +1,6 @@
 const express = require("express")
 const app = express()
-const { processChange } = require("./jira")
+const { checkforStagnants, processChange } = require("./jira")
 const { findEngineerByEmail } = require("./team")
 const bodyParser = require("body-parser")
 const moment = require("moment")
@@ -8,6 +8,10 @@ const cards = []
 const slack = require("./slack")
 
 app.use(bodyParser.json())
+
+let statusPoller = setInterval(() => {
+  checkforStagnants(cards), 900000
+})
 
 app
   .post("/jirahook", (req, res) => {

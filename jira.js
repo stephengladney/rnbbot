@@ -4,8 +4,10 @@ const {
     readyForAcceptance,
     readyForDesignReview,
     readyForMerge,
+    remindOfReadyforMerge,
     readyForQA,
-    readyForReview
+    readyForReview,
+    remindOfReadyforReview
   }
 } = require("./slack")
 
@@ -57,6 +59,8 @@ function checkforStagnants(arr) {
     const howLongSinceLastAlert = arr[i].lastAlert.fromNow()
     if (
       lastStatus === currentStatus &&
+      (currentStatus === "Ready for Code Review" ||
+        currentStatus === "Ready for Merge") &&
       String(howLongInColumn).includes("hours") &&
       String(howLongSinceLastAlert).includes("hours")
     ) {
@@ -71,19 +75,10 @@ function checkforStagnants(arr) {
       }
       switch (currentStatus) {
         case "Ready for Code Review":
-          readyForReview(jiraData)
-          break
-        case "Ready for QA":
-          readyForQA(jiraData)
-          break
-        case "Design Review":
-          readyForDesignReview(jiraData)
-          break
-        case "Ready for Acceptance":
-          readyForAcceptance(jiraData)
+          remindOfReadyForReview(jiraData)
           break
         case "Ready for Merge":
-          readyForMerge(jiraData)
+          remindOfReadyForMerge(jiraData)
         default:
       }
     }
