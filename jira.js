@@ -60,16 +60,15 @@ function checkforStagnants(arr) {
     howLongInColumn = howLongInColumn.substr(0, howLongInColumn.length - 4)
     const howLongSinceLastAlert = arr[i].lastAlertTime.fromNow()
     const hoursSinceLastAlert = Number(
-      howLongSinceLastAlert.substr(0, howLongSinceLastAlert.length - 12)
+      howLongSinceLastAlert.substr(0, howLongSinceLastAlert.length - 10)
     )
-    console.log("raw phrase: " + howLongSinceLastAlert)
-    console.log("minutes since last alert:" + hoursSinceLastAlert)
+
     if (
       lastStatus === currentStatus &&
       (currentStatus === "Ready for Code Review" ||
         currentStatus === "Ready for Merge") &&
-      howLongInColumn.includes("minutes") &&
-      howLongSinceLastAlert.includes("minutes") &&
+      howLongInColumn.includes("hours") &&
+      howLongSinceLastAlert.includes("hours") &&
       hoursSinceLastAlert % 2 === 0
     ) {
       arr[i].alertCount++
