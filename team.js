@@ -1,10 +1,12 @@
 const slackChannel = "emailnotifications"
 
-function TeamMember({ firstName, lastName, email, slackHandle }) {
-  this.firstName = firstName
-  this.lastName = lastName
-  this.email = email
-  this.slackHandle = slackHandle
+class TeamMember {
+  constructor({ firstName, lastName, email, slackHandle }) {
+    this.firstName = firstName
+    this.lastName = lastName
+    this.email = email
+    this.slackHandle = slackHandle
+  }
 }
 const qaEngineer = new TeamMember({
   firstName: "Belinda",
