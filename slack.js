@@ -7,6 +7,19 @@ const atHere = "<!here|here>"
 const jiraEmoji = ":jira2:"
 const githubEmoji = ":github:"
 
+const ordinal = n => {
+  switch (String(n).substr(-1)) {
+    case "1":
+      return `${String(n)}st`
+    case "2":
+      return `${String(n)}nd`
+    case "3":
+      return `${String(n)}rd`
+    default:
+      return `${String(n)}th`
+  }
+}
+
 const sendMessage = ({ channel, message }) => {
   axios({
     method: "post",
@@ -31,7 +44,19 @@ const notify = {
       channel: slackChannel,
       message: `:parking: | ${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}> | \`${truncateTitle(
         cardTitle
-      )}\` is *ready for Acceptance* | ${atMention(productManager)}`
+      )}\` is *ready for acceptance* | ${atMention(productManager)}`
+    })
+  },
+  remindOfReadyforAcceptance: ({ age, cardNumber, cardTitle, nthAlert }) => {
+    sendMessage({
+      channel: slackChannel,
+      message: `:parking: ${ordinal(
+        nthAlert
+      )} reminder | ${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}> | \`${truncateTitle(
+        cardTitle
+      )}\` has been *ready for acceptance* for *${age}* | ${atMention(
+        productManager
+      )}`
     })
   },
   readyForDesignReview: ({ cardNumber, cardTitle }) => {
@@ -58,12 +83,36 @@ const notify = {
       )}\` is *ready for review* | ${atHere}`
     })
   },
-  readyForMerge: ({ cardNumber, cardTitle, assignee }) => {
+  remindOfReadyforReview: ({ age, cardNumber, cardTitle, nthAlert }) => {
+    sendMessage({
+      channel: slackChannel,
+      message: `:eyes: ${ordinal(
+        nthAlert
+      )} reminder | ${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}> | \`${truncateTitle(
+        cardTitle
+      )}\` has been *ready for ready for review* for *${age}* | ${atMention(
+        productManager
+      )}`
+    })
+  },
+  readyForMerge: ({ assignee, cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
       message: `:white_check_mark: | ${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}> | \`${truncateTitle(
         cardTitle
       )}\` is *ready for merge* | ${atMention(assignee)}`
+    })
+  },
+  remindOfReadyforMerge: ({ age, cardNumber, cardTitle, nthAlert }) => {
+    sendMessage({
+      channel: slackChannel,
+      message: `:white_check_mark: ${ordinal(
+        nthAlert
+      )} reminder | ${jiraEmoji} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}> | \`${truncateTitle(
+        cardTitle
+      )}\` has been *ready for merge* for *${age}* | ${atMention(
+        productManager
+      )}`
     })
   }
 }

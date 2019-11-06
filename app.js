@@ -5,6 +5,7 @@ const { findEngineerByEmail } = require("./team")
 const bodyParser = require("body-parser")
 const moment = require("moment")
 const cards = []
+const slack = require("./slack")
 
 app.use(bodyParser.json())
 
@@ -24,7 +25,7 @@ app
       cardTitle: cardTitle,
       lastAlertTime: timeStamp,
       lastColumnChangeTime: timeStamp,
-      status: newStatus
+      lastStatus: newStatus
     })
     processChange({
       assignee: assignee,
