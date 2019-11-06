@@ -7,19 +7,19 @@ const {
     readyForReview
   }
 } = require("./slack")
-const status = {
-  designReview: "Design Review",
-  inDevelopment: "In Development",
-  readyForCodeReview: "Ready for Code Review",
-  readyForQa: "Ready for QA",
-  readyForAcceptance: "Ready for Acceptance",
-  readyForMerge: "Ready for Merge",
-  merged: {
-    newStatus: "Done",
-    oldStatus: "Merged"
-  },
-  GA: "GA"
+
+const designReview = "Design Review"
+const inDevelopment = "In Development"
+const readyForCodeReview = "Ready for Code Review"
+const readyForQa = "Ready for QA"
+const readyForAcceptance = "Ready for Acceptance"
+const readyForMerge = "Ready for Merge"
+const merged = {
+  newStatus: "Done",
+  oldStatus: "Merged"
 }
+const GA = "GA"
+
 function processChange({
   assignee,
   cardNumber,
@@ -33,25 +33,22 @@ function processChange({
     assignee: assignee
   }
 
-  // R4R
-  if (newStatus == status.readyForCodeReview) {
-    readyForReview(jiraData)
-  }
-  // R4QA
-  if (newStatus == status.readyForQa) {
-    readyForQA(jiraData)
-  }
-  // R4DR
-  if (newStatus == status.designReview) {
-    readyForDesignReview(jiraData)
-  }
-  //R4A
-  if (newStatus == status.readyForAcceptance) {
-    readyForAcceptance(jiraData)
-  }
-  //R4M
-  if (newStatus == status.readyForMerge) {
-    readyForMerge(jiraData)
+  switch (newStatus) {
+    case readyForCodeReview:
+      readyForReview(jiraData)
+      break
+    case readyForQa:
+      readyForQA(jiraData)
+      break
+    case designReview:
+      readyForDesignReview(jiraData)
+      break
+    case readyForAcceptance:
+      readyForAcceptance(jiraData)
+      break
+    case readyForMerge:
+      readyForMerge(jiraData)
+    default:
   }
 }
 
