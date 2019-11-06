@@ -3,6 +3,8 @@ const app = express()
 const { processChange } = require("./jira")
 const { findEngineerByEmail } = require("./team")
 const bodyParser = require("body-parser")
+const moment = require("moment")
+const cards = []
 
 app.use(bodyParser.json())
 
@@ -15,6 +17,15 @@ app
     )
     const oldStatus = req.body.changelog.items[0].fromString
     const newStatus = req.body.changelog.items[0].toString
+    const timeStamp = moment()
+    cards.push({
+      alertCount: 1,
+      cardNumber: cardNumber,
+      cardTitle: cardTitle,
+      lastAlertTime: timeStamp,
+      lastColumnChangeTime: timeStamp,
+      status: newStatus
+    })
     processChange({
       assignee: assignee,
       cardNumber: cardNumber,
