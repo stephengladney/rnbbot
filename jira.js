@@ -8,12 +8,12 @@ const {
   }
 } = require("./slack")
 
-const designReview = "Design Review"
+const r4DesignReview = "Design Review"
 const inDevelopment = "In Development"
-const readyForCodeReview = "Ready for Code Review"
-const readyForQa = "Ready for QA"
-const readyForAcceptance = "Ready for Acceptance"
-const readyForMerge = "Ready for Merge"
+const r4CodeReview = "Ready for Code Review"
+const r4Qa = "Ready for QA"
+const r4Acceptance = "Ready for Acceptance"
+const r4Merge = "Ready for Merge"
 const merged = {
   newStatus: "Done",
   oldStatus: "Merged"
@@ -33,11 +33,11 @@ function processChange({
     assignee: assignee
   }
 
-  if (newStatus == readyForCodeReview) readyForReview(jiraData)
-  if (newStatus == readyForQa) readyForQA(jiraData)
-  if (newStatus == designReview) readyForDesignReview(jiraData)
-  if (newStatus == readyForAcceptance) readyForAcceptance(jiraData)
-  if (newStatus == readyForMerge) readyForMerge(jiraData)
+  if (newStatus == r4CodeReview) readyForReview(jiraData)
+  if (newStatus == r4Qa) readyForQA(jiraData)
+  if (newStatus == r4DesignReview) readyForDesignReview(jiraData)
+  if (newStatus == r4Acceptance) readyForAcceptance(jiraData)
+  if (newStatus == r4Merge) readyForMerge(jiraData)
 }
 
 module.exports = {
