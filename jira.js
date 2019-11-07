@@ -50,25 +50,44 @@ function processChange({
   }
 }
 
+function isStatusICareAbout(status) {
+  if (status === "Ready for Code Review") return true
+  else if (status === "Ready for Merge") return true
+  else return false
+}
+
+function isLongerThanTwoHours(time) {
+  return (
+    String(time).includes("hours") ||
+    String(time).includes("day") ||
+    String(time).includes("week")
+  )
+}
+
 function checkforStagnants(arr) {
-  if (arr.length === 0) return
   for (let i = 0; i < arr.length; i++) {
+    if (!arr[i]) break
     const lastStatus = arr[i].lastStatus
     // const currentStatus = getCardStatus(arr[i].cardNumber)
     const currentStatus = lastStatus
-    let howLongInColumn = String(arr[i].lastColumnChangeTime.fromNow())
-    howLongInColumn = howLongInColumn.substr(0, howLongInColumn.length - 4)
-    const howLongSinceLastAlert = arr[i].lastAlertTime.fromNow()
-    const hoursSinceLastAlert = Number(
-      howLongSinceLastAlert.substr(0, howLongSinceLastAlert.length - 10)
-    )
+    if (lastStatus !== currentStatus) {
+      arr.splice(i, 1)
+      i--
+      continue
+    }
+    const howLongInColumn = arr[i].lastColumnChangeTime.fromNow(true)
+    const howLongSinceLastAlert = arr[i].lastAlertTime.fromNow(true)
+    const hoursSinceLastAlert = howLongSinceLastAlert.includes("hours")
+      ? Number(
+          howLongSinceLastAlert.substr(0, howLongSinceLastAlert.length - 6)
+        )
+      : 0
 
     if (
       lastStatus === currentStatus &&
-      (currentStatus === "Ready for Code Review" ||
-        currentStatus === "Ready for Merge") &&
-      howLongInColumn.includes("hours") &&
-      howLongSinceLastAlert.includes("hours") &&
+      isStatusICareAbout(currentStatus) &&
+      isLongerThanTwoHours(howLongInColumn) &&
+      isLongerThanTwoHours(howLongSinceLastAlert) &&
       hoursSinceLastAlert % 2 === 0
     ) {
       arr[i].alertCount++
