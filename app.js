@@ -6,12 +6,12 @@ const { findTeamMemberByEmail } = require("./team")
 const { checkforStagnants } = require("./jira")
 const { notify } = require("./slack")
 const { statusSettings } = require("./settings")
-const cards = []
+const stagnantCards = []
 
 app.use(bodyParser.json())
 
 let statusPoller = setInterval(() => {
-  checkforStagnants(cards)
+  checkforStagnants(stagnantCards)
 }, 60000)
 
 app
@@ -36,7 +36,7 @@ app
 
     if (!!statusSettings[currentStatus].monitorForStagnant) {
       const timeStamp = Date.now()
-      cards.push({
+      stagnantCards.push({
         ...cardData,
         alertCount: 1,
         nextAlertTime: timeStamp + hours(2),
