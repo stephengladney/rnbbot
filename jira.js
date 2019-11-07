@@ -1,5 +1,5 @@
 const moment = require("moment")
-const hours = n => n * 3600000
+const hours = n => n * 60000
 
 const {
   notify: {
@@ -88,7 +88,7 @@ function checkforStagnants(arr) {
       arr[i].alertCount++
       arr[i].nextAlertTime = currentTime + hours(2)
       jiraData = {
-        age: howLongInColumn,
+        age: moment().from(arr[i].lastColumnChangeTime, true),
         assignee: arr[i].assignee,
         cardNumber: arr[i].cardNumber,
         cardTitle: arr[i].cardTitle,
