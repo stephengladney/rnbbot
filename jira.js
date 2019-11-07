@@ -91,7 +91,7 @@ async function checkforStagnants(arr) {
         cardTitle: arr[i].cardTitle,
         nthAlert: arr[i].alertCount
       }
-      switch (currentStatus) {
+      switch (arr[i].status) {
         case "Ready for Code Review":
           remindOfReadyForReview(jiraData)
           break

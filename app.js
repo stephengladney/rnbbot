@@ -45,7 +45,7 @@ app
         cardTitle: cardTitle,
         nextAlertTime: timeStamp + hours(2),
         lastColumnChangeTime: timeStamp,
-        lastStatus: newStatus
+        status: newStatus
       })
     }
     res.status(200).send("OK")
