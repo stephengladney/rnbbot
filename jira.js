@@ -1,5 +1,5 @@
 const moment = require("moment")
-const hours = n => n * 60000
+const hours = n => Number(n) * 60000
 
 const {
   notify: {
