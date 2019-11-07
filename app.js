@@ -2,7 +2,7 @@ const express = require("express")
 const app = express()
 const bodyParser = require("body-parser")
 const { hours } = require("./numbers")
-const { findEngineerByEmail } = require("./team")
+const { findTeamMemberByEmail } = require("./team")
 const {
   checkforStagnants,
   isStatusICareAboutMonitoring,
@@ -16,11 +16,13 @@ let statusPoller = setInterval(() => {
   checkforStagnants(cards)
 }, 60000)
 
+console.log(new Date().getHours())
+
 app
   .post("/jirahook", (req, res) => {
     const cardNumber = req.body.issue.key
     const cardTitle = req.body.issue.fields.summary
-    const assignee = findEngineerByEmail(
+    const assignee = findTeamMemberByEmail(
       req.body.issue.fields.assignee.emailAddress
     )
     const oldStatus = req.body.changelog.items[0].fromString

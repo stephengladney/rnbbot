@@ -62,14 +62,16 @@ const engineers = [
   })
 ]
 
-const findEngineerByEmail = email => {
-  return engineers.find(engineer => engineer.email === email)
+const team = [qaEngineer, designer, productManager, ...engineers]
+
+const findTeamMemberByEmail = email => {
+  return team.find(member => member.email === email)
 }
 
 module.exports = {
   designer: designer,
   engineers: engineers,
-  findEngineerByEmail: findEngineerByEmail,
+  findTeamMemberByEmail: findTeamMemberByEmail,
   productManager: productManager,
   qaEngineer: qaEngineer,
   slackChannel: slackChannel
