@@ -26,10 +26,10 @@ app
       )
     }
 
-    const cardIndex = cards.findIndex(
+    const cardIndex = stagnantCards.findIndex(
       card => card.cardNumber === cardData.cardNumber
     )
-    if (cardIndex !== -1) cards.splice(cardIndex, 1)
+    if (cardIndex !== -1) stagnantCards.splice(cardIndex, 1)
 
     if (!!statusSettings[currentStatus].notifyOnEntry)
       notify[currentStatus](cardData)
