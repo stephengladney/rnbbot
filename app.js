@@ -31,10 +31,10 @@ app
     )
     if (cardIndex !== -1) stagnantCards.splice(cardIndex, 1)
 
-    if (!!statusSettings[currentStatus].notifyOnEntry)
-      notify[currentStatus](cardData)
+    if (!!statusSettings[cardData.currentStatus].notifyOnEntry)
+      notify[cardData.currentStatus](cardData)
 
-    if (!!statusSettings[currentStatus].monitorForStagnant) {
+    if (!!statusSettings[cardData.currentStatus].monitorForStagnant) {
       const timeStamp = Date.now()
       stagnantCards.push({
         ...cardData,
