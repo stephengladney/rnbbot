@@ -31,8 +31,8 @@ function processChange({
   assignee,
   cardNumber,
   cardTitle,
-  newStatus,
-  oldStatus
+  currentStatus,
+  previousStatus
 }) {
   jiraData = {
     cardNumber: cardNumber,
@@ -40,7 +40,7 @@ function processChange({
     assignee: assignee
   }
 
-  switch (newStatus) {
+  switch (currentStatus) {
     case "Ready for Code Review":
       readyForReview(jiraData)
       break
@@ -91,7 +91,7 @@ async function checkforStagnants(arr) {
         cardTitle: arr[i].cardTitle,
         nthAlert: arr[i].alertCount
       }
-      switch (arr[i].status) {
+      switch (arr[i].currentStatus) {
         case "Ready for Code Review":
           remindOfReadyForReview(jiraData)
           break

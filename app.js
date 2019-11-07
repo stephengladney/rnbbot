@@ -23,29 +23,29 @@ app
     const assignee = findTeamMemberByEmail(
       req.body.issue.fields.assignee.emailAddress
     )
-    const oldStatus = req.body.changelog.items[0].fromString
-    const newStatus = req.body.changelog.items[0].toString
+    const previousStatus = req.body.changelog.items[0].fromString
+    const currentStatus = req.body.changelog.items[0].toString
     const timeStamp = Date.now()
 
     const cardIndex = cards.findIndex(card => card.cardNumber === cardNumber)
     if (cardIndex !== -1) cards.splice(cardIndex, 1)
 
-    processChange({
-      assignee: assignee,
+    const cardData = {
       cardNumber: cardNumber,
       cardTitle: cardTitle,
-      newStatus: newStatus,
-      oldStatus: oldStatus
-    })
+      previousStatus: previousStatus,
+      currentStatus: currentStatus,
+      assignee: assignee
+    }
 
-    if (isStatusICareAboutMonitoring(newStatus)) {
+    processChange(cardData)
+
+    if (isStatusICareAboutMonitoring(currentStatus)) {
       cards.push({
+        ...cardData,
         alertCount: 1,
-        cardNumber: cardNumber,
-        cardTitle: cardTitle,
         nextAlertTime: timeStamp + hours(2),
-        lastColumnChangeTime: timeStamp,
-        status: newStatus
+        lastColumnChangeTime: timeStamp
       })
     }
     res.status(200).send("OK")
