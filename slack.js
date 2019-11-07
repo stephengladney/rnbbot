@@ -85,6 +85,7 @@ const notify = {
     })
   },
   "Ready for Code Review": ({ cardNumber, cardTitle }) => {
+    console.log("ready for code review function hit")
     sendMessage({
       channel: slackChannel,
       message: `${emojis.readyForReview} | ${

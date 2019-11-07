@@ -36,10 +36,8 @@ app
       assignee: assignee
     }
 
-    if (!!status[currentStatus].notifyOnEntry) {
-      console.log("notification should happen")
-      notify[currentStatus](cardData)
-    }
+    if (!!status[currentStatus].notifyOnEntry) notify[currentStatus](cardData)
+
     if (!!status[currentStatus].monitorForStagnant) {
       cards.push({
         ...cardData,
