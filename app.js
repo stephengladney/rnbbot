@@ -23,6 +23,7 @@ app
     const oldStatus = req.body.changelog.items[0].fromString
     const newStatus = req.body.changelog.items[0].toString
     const timeStamp = Date.now()
+
     cards.push({
       alertCount: 1,
       cardNumber: cardNumber,
@@ -31,17 +32,7 @@ app
       lastColumnChangeTime: timeStamp,
       lastStatus: newStatus
     })
-    slack.sendMessage({
-      channel: "emailnotifications",
-      message: JSON.stringify({
-        alertCount: 1,
-        cardNumber: cardNumber,
-        cardTitle: cardTitle,
-        nextAlertTime: timeStamp + hours(2),
-        lastColumnChangeTime: timeStamp,
-        lastStatus: newStatus
-      })
-    })
+
     processChange({
       assignee: assignee,
       cardNumber: cardNumber,
