@@ -1,4 +1,6 @@
 const moment = require("moment")
+const hours = n => n * 3600000
+
 const {
   notify: {
     readyForAcceptance,
@@ -57,11 +59,11 @@ function isStatusICareAbout(status) {
 }
 
 function isLongerThanTwoHours(time) {
-  return (
-    String(time).includes("hours") ||
-    String(time).includes("day") ||
-    String(time).includes("week")
-  )
+  return Date.now() - time >= hours(2)
+}
+
+function isAlertDue(time) {
+  return Date.now() > time
 }
 
 function checkforStagnants(arr) {
@@ -75,23 +77,16 @@ function checkforStagnants(arr) {
       i--
       continue
     }
-    const howLongInColumn = arr[i].lastColumnChangeTime.fromNow(true)
-    const howLongSinceLastAlert = arr[i].lastAlertTime.fromNow(true)
-    const hoursSinceLastAlert = howLongSinceLastAlert.includes("hours")
-      ? Number(
-          howLongSinceLastAlert.substr(0, howLongSinceLastAlert.length - 6)
-        )
-      : 0
+    const currentTime = Date.now()
 
     if (
-      lastStatus === currentStatus &&
+      currentStatus === lastStatus &&
       isStatusICareAbout(currentStatus) &&
-      isLongerThanTwoHours(howLongInColumn) &&
-      isLongerThanTwoHours(howLongSinceLastAlert) &&
-      hoursSinceLastAlert % 2 === 0
+      isLongerThanTwoHours(arr[i].lastColumnChangeTime) &&
+      isAlertDue(arr[i].nextAlertTime)
     ) {
       arr[i].alertCount++
-      arr[i].lastAlert = moment()
+      arr[i].nextAlertTime = currentTime + hours(2)
       jiraData = {
         age: howLongInColumn,
         assignee: arr[i].assignee,
@@ -112,6 +107,7 @@ function checkforStagnants(arr) {
 }
 
 module.exports = {
+  hours: hours,
   processChange: processChange,
   checkforStagnants: checkforStagnants
 }

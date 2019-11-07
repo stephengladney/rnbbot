@@ -1,6 +1,6 @@
 const express = require("express")
 const app = express()
-const { checkforStagnants, processChange } = require("./jira")
+const { checkforStagnants, hours, processChange } = require("./jira")
 const { findEngineerByEmail } = require("./team")
 const bodyParser = require("body-parser")
 const moment = require("moment")
@@ -22,12 +22,12 @@ app
     )
     const oldStatus = req.body.changelog.items[0].fromString
     const newStatus = req.body.changelog.items[0].toString
-    const timeStamp = moment()
+    const timeStamp = Date.now()
     cards.push({
       alertCount: 1,
       cardNumber: cardNumber,
       cardTitle: cardTitle,
-      lastAlertTime: timeStamp,
+      nextAlertTime: timeStamp + hours(2),
       lastColumnChangeTime: timeStamp,
       lastStatus: newStatus
     })
