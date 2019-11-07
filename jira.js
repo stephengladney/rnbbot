@@ -61,7 +61,5 @@ async function checkforStagnants(arr) {
 module.exports = {
   getJiraCard: getJiraCard,
   hours: hours,
-  isStatusICareAboutMonitoring: isStatusICareAboutMonitoring,
-  processChange: processChange,
   checkforStagnants: checkforStagnants
 }
