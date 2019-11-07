@@ -135,6 +135,5 @@ const notify = {
 module.exports = {
   sendMessage: sendMessage,
   truncateTitle: truncateTitle,
-  notify: notify,
-  logHour: logHour
+  notify: notify
 }
