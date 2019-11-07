@@ -1,4 +1,4 @@
-const status = {
+const statusSettings = {
   Unassigned: {
     notifyOnEntry: false,
     monitorForStagnant: false
@@ -34,5 +34,5 @@ const status = {
 }
 
 module.exports = {
-  status: status
+  statusSettings: statusSettings
 }
