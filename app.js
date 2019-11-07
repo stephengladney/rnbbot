@@ -1,11 +1,14 @@
 const express = require("express")
 const app = express()
-const { checkforStagnants, hours, processChange } = require("./jira")
-const { findEngineerByEmail } = require("./team")
 const bodyParser = require("body-parser")
-const moment = require("moment")
+const { hours } = require("./numbers")
+const { findEngineerByEmail } = require("./team")
+const {
+  checkforStagnants,
+  isStatusICareAboutMonitoring,
+  processChange
+} = require("./jira")
 const cards = []
-const slack = require("./slack")
 
 app.use(bodyParser.json())
 
@@ -24,15 +27,6 @@ app
     const newStatus = req.body.changelog.items[0].toString
     const timeStamp = Date.now()
 
-    cards.push({
-      alertCount: 1,
-      cardNumber: cardNumber,
-      cardTitle: cardTitle,
-      nextAlertTime: timeStamp + hours(2),
-      lastColumnChangeTime: timeStamp,
-      lastStatus: newStatus
-    })
-
     processChange({
       assignee: assignee,
       cardNumber: cardNumber,
@@ -40,6 +34,17 @@ app
       newStatus: newStatus,
       oldStatus: oldStatus
     })
+
+    if (isStatusICareAboutMonitoring(newStatus)) {
+      cards.push({
+        alertCount: 1,
+        cardNumber: cardNumber,
+        cardTitle: cardTitle,
+        nextAlertTime: timeStamp + hours(2),
+        lastColumnChangeTime: timeStamp,
+        lastStatus: newStatus
+      })
+    }
     res.status(200).send("OK")
   })
   .get("/amirunning", (req, res) => {

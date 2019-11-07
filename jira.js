@@ -1,6 +1,7 @@
 const moment = require("moment")
-const hours = n => Number(n) * 3598000
-
+const axios = require("axios")
+require("dotenv").config()
+const { hours, isMoreThanTwoHoursAgo, isPast } = require("./numbers")
 const {
   notify: {
     readyForAcceptance,
@@ -13,12 +14,18 @@ const {
   }
 } = require("./slack")
 
-const inDevelopment = "In Development"
-const merged = {
-  newStatus: "Done",
-  oldStatus: "Merged"
+const shouldIMonitor = {
+  Unassigned: false,
+  "In Development": false,
+  "Ready for Code Review": true,
+  "Ready for Design Review": false,
+  "Ready for QA": false,
+  "Ready for Acceptance": false,
+  "Ready for Merge": true,
+  Done: false
 }
-const GA = "GA"
+
+const isStatusICareAboutMonitoring = status => !!shouldIMonitor[status]
 
 function processChange({
   assignee,
@@ -52,40 +59,37 @@ function processChange({
   }
 }
 
-function isStatusICareAbout(status) {
-  if (status === "Ready for Code Review") return true
-  else if (status === "Ready for Merge") return true
-  else return false
+function getJiraCard(cardNumber) {
+  return axios.get(
+    `https://salesloft.atlassian.net/rest/api/2/issue/${cardNumber}?fields=status`,
+    {
+      headers: {
+        Authorization: "Basic " + process.env.JIRA_TOKEN,
+        header: "Accept: application/json"
+      }
+    }
+  )
 }
 
-function isLongerThanTwoHours(time) {
-  return Date.now() - time >= hours(2)
-}
-
-function isAlertDue(time) {
-  return Date.now() > time
-}
-
-function checkforStagnants(arr) {
+async function checkforStagnants(arr) {
   for (let i = 0; i < arr.length; i++) {
     if (!arr[i]) break
     const lastStatus = arr[i].lastStatus
-    // const currentStatus = getCardStatus(arr[i].cardNumber)
-    const currentStatus = lastStatus
+    const currentStatus = (await getJiraCard(arr[i].cardNumber)).data.fields
+      .status.name
+
     if (lastStatus !== currentStatus) {
       arr.splice(i, 1)
       i--
       continue
     }
-    const currentTime = Date.now()
 
     if (
-      isStatusICareAbout(currentStatus) &&
-      isLongerThanTwoHours(arr[i].lastColumnChangeTime) &&
-      isAlertDue(arr[i].nextAlertTime)
+      isMoreThanTwoHoursAgo(arr[i].lastColumnChangeTime) &&
+      isPast(arr[i].nextAlertTime)
     ) {
       arr[i].alertCount++
-      arr[i].nextAlertTime = currentTime + hours(2)
+      arr[i].nextAlertTime = Date.now() + hours(2)
       jiraData = {
         age: moment().from(arr[i].lastColumnChangeTime, true),
         assignee: arr[i].assignee,
@@ -106,7 +110,9 @@ function checkforStagnants(arr) {
 }
 
 module.exports = {
+  getJiraCard: getJiraCard,
   hours: hours,
+  isStatusICareAboutMonitoring: isStatusICareAboutMonitoring,
   processChange: processChange,
   checkforStagnants: checkforStagnants
 }
