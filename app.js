@@ -31,6 +31,17 @@ app
       lastColumnChangeTime: timeStamp,
       lastStatus: newStatus
     })
+    slack.sendMessage({
+      channel: "emailnotifications",
+      message: JSON.stringify({
+        alertCount: 1,
+        cardNumber: cardNumber,
+        cardTitle: cardTitle,
+        nextAlertTime: timeStamp + hours(2),
+        lastColumnChangeTime: timeStamp,
+        lastStatus: newStatus
+      })
+    })
     processChange({
       assignee: assignee,
       cardNumber: cardNumber,

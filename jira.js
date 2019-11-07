@@ -80,7 +80,6 @@ function checkforStagnants(arr) {
     const currentTime = Date.now()
 
     if (
-      currentStatus === lastStatus &&
       isStatusICareAbout(currentStatus) &&
       isLongerThanTwoHours(arr[i].lastColumnChangeTime) &&
       isAlertDue(arr[i].nextAlertTime)
