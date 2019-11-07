@@ -42,7 +42,7 @@ const truncateTitle = title => {
 }
 
 const notify = {
-  readyForAcceptance: ({ cardNumber, cardTitle }) => {
+  "Readt for Acceptance": ({ cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
       message: `${emojis.readyForAcceptance} | ${
@@ -64,7 +64,7 @@ const notify = {
       )}`
     })
   },
-  readyForDesignReview: ({ cardNumber, cardTitle }) => {
+  "Ready for Design Review": ({ cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
       message: `${emojis.readyForDesignReview} | ${
@@ -74,7 +74,7 @@ const notify = {
       )}\` is *ready for Design Review* | ${atMention(designer)}`
     })
   },
-  readyForQA: ({ cardNumber, cardTitle }) => {
+  "Ready for QA": ({ cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
       message: `${emojis.readyForQa} | ${
@@ -84,7 +84,7 @@ const notify = {
       )}\` is *ready for QA* | ${atMention(qaEngineer)}`
     })
   },
-  readyForReview: ({ cardNumber, cardTitle }) => {
+  "Ready for Code Review": ({ cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
       message: `${emojis.readyForReview} | ${
@@ -108,7 +108,7 @@ const notify = {
       )}`
     })
   },
-  readyForMerge: ({ assignee, cardNumber, cardTitle }) => {
+  "Ready for Merge": ({ assignee, cardNumber, cardTitle }) => {
     sendMessage({
       channel: slackChannel,
       message: `${emojis.readyforMerge} | ${

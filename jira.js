@@ -14,51 +14,6 @@ const {
   }
 } = require("./slack")
 
-const shouldIMonitor = {
-  Unassigned: false,
-  "In Development": false,
-  "Ready for Code Review": true,
-  "Ready for Design Review": false,
-  "Ready for QA": false,
-  "Ready for Acceptance": false,
-  "Ready for Merge": true,
-  Done: false
-}
-
-const isStatusICareAboutMonitoring = status => !!shouldIMonitor[status]
-
-function processChange({
-  assignee,
-  cardNumber,
-  cardTitle,
-  currentStatus,
-  previousStatus
-}) {
-  jiraData = {
-    cardNumber: cardNumber,
-    cardTitle: cardTitle,
-    assignee: assignee
-  }
-
-  switch (currentStatus) {
-    case "Ready for Code Review":
-      readyForReview(jiraData)
-      break
-    case "Ready for QA":
-      readyForQA(jiraData)
-      break
-    case "Design Review":
-      readyForDesignReview(jiraData)
-      break
-    case "Ready for Acceptance":
-      readyForAcceptance(jiraData)
-      break
-    case "Ready for Merge":
-      readyForMerge(jiraData)
-    default:
-  }
-}
-
 function getJiraCard(cardNumber) {
   return axios.get(
     `https://salesloft.atlassian.net/rest/api/2/issue/${cardNumber}?fields=status`,

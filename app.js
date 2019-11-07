@@ -3,11 +3,9 @@ const app = express()
 const bodyParser = require("body-parser")
 const { hours } = require("./numbers")
 const { findTeamMemberByEmail } = require("./team")
-const {
-  checkforStagnants,
-  isStatusICareAboutMonitoring,
-  processChange
-} = require("./jira")
+const { checkforStagnants } = require("./jira")
+const { notify } = require("./slack")
+const { status } = require("./settings")
 const cards = []
 
 app.use(bodyParser.json())
@@ -38,9 +36,8 @@ app
       assignee: assignee
     }
 
-    processChange(cardData)
-
-    if (isStatusICareAboutMonitoring(currentStatus)) {
+    if (!!status[currentStatus].notifyOnEntry) notify[currentStatus](cardData)
+    if (!!status[currentStatus].monitorForStagnant) {
       cards.push({
         ...cardData,
         alertCount: 1,
