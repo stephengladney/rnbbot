@@ -16,8 +16,6 @@ let statusPoller = setInterval(() => {
   checkforStagnants(cards)
 }, 60000)
 
-console.log(new Date().getHours())
-
 app
   .post("/jirahook", (req, res) => {
     const cardNumber = req.body.issue.key
@@ -28,6 +26,9 @@ app
     const oldStatus = req.body.changelog.items[0].fromString
     const newStatus = req.body.changelog.items[0].toString
     const timeStamp = Date.now()
+
+    const cardIndex = cards.findIndex(card => card.cardNumber === cardNumber)
+    if (cardIndex !== -1) cards.splice(cardIndex, 1)
 
     processChange({
       assignee: assignee,

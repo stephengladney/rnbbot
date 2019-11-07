@@ -15,7 +15,7 @@ const emojis = {
 }
 
 const sendMessage = ({ channel, message }) => {
-  const currentHour = new Date().getHours()
+  const currentHour = new Date().getHours() + process.env.TIMEZONE_OFFSET
   if (
     currentHour < process.env.SLACK_WINDOW_START ||
     currentHour > process.env.SLACK_WINDOW_STOP

@@ -78,12 +78,6 @@ async function checkforStagnants(arr) {
     const currentStatus = (await getJiraCard(arr[i].cardNumber)).data.fields
       .status.name
 
-    if (lastStatus !== currentStatus) {
-      arr.splice(i, 1)
-      i--
-      continue
-    }
-
     if (
       isMoreThanTwoHoursAgo(arr[i].lastColumnChangeTime) &&
       isPast(arr[i].nextAlertTime)
