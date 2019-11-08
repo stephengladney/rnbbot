@@ -1,10 +1,10 @@
 const express = require("express")
 const app = express()
 const bodyParser = require("body-parser")
-const { hours } = require("./numbers")
+const { hours } = require("./lib/numbers")
 const { findTeamMemberByEmail } = require("./team")
-const { checkforStagnants } = require("./jira")
-const { notify } = require("./slack")
+const { checkforStagnants } = require("./lib/jira")
+const { notify } = require("./lib/slack")
 const { statusSettings } = require("./settings")
 const stagnantCards = []
 

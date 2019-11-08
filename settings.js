@@ -33,9 +33,14 @@ const statusSettings = {
   }
 }
 
+const slackHours = {
+  start: 10,
+  stop: 17
+}
 const timezoneOffset = -5
 
 module.exports = {
+  slackHours: slackHours,
   statusSettings: statusSettings,
   timezoneOffset: timezoneOffset
 }
