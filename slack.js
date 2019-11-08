@@ -22,7 +22,6 @@ const sendMessage = ({ channel, message }) => {
     currentHour < process.env.SLACK_WINDOW_START ||
     currentHour > process.env.SLACK_WINDOW_STOP
   ) {
-    console.log("outside of slack hours")
     return null
   }
 
