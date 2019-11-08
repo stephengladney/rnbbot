@@ -33,7 +33,7 @@ const statusSettings = {
   }
 }
 
-const slack = {
+const slackSettings = {
   days: {
     Sunday: false,
     Monday: true,
