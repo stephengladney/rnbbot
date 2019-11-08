@@ -7,9 +7,7 @@ const {
   checkforStagnants,
   removeFromStagnants
 } = require("./lib/jira")
-const {
-  notify: { notifyOfEntry }
-} = require("./lib/slack")
+const { notifyOfEntry } = require("./lib/slack")
 const stagnantCards = []
 
 app.use(bodyParser.json())
