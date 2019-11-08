@@ -33,6 +33,9 @@ const statusSettings = {
   }
 }
 
+const timezoneOffset = -5
+
 module.exports = {
-  statusSettings: statusSettings
+  statusSettings: statusSettings,
+  timezoneOffset: timezoneOffset
 }

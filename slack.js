@@ -1,7 +1,8 @@
 require("dotenv").config()
 const axios = require("axios")
 const { designer, qaEngineer, productManager, slackChannel } = require("./team")
-const { ordinal } = require("./numbers")
+const { ordinal, hours } = require("./numbers")
+const { timezoneOffset } = require("./settings")
 const atMention = person => `<@${person.slackHandle}>`
 const atHere = "<!here|here>"
 const emojis = {
@@ -15,8 +16,7 @@ const emojis = {
 }
 
 const sendMessage = ({ channel, message }) => {
-  const currentHour =
-    new Date().getHours() + Number(process.env.TIMEZONE_OFFSET)
+  const currentHour = new Date(Date.now() + hours(timezoneOffset)).getHours()
 
   if (
     currentHour < process.env.SLACK_WINDOW_START ||
