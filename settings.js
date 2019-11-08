@@ -35,13 +35,13 @@ const statusSettings = {
 
 const slack = {
   days: {
-    0: false, // Sunday
-    1: true, // Monday
-    2: true, // Tuesday
-    3: true, // Wednesday
-    4: true, // Thursday
-    5: true, // Friday
-    6: false // Saturday
+    Sunday: false,
+    Monday: true,
+    Tuesday: true,
+    Wednesday: true,
+    Thursday: true,
+    Friday: true,
+    Saturday: false
   },
   hours: {
     start: 10,
