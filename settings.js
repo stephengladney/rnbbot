@@ -1,4 +1,4 @@
-const statusSettings = {
+const jiraSettings = {
   Unassigned: {
     notifyOnEntry: false,
     monitorForStagnant: false
@@ -61,6 +61,6 @@ const timezoneOffset = -5 // UTC
 
 module.exports = {
   slackSettings: slackSettings,
-  statusSettings: statusSettings,
+  jiraSettings: jiraSettings,
   timezoneOffset: timezoneOffset
 }
