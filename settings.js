@@ -60,7 +60,7 @@ const slackSettings = {
 const timezoneOffset = -5 // UTC
 
 module.exports = {
-  slack: slack,
+  slackSettings: slackSettings,
   statusSettings: statusSettings,
   timezoneOffset: timezoneOffset
 }
