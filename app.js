@@ -1,11 +1,15 @@
 const express = require("express")
 const app = express()
 const bodyParser = require("body-parser")
-const { hours } = require("./lib/numbers")
 const { findTeamMemberByEmail } = require("./team")
-const { checkforStagnants } = require("./lib/jira")
-const { notify } = require("./lib/slack")
-const { statusSettings } = require("./settings")
+const {
+  addToStagnants,
+  checkforStagnants,
+  removeFromStagnants
+} = require("./lib/jira")
+const {
+  notify: { notifyOfEntry }
+} = require("./lib/slack")
 const stagnantCards = []
 
 app.use(bodyParser.json())
@@ -26,24 +30,18 @@ app
       )
     }
 
-    const currentStatus = cardData.currentStatus
-    const cardIndex = stagnantCards.findIndex(
-      card => card.cardNumber === cardData.cardNumber
-    )
-    if (cardIndex !== -1) stagnantCards.splice(cardIndex, 1)
+    removeFromStagnants({
+      cardData: cardData,
+      stagnantCards: stagnantCards
+    })
 
-    if (!!statusSettings[currentStatus].notifyOnEntry)
-      notify[currentStatus](cardData)
+    notifyOfEntry(cardData)
 
-    if (!!statusSettings[currentStatus].monitorForStagnant) {
-      const timeStamp = Date.now()
-      stagnantCards.push({
-        ...cardData,
-        alertCount: 1,
-        nextAlertTime: timeStamp + hours(2),
-        lastColumnChangeTime: timeStamp
-      })
-    }
+    addToStagnants({
+      cardData: cardData,
+      stagnantCards: stagnantCards
+    })
+
     res.status(200).send("OK")
   })
   .get("/amirunning", (req, res) => {
