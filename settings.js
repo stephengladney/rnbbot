@@ -45,7 +45,7 @@ const slackSettings = {
   },
   hours: {
     start: 10,
-    stop: 17
+    stop: 23
   },
   emojis: {
     jira: ":jira2:",
