@@ -65,7 +65,7 @@ const engineers = [
 const team = [qaEngineer, designer, productManager, ...engineers]
 
 const findTeamMemberByEmail = email => {
-  return team.find(member => member.email === email)
+  return team.find(member => member.email === email) || "N/A"
 }
 
 module.exports = {
