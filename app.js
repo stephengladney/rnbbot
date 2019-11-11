@@ -18,7 +18,7 @@ let statusPoller = setInterval(() => {
 
 app
   .post("/jirahook", (req, res) => {
-    console.log(req.body.issue)
+    console.log(JSON.stringify(req.body.changelog))
     const cardData = {
       cardNumber: req.body.issue.key,
       cardTitle: req.body.issue.fields.summary,
