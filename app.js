@@ -2,10 +2,13 @@ const express = require("express")
 const app = express()
 const bodyParser = require("body-parser")
 const { findTeamMemberByEmail } = require("./team")
+const { seeIfWorks } = require("./lib/github")
 const {
   addToStagnants,
   checkforStagnants,
-  removeFromStagnants
+  removeFromStagnants,
+  getJiraCard,
+  getPR
 } = require("./lib/jira")
 const { notifyOfEntry } = require("./lib/slack")
 const stagnantCards = []
@@ -44,8 +47,12 @@ app
 
     res.status(200).send("OK")
   })
-  .get("/amirunning", (req, res) => {
-    res.send("Yes, I am running!")
+
+  .get("/tester", (req, res) => {
+    seeIfWorks()
+  })
+  .get("/callback", (req, res) => {
+    res.send(req.body)
   })
 
   .listen(process.env.PORT || 5000, process.env.IP, () => {
