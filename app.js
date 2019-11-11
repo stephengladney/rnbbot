@@ -23,9 +23,9 @@ app
       cardTitle: req.body.issue.fields.summary,
       previousStatus: req.body.changelog.items[0].fromString,
       currentStatus: req.body.changelog.items[0].toString,
-      assignee: findTeamMemberByEmail(
-        req.body.issue.fields.assignee.emailAddress
-      )
+      assignee: req.body.issue.fields.assignee
+        ? findTeamMemberByEmail(req.body.issue.fields.assignee.emailAddress)
+        : "N/A"
     }
 
     removeFromStagnants({
