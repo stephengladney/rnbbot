@@ -49,7 +49,7 @@ app
     res.status(200).send("OK")
   })
   .post("/slash/", (req, res) => {
-    bodyParser.urlencoded()
+    bodyParser.urlencoded({ extended: true })
     console.log(req.body)
     res.status(200)
   })
