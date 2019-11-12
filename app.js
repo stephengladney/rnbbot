@@ -49,7 +49,7 @@ app
     res.status(200).send("OK")
   })
   .post("/slash/", (req, res) => {
-    console.log(req.body.text)
+    console.log(req.body)
   })
 
   // .get("/tester", (req, res) => {
