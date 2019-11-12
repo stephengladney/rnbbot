@@ -48,6 +48,9 @@ app
 
     res.status(200).send("OK")
   })
+  .post("/slash/", (req, res) => {
+    console.log(req.body.text)
+  })
 
   // .get("/tester", (req, res) => {
   //   getGhToken()
