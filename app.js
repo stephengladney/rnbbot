@@ -15,7 +15,7 @@ const { notifyOfEntry, sendMessage } = require("./lib/slack")
 const stagnantCards = []
 
 app.use(bodyParser.json())
-app.use(bodParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 let statusPoller = setInterval(() => {
   checkforStagnants(stagnantCards)
@@ -52,7 +52,7 @@ app
   .post("/slash/", (req, res) => {
     bodyParser.urlencoded({ extended: true })
     console.log(req.body)
-    res.status(200)
+    res.status(200).send()
   })
 
   // .get("/tester", (req, res) => {
