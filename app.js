@@ -49,7 +49,8 @@ app
     res.status(200).send("OK")
   })
   .post("/slash/", (req, res) => {
-    console.log(req.body)
+    console.log(req)
+    res.status(200).send("OK")
   })
 
   // .get("/tester", (req, res) => {
