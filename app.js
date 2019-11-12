@@ -8,9 +8,10 @@ const {
   checkforStagnants,
   removeFromStagnants,
   getJiraCard,
+  getGhToken,
   getPR
 } = require("./lib/jira")
-const { notifyOfEntry } = require("./lib/slack")
+const { notifyOfEntry, sendMessage } = require("./lib/slack")
 const stagnantCards = []
 
 app.use(bodyParser.json())
@@ -48,12 +49,14 @@ app
     res.status(200).send("OK")
   })
 
-  .get("/tester", (req, res) => {
-    seeIfWorks()
-  })
-  .get("/callback", (req, res) => {
-    res.send(req.body)
-  })
+  // .get("/tester", (req, res) => {
+  //   getGhToken()
+  //     .then(resp => {
+  //       console.log(resp)
+  //     })
+  //     .catch(error => console.log(error))
+  //   res.status(200).send("OK")
+  // })
 
   .listen(process.env.PORT || 5000, process.env.IP, () => {
     console.log("RnBot server is now running!")
