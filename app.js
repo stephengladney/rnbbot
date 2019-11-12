@@ -51,7 +51,10 @@ app
   })
   .post("/slash/", (req, res) => {
     const text = req.body.text
-    processSlashCommand(text)
+    processSlashCommand({
+      text: text,
+      stagnantCards: stagnantCards
+    })
     res.status(200).send()
   })
 
