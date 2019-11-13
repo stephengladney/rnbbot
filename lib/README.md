@@ -8,7 +8,13 @@ Commands:
 
 * ignore number/string, ..., ...
 
-Instruct the bot to ignore a particular card in its current status. (i.e. you are intentionally leaving a card in Ready for Merge and don't want to receive stagnation alerts)
+Instruct the bot to ignore a particular card in its current status and not send stagnation alerts. You can identify the card to ignore with partial title or card number.
+
+Example: You are intentionally leaving a card in Ready for Merge)
+
+/rnbot ignore 123456
+/rnbot ignore lorem ipsum
+
 
 * stagnant [n hours]
 
