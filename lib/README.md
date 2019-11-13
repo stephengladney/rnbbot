@@ -6,14 +6,15 @@ Slash command syntax:
 
 Commands:
 
-* ignore number/string, ..., ...
+* ignore [number/string, ...] all
 
-Instruct the bot to ignore a particular card in its current status and not send stagnation alerts. You can identify the card to ignore with partial title or card number.
+Instruct the bot to ignore a particular card in its current status and not send stagnation alerts. You can identify the card to ignore with partial title or card number. You can also search for multiple cards and mix strings and numbers across your queries.
 
 Example: You are intentionally leaving a card in Ready for Merge)
 
 /rnbot ignore 123456
 /rnbot ignore lorem ipsum
+/rnbot ignore all 
 
 
 * stagnant [n hours]
