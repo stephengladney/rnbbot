@@ -4,7 +4,7 @@ const bodyParser = require("body-parser")
 const { findTeamMemberByEmail } = require("./team")
 const { seeIfWorks } = require("./lib/github")
 const { processWebhook } = require("./lib/jira")
-const { notifyOfEntry, processSlashCommand } = require("./lib/slack")
+const { processSlashCommand } = require("./lib/slack")
 const stagnantCards = []
 
 app.use(bodyParser.json())
