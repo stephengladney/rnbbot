@@ -1,7 +1,7 @@
 const express = require("express")
 const app = express()
 const bodyParser = require("body-parser")
-const { findTeamMemberByEmail } = require("./team")
+const { findTeamMemberByEmail, teamName } = require("./team")
 const { seeIfWorks } = require("./lib/github")
 const {
   addToStagnants,
@@ -25,7 +25,9 @@ app
   .post("/jirahook", (req, res) => {
     console.log(JSON.stringify(req.body))
     const fieldThatChanged = req.body.changelog.items[0].fieldId
-    if (fieldThatChanged !== "status") return
+    const teamAssigned = req.body.fields.customfield_10025.value
+    if (fieldThatChanged !== "status" || teamAssigned !== teamName) return
+
     const cardData = {
       cardNumber: req.body.issue.key,
       cardTitle: req.body.issue.fields.summary,

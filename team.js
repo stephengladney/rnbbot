@@ -74,5 +74,6 @@ module.exports = {
   findTeamMemberByEmail: findTeamMemberByEmail,
   productManager: productManager,
   qaEngineer: qaEngineer,
-  slackChannel: slackChannel
+  slackChannel: slackChannel,
+  teamName: teamName
 }
