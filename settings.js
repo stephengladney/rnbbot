@@ -48,6 +48,8 @@ const slackSettings = {
     stop: 17
   },
   emojis: {
+    error: ":exclamation:",
+    ignore: ":see_no_evil:",
     jira: ":jira2:",
     github: ":github:",
     readyForAcceptance: ":parking:",
