@@ -1,8 +1,6 @@
 const express = require("express")
 const app = express()
 const bodyParser = require("body-parser")
-const { findTeamMemberByEmail } = require("./team")
-const { seeIfWorks } = require("./lib/github")
 const { checkforStagnants, processWebhook } = require("./lib/jira")
 const { processSlashCommand } = require("./lib/slack")
 const stagnantCards = []
