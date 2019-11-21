@@ -23,6 +23,7 @@ let statusPoller = setInterval(() => {
 
 app
   .post("/jirahook", (req, res) => {
+    console.log(req.body)
     const fieldThatChanged = req.body.changelog.items[0].fieldId
     if (fieldThatChanged !== "status") return
     const cardData = {
