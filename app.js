@@ -1,16 +1,9 @@
 const express = require("express")
 const app = express()
 const bodyParser = require("body-parser")
-const { findTeamMemberByEmail, teamName } = require("./team")
+const { findTeamMemberByEmail } = require("./team")
 const { seeIfWorks } = require("./lib/github")
-const {
-  addToStagnants,
-  checkforStagnants,
-  removeFromStagnants,
-  getJiraCard,
-  getGhToken,
-  getPR
-} = require("./lib/jira")
+const { processWebhook } = require("./lib/jira")
 const { notifyOfEntry, processSlashCommand } = require("./lib/slack")
 const stagnantCards = []
 
@@ -23,34 +16,14 @@ let statusPoller = setInterval(() => {
 
 app
   .post("/jirahook", (req, res) => {
-    const fieldThatChanged = req.body.changelog.items[0].fieldId
-    const teamAssigned = req.body.fields.customfield_10025.value
-    if (fieldThatChanged !== "status" || teamAssigned !== teamName) return
-
-    const cardData = {
-      cardNumber: req.body.issue.key,
-      cardTitle: req.body.issue.fields.summary,
-      previousStatus: req.body.changelog.items[0].fromString,
-      currentStatus: req.body.changelog.items[0].toString,
-      assignee: req.body.issue.fields.assignee
-        ? findTeamMemberByEmail(req.body.issue.fields.assignee.emailAddress)
-        : "N/A"
-    }
-
-    removeFromStagnants({
-      cardData: cardData,
-      stagnantCards: stagnantCards
-    })
-
-    notifyOfEntry(cardData)
-
-    addToStagnants({
-      cardData: cardData,
+    processWebhook({
+      body: req.body,
       stagnantCards: stagnantCards
     })
 
     res.status(200).send("OK")
   })
+
   .post("/slash/", (req, res) => {
     const text = req.body.text
     processSlashCommand({
