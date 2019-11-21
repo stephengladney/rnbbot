@@ -23,7 +23,6 @@ let statusPoller = setInterval(() => {
 
 app
   .post("/jirahook", (req, res) => {
-    console.log(JSON.stringify(req.body))
     const fieldThatChanged = req.body.changelog.items[0].fieldId
     const teamAssigned = req.body.fields.customfield_10025.value
     if (fieldThatChanged !== "status" || teamAssigned !== teamName) return
