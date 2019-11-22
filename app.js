@@ -31,15 +31,6 @@ app
     res.status(200).send()
   })
 
-  // .get("/tester", (req, res) => {
-  //   getGhToken()
-  //     .then(resp => {
-  //       console.log(resp)
-  //     })
-  //     .catch(error => console.log(error))
-  //   res.status(200).send("OK")
-  // })
-
   .listen(process.env.PORT || 5000, process.env.IP, () => {
     console.log("RnBot server is now running!")
   })
