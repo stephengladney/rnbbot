@@ -1,11 +1,9 @@
 const express = require("express")
 const app = express()
 const bodyParser = require("body-parser")
-const axios = require("axios")
 const { checkforStagnants, processWebhook } = require("./lib/jira")
 const { processSlashCommand } = require("./lib/slack")
 const stagnantCards = []
-const { seeIfWorks } = require("./lib/github")
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
