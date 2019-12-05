@@ -66,12 +66,13 @@ const team = [qaEngineer, designer, productManager, ...engineers]
 
 const findTeamMemberByEmail = email => {
   return (
-    team.find(member => member.email === email) || {
+    team.find(member => member.email === email) ||
+    new TeamMember({
       firstName: "A non-team member",
       lastName: null,
-      email: email,
+      email: "Not found in team",
       slackHandle: "na"
-    }
+    })
   )
 }
 
