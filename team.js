@@ -70,8 +70,8 @@ const findTeamMemberByEmail = email => {
     new TeamMember({
       firstName: "A non-team member",
       lastName: null,
-      email: "Not found in team",
-      slackHandle: "na"
+      email: `${email} (not on team)`,
+      slackHandle: "not"
     })
   )
 }
