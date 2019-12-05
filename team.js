@@ -87,8 +87,8 @@ function findTeamMemberByFullName(fullName) {
     new TeamMember({
       firstName: firstName,
       lastName: lastName,
-      email: `notRnB@salesloft.com`,
-      slackHandle: "notrnb"
+      email: null,
+      slackHandle: null
     })
   )
 }
