@@ -70,17 +70,17 @@ const findTeamMemberByEmail = email => {
       firstName: "A non-team member",
       lastName: null,
       email: email,
-      slackHandle: null
+      slackHandle: "na"
     }
   )
 }
 
 module.exports = {
-  designer: designer,
-  engineers: engineers,
-  findTeamMemberByEmail: findTeamMemberByEmail,
-  productManager: productManager,
-  qaEngineer: qaEngineer,
-  slackChannel: slackChannel,
-  teamName: teamName
+  designer,
+  engineers,
+  findTeamMemberByEmail,
+  productManager,
+  qaEngineer,
+  slackChannel,
+  teamName
 }
