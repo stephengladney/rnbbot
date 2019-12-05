@@ -76,10 +76,28 @@ const findTeamMemberByEmail = email => {
   )
 }
 
+function findTeamMemberByFullName(fullName) {
+  const space = fullName.indexOf(" ")
+  const firstName = fullName.substring(0, space)
+  const lastName = fullName.substring(space + 1)
+  return (
+    team.find(
+      member => member.firstName === firstName && member.lastName === lastName
+    ) ||
+    new TeamMember({
+      firstName: firstName,
+      lastName: lastName,
+      email: `notRnB@salesloft.com`,
+      slackHandle: "notrnb"
+    })
+  )
+}
+
 module.exports = {
   designer,
   engineers,
   findTeamMemberByEmail,
+  findTeamMemberByFullName,
   productManager,
   qaEngineer,
   slackChannel,
