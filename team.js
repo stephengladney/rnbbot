@@ -59,21 +59,53 @@ const engineers = [
     lastName: "Brooke",
     email: "matt.brooke@salesloft.com",
     slackHandle: "matt.brooke"
+  }),
+  new TeamMember({
+    firstName: "Patrick",
+    lastName: "Hoydar",
+    email: "patrick.hoydar@salesloft.com",
+    slackHandle: "Hodar"
   })
 ]
 
 const team = [qaEngineer, designer, productManager, ...engineers]
 
 const findTeamMemberByEmail = email => {
-  return team.find(member => member.email === email) || {}
+  return (
+    team.find(member => member.email === email) ||
+    new TeamMember({
+      firstName: "A non-team member",
+      lastName: null,
+      email: `${email}`,
+      slackHandle: null
+    })
+  )
+}
+
+function findTeamMemberByFullName(fullName) {
+  const space = fullName.indexOf(" ")
+  const firstName = fullName.substring(0, space)
+  const lastName = fullName.substring(space + 1)
+  return (
+    team.find(
+      member => member.firstName === firstName && member.lastName === lastName
+    ) ||
+    new TeamMember({
+      firstName: firstName,
+      lastName: lastName,
+      email: null,
+      slackHandle: null
+    })
+  )
 }
 
 module.exports = {
-  designer: designer,
-  engineers: engineers,
-  findTeamMemberByEmail: findTeamMemberByEmail,
-  productManager: productManager,
-  qaEngineer: qaEngineer,
-  slackChannel: slackChannel,
-  teamName: teamName
+  designer,
+  engineers,
+  findTeamMemberByEmail,
+  findTeamMemberByFullName,
+  productManager,
+  qaEngineer,
+  slackChannel,
+  teamName
 }
