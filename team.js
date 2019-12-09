@@ -49,10 +49,16 @@ const engineers = [
     slackHandle: "adrianna"
   }),
   new TeamMember({
-    firstName: "Pete",
-    lastName: "Finn",
-    email: "pete.finn@salesloft.com",
-    slackHandle: "pete"
+    firstName: "Taylor",
+    lastName: "Martin",
+    email: "taylor.martin@salesloft.com",
+    slackHandle: "tmart"
+  }),
+  new TeamMember({
+    firstName: "Stephen",
+    lastName: "Settle",
+    email: "stephen.settle@salesloft.com",
+    slackHandle: "settle"
   }),
   new TeamMember({
     firstName: "Matt",
@@ -96,7 +102,6 @@ function findTeamMemberByFullName(fullName) {
 module.exports = {
   designer,
   engineers,
-  findTeamMemberByEmail,
   findTeamMemberByFullName,
   productManager,
   qaEngineer,
