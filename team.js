@@ -59,6 +59,12 @@ const engineers = [
     lastName: "Brooke",
     email: "matt.brooke@salesloft.com",
     slackHandle: "matt.brooke"
+  }),
+  new TeamMember({
+    firstName: "Patrick",
+    lastName: "Hoydar",
+    email: "patrick.hoydar@salesloft.com",
+    slackHandle: "Hodar"
   })
 ]
 
