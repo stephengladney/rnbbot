@@ -14,6 +14,7 @@ let statusPoller = setInterval(() => {
 
 app
   .post("/jirahook", (req, res) => {
+    console.log("endpoint hit")
     processWebhook({
       body: req.body,
       stagnantCards: stagnantCards
