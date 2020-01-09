@@ -62,7 +62,7 @@ const slackSettings = {
 const timezoneOffset = -5 // UTC
 
 module.exports = {
-  slackSettings: slackSettings,
-  jiraSettings: jiraSettings,
-  timezoneOffset: timezoneOffset
+  slackSettings,
+  jiraSettings,
+  timezoneOffset
 }
