@@ -45,7 +45,7 @@ const slackSettings = {
   },
   hours: {
     start: 10,
-    stop: 17
+    stop: 18
   },
   emojis: {
     error: ":exclamation:",
