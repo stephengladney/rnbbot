@@ -16,7 +16,7 @@ const jiraSettings = {
     monitorForStagnant: false
   },
   "Ready for QA": {
-    notifyOnEntry: false,
+    notifyOnEntry: true,
     monitorForStagnant: false
   },
   "Ready for Acceptance": {
