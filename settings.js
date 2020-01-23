@@ -20,7 +20,7 @@ const jiraSettings = {
     monitorForStagnant: false
   },
   "Ready for Acceptance": {
-    notifyOnEntry: true,
+    notifyOnEntry: false,
     monitorForStagnant: false
   },
   "Ready for Merge": {
