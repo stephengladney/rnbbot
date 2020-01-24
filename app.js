@@ -2,7 +2,7 @@ const express = require("express")
 const app = express()
 const bodyParser = require("body-parser")
 const { checkforStagnants, processWebhook } = require("./lib/jira")
-const { processSlashCommand } = require("./lib/slack")
+const { processSlashCommand } = require("./lib/slash")
 const stagnantCards = []
 
 app.use(bodyParser.json())
