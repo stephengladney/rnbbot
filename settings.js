@@ -8,7 +8,7 @@ const jiraSettings = {
     monitorForStagnant: false
   },
   "Ready for Code Review": {
-    notifyOnEntry: true,
+    notifyOnEntry: false,
     monitorForStagnant: true
   },
   "Ready for Design Review": {
