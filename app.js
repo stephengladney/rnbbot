@@ -23,11 +23,12 @@ app
   })
 
   .post("/slash/", (req, res) => {
-    console.log(JSON.stringify(req.body))
+    const user = req.body.user_id
     const text = req.body.text
     processSlashCommand({
+      stagnantCards: stagnantCards,
       text: text,
-      stagnantCards: stagnantCards
+      user: user
     })
     res.status(200).send()
   })
