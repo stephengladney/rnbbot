@@ -23,6 +23,7 @@ app
   })
 
   .post("/slash/", (req, res) => {
+    console.log(JSON.stringify(req.body))
     const text = req.body.text
     processSlashCommand({
       text: text,
