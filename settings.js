@@ -1,35 +1,43 @@
 const jiraSettings = {
   Unassigned: {
-    notifyOnEntry: false,
-    monitorForStagnant: false
+    method: "ephemeral",
+    monitorForStagnant: false,
+    notifyOnEntry: false
   },
   "In Development": {
-    notifyOnEntry: false,
-    monitorForStagnant: false
+    method: "ephemeral",
+    monitorForStagnant: false,
+    notifyOnEntry: false
   },
   "Ready for Code Review": {
-    notifyOnEntry: true,
-    monitorForStagnant: true
+    method: "channel",
+    monitorForStagnant: true,
+    notifyOnEntry: true
   },
   "Ready for Design Review": {
-    notifyOnEntry: true,
-    monitorForStagnant: false
+    method: "ephemeral",
+    monitorForStagnant: false,
+    notifyOnEntry: true
   },
   "Ready for QA": {
-    notifyOnEntry: true,
-    monitorForStagnant: false
+    method: "ephemeral",
+    monitorForStagnant: false,
+    notifyOnEntry: true
   },
   "Ready for Acceptance": {
-    notifyOnEntry: false,
-    monitorForStagnant: false
+    method: "ephemeral",
+    monitorForStagnant: false,
+    notifyOnEntry: false
   },
   "Ready for Merge": {
-    notifyOnEntry: true,
-    monitorForStagnant: true
+    method: "ephemeral",
+    monitorForStagnant: true,
+    notifyOnEntry: true
   },
   Done: {
-    notifyOnEntry: false,
-    monitorForStagnant: false
+    method: "ephemeral",
+    monitorForStagnant: false,
+    notifyOnEntry: false
   }
 }
 
