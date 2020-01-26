@@ -10,7 +10,7 @@ const jiraSettings = {
     notifyOnEntry: false
   },
   "Ready for Code Review": {
-    method: "channel",
+    method: "channel", // Only "channel" is allowed here
     monitorForStagnant: true,
     notifyOnEntry: true
   },
@@ -22,7 +22,7 @@ const jiraSettings = {
   "Ready for QA": {
     method: "ephemeral",
     monitorForStagnant: false,
-    notifyOnEntry: true
+    notifyOnEntry: false //true
   },
   "Ready for Acceptance": {
     method: "ephemeral",
