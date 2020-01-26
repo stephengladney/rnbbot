@@ -22,7 +22,7 @@ const jiraSettings = {
   "Ready for QA": {
     method: "ephemeral",
     monitorForStagnant: false,
-    notifyOnEntry: false //true
+    notifyOnEntry: true
   },
   "Ready for Acceptance": {
     method: "ephemeral",
@@ -49,11 +49,11 @@ const slackSettings = {
     Wednesday: true,
     Thursday: true,
     Friday: true,
-    Saturday: true
+    Saturday: false
   },
   hours: {
     start: 10,
-    stop: 23
+    stop: 17
   },
   emojis: {
     error: ":exclamation:",
