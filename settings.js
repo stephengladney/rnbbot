@@ -49,11 +49,11 @@ const slackSettings = {
     Wednesday: true,
     Thursday: true,
     Friday: true,
-    Saturday: false
+    Saturday: true
   },
   hours: {
     start: 10,
-    stop: 24
+    stop: 23
   },
   emojis: {
     error: ":exclamation:",
