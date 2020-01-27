@@ -2,6 +2,7 @@ const express = require("express")
 const app = express()
 const bodyParser = require("body-parser")
 const { checkforStagnants, processWebhook } = require("./lib/jira")
+const { getToken } = require("./lib/github")
 const { processSlashCommand } = require("./lib/slash")
 const stagnantCards = []
 
@@ -32,6 +33,15 @@ app
     })
     res.status(200).send()
   })
+
+  // .get("/github", (req, res) => {
+  //   getToken()
+  //     .then(response => {
+  //       console.log(response)
+  //       res.status(200).send()
+  //     })
+  //     .catch(err => console.log(err))
+  // })
 
   .listen(process.env.PORT || 5000, process.env.IP, () => {
     console.log("RnBot server is now running!")
