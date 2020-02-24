@@ -2,6 +2,7 @@ const express = require("express")
 const app = express()
 const bodyParser = require("body-parser")
 const { checkforStagnants, processWebhook } = require("./lib/jira")
+const { findPullRequest, giveMeToken, listRepos } = require("./lib/github")
 const { processSlashCommand } = require("./lib/slash")
 const stagnantCards = []
 
@@ -31,6 +32,20 @@ app
       user: user
     })
     res.status(200).send()
+  })
+
+  .get("/findpr", (req, res) => {
+    findPullRequest(req.query.ticket)
+      .then(response => {
+        console.log(urls)
+        res.status(200).send("Done.")
+      })
+
+      .catch(err => console.log("ERROR", err))
+  })
+
+  .get("/repos", (req, res) => {
+    console.log(listRepos())
   })
 
   .listen(process.env.PORT || 5000, process.env.IP, () => {
