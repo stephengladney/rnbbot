@@ -34,14 +34,13 @@ app
     res.status(200).send()
   })
 
-  .get("/findpr", (req, res) => {
-    findPullRequest(req.query.ticket)
-      .then(response => {
-        console.log(urls)
-        res.status(200).send("Done.")
-      })
-
-      .catch(err => console.log("ERROR", err))
+  .get("/findpr", async (req, res) => {
+    try {
+      const result = await findPullRequest(req.query.ticket)
+      console.log(result[0])
+    } catch {
+      console.log("error")
+    }
   })
 
   .get("/repos", (req, res) => {
