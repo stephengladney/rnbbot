@@ -2,7 +2,7 @@ const express = require("express")
 const app = express()
 const bodyParser = require("body-parser")
 const { checkforStagnants, processWebhook } = require("./lib/jira")
-const { findPullRequest, giveMeToken, listRepos } = require("./lib/github")
+const { findPullRequests, giveMeToken, listRepos } = require("./lib/github")
 const { processSlashCommand } = require("./lib/slash")
 const stagnantCards = []
 
@@ -36,7 +36,7 @@ app
 
   .get("/findpr", async (req, res) => {
     try {
-      const result = await findPullRequest(req.query.ticket)
+      const result = await findPullRequests(req.query.ticket)
       console.log(result[0])
     } catch {
       console.log("error")
