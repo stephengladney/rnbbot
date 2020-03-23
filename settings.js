@@ -52,7 +52,7 @@ const slackSettings = {
     Saturday: false
   },
   hours: {
-    start: 10,
+    start: 9,
     stop: 17
   },
   emojis: {
