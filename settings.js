@@ -67,7 +67,7 @@ const slackSettings = {
     readyforMerge: ":white_check_mark:"
   }
 }
-const timezoneOffset = -5 // UTC
+const timezoneOffset = -4 // UTC
 
 module.exports = {
   slackSettings,
