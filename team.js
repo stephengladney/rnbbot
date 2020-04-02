@@ -1,4 +1,4 @@
-const slackChannel = "rnb-private"
+const slackChannel = "rnbot"
 const teamName = "Rhythm and Blues"
 class TeamMember {
   constructor({ firstName, lastName, email, slackHandle, slackId }) {
