@@ -14,7 +14,7 @@ const qaEngineer = new TeamMember({
   lastName: "Thoensen",
   email: "jeff.thoensen@salesloft.com",
   slackHandle: "jeff",
-  slackId: "U0DM1N3SL"
+  slackId: "U0DM1N3SL",
 })
 
 const designer = new TeamMember({
@@ -22,7 +22,7 @@ const designer = new TeamMember({
   lastName: "Solomon",
   email: "sam.solomon@salesloft.com",
   slackHandle: "sam.solomon",
-  slackId: "U4GRF0ZB2"
+  slackId: "U4GRF0ZB2",
 })
 
 const productManager = new TeamMember({
@@ -30,7 +30,7 @@ const productManager = new TeamMember({
   lastName: "Andrews",
   email: "daniel.andrews@salesloft.com",
   slackHandle: "daniel",
-  slackId: "U0BGKRRNW"
+  slackId: "U0BGKRRNW",
 })
 
 const engineers = [
@@ -39,43 +39,36 @@ const engineers = [
     lastName: "Gladney",
     email: "stephen.gladney@salesloft.com",
     slackHandle: "gladney",
-    slackId: "U0JFDH6DT"
+    slackId: "U0JFDH6DT",
   }),
   new TeamMember({
     firstName: "Ray",
     lastName: "Gesualdo",
     email: "ray.gesualdo@salesloft.com",
     slackHandle: "Ray",
-    slackId: "UAFN8FU76"
+    slackId: "UAFN8FU76",
   }),
   new TeamMember({
-    firstName: "Adrianna",
-    lastName: "Valdivia",
-    email: "adrianna.valdivia@salesloft.com",
-    slackHandle: "adrianna",
-    slackId: "UF9DXJ6KH"
-  }),
-  new TeamMember({
-    firstName: "Taylor",
-    lastName: "Martin",
-    email: "taylor.martin@salesloft.com",
-    slackHandle: "tmart",
-    slackId: "UE149MWM7"
+    firstName: "Kenny",
+    lastName: "Alvarez",
+    email: "kenny.alvarez@salesloft.com",
+    slackHandle: "kenny.alvarez",
+    slackId: "U1D7UCRNF",
   }),
   new TeamMember({
     firstName: "Stephen",
     lastName: "Settle",
     email: "stephen.settle@salesloft.com",
     slackHandle: "settle",
-    slackId: "U04NZTQSL"
+    slackId: "U04NZTQSL",
   }),
   new TeamMember({
     firstName: "Patrick",
     lastName: "Hoydar",
     email: "patrick.hoydar@salesloft.com",
     slackHandle: "Hodar",
-    slackId: "U727JM1F0"
-  })
+    slackId: "U727JM1F0",
+  }),
 ]
 
 const team = [qaEngineer, designer, productManager, ...engineers]
@@ -87,7 +80,7 @@ const findTeamMemberByEmail = email => {
       firstName: "A non-team member",
       lastName: null,
       email: `${email}`,
-      slackHandle: null
+      slackHandle: null,
     })
   )
 }
@@ -104,7 +97,7 @@ function findTeamMemberByFullName(fullName) {
       firstName: firstName,
       lastName: lastName,
       email: null,
-      slackHandle: null
+      slackHandle: null,
     })
   )
 }
@@ -116,5 +109,5 @@ module.exports = {
   productManager,
   qaEngineer,
   slackChannel,
-  teamName
+  teamName,
 }
