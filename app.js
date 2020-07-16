@@ -34,19 +34,6 @@ app
     res.status(200).send()
   })
 
-  .get("/findpr", async (req, res) => {
-    try {
-      const result = await findPullRequests(req.query.ticket)
-      console.log(result[0])
-    } catch {
-      console.log("error")
-    }
-  })
-
-  .get("/repos", (req, res) => {
-    console.log(listRepos())
-  })
-
   .listen(process.env.PORT || 5000, process.env.IP, () => {
     console.log("RnBot server is now running!")
   })
