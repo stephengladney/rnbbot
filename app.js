@@ -1,8 +1,9 @@
+require("dotenv").config()
 const express = require("express")
 const app = express()
+const db = require("./lib/db")
 const bodyParser = require("body-parser")
 const { checkforStagnants, processWebhook } = require("./lib/jira")
-const { findPullRequests, giveMeToken, listRepos } = require("./lib/github")
 const { processSlashCommand } = require("./lib/slash")
 const stagnantCards = []
 
@@ -17,7 +18,7 @@ app
   .post("/jirahook", (req, res) => {
     processWebhook({
       body: req.body,
-      stagnantCards: stagnantCards
+      stagnantCards: stagnantCards,
     })
 
     res.status(200).send("OK")
@@ -29,9 +30,15 @@ app
     processSlashCommand({
       stagnantCards: stagnantCards,
       text: text,
-      user: user
+      user: user,
     })
     res.status(200).send()
+  })
+
+  .get("/dbtest", (req, res) => {
+    db.getUserByTeamAndRole("Rhythm & Blues", "QA").then(result => {
+      res.status(200).send(result)
+    })
   })
 
   .listen(process.env.PORT || 5000, process.env.IP, () => {
