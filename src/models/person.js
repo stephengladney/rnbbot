@@ -2,7 +2,7 @@ const { Model, DataTypes } = require("sequelize")
 const sequelize = require("../config/sequelize")
 
 class Person extends Model {
-  static createPerson = async ({
+  static create = async ({
     firstName,
     lastName,
     emailAddress,

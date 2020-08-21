@@ -1,14 +1,22 @@
-const express = require("express")
-const router = express.Router()
+const { createRoutes } = require("../methods")
+const Team = require("../../models/team")
 
-router.get("", (req, res) => {})
+const create = (req, res) => {
+  Team.create(req.query)
+}
 
-router.post("", (req, res) => {})
+const index = (req, res) => {
+  Team.findAll({
+    where: req.query,
+  })
+}
 
-router.get("/:id", (req, res) => {})
+const show = (req, res) => {
+  Team.findOne({ where: { id: req.params.id } })
+}
 
-router.put("/:id", (req, res) => {})
+const update = (req, res) => {}
 
-router.delete("/:id", (req, res) => {})
+const deleteFn = (req, res) => {}
 
-module.exports = router
+module.exports = createRoutes({ create, index, show, update, deleteFn })
