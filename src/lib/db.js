@@ -1,19 +1,4 @@
-exports.createPerson = ({
-  firstName,
-  lastName,
-  emailAddress,
-  slackHandle,
-  slackId,
-}) =>
-  db.Person.create({
-    first_name: firstName,
-    last_name: lastName,
-    email_address: emailAddress,
-    slack_handle: slackHandle,
-    slack_id: slackId,
-  })
-
-exports.createTeam = ({ name, slackChannel }) =>
+exports.exports.createTeam = ({ name, slackChannel }) =>
   (exports.createTeamRole = ({ teamId, personId, role }) =>
     db.TeamRole.create({ team_id: teamId, person_id: personId, role }))
 
@@ -45,7 +30,7 @@ exports.findPersonByTeamAndRole = async ({ teamName, roleName }) => {
   }
 }
 
-exports.findTeamByName = (name) =>
+exports.findTeamByName = name =>
   db.Team.findOne({
     where: {
       name,

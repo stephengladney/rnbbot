@@ -1,10 +1,11 @@
 require("dotenv").config()
 const express = require("express")
 const app = express()
-const db = require("./lib/db")
 const bodyParser = require("body-parser")
-const { checkforStagnants, processWebhook } = require("./lib/jira")
-const { processSlashCommand } = require("./lib/slash")
+const { checkforStagnants, processWebhook } = require("./src/lib/jira")
+const { processSlashCommand } = require("./src/lib/slash")
+const Person = require("./src/models/person")
+const sequelize = require("./src/config/sequelize")
 const stagnantCards = []
 
 app.use(bodyParser.json())
@@ -14,7 +15,7 @@ let statusPoller = setInterval(() => {
   checkforStagnants(stagnantCards)
 }, 60000)
 
-app.use("/api", require("./api"))
+app.use("/api", require("./src/routes/api"))
 
 app
   .post("/jirahook", (req, res) => {
@@ -36,10 +37,6 @@ app
     })
     res.status(200).send()
   })
-
-  // .get("/dbtest", (req, res) => {
-
-  // })
 
   .listen(process.env.PORT || 5000, process.env.IP, () => {
     console.log("RnBot server is now running!")

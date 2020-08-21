@@ -4,7 +4,7 @@ require("dotenv").config()
 const { hours, isPast } = require("./numbers")
 const { isWithinSlackHours, sendEphemeral, sendMessage } = require("./slack")
 const { isNotifyEnabled, notifications } = require("./notifications")
-const { jiraSettings } = require("../settings")
+const { jiraSettings } = require("../../settings")
 const { findPullRequests } = require("./github")
 const {
   designer,
@@ -12,8 +12,8 @@ const {
   qaEngineer,
   productManager,
   slackChannel,
-  teamName
-} = require("../team")
+  teamName,
+} = require("../../team")
 
 function composeAndSendMessage({ cardData, event }) {
   const whoReceivesEphemeral = status => {
@@ -33,13 +33,13 @@ function composeAndSendMessage({ cardData, event }) {
   methodFromSettings === "channel" &&
     sendMessage({
       channel: slackChannel,
-      message
+      message,
     })
   methodFromSettings === "ephemeral" &&
     sendEphemeral({
       channel: slackChannel,
       message,
-      user: whoReceivesEphemeral(cardData.currentStatus)
+      user: whoReceivesEphemeral(cardData.currentStatus),
     })
 }
 
@@ -64,12 +64,12 @@ async function processWebhook({ body, stagnantCards }) {
     pullRequests: foundPullRequests.some(pr => pr.includes("Error"))
       ? []
       : foundPullRequests,
-    teamAssigned: teamAssigned
+    teamAssigned: teamAssigned,
   }
 
   removeFromStagnants({
     cardData: cardData,
-    stagnantCards: stagnantCards
+    stagnantCards: stagnantCards,
   })
 
   isNotifyEnabled({ status: cardData.currentStatus }).notifyOnEntry &&
@@ -78,7 +78,7 @@ async function processWebhook({ body, stagnantCards }) {
   isNotifyEnabled({ status: cardData.currentStatus }).monitorForStagnant &&
     addToStagnants({
       cardData: cardData,
-      stagnantCards: stagnantCards
+      stagnantCards: stagnantCards,
     })
 }
 
@@ -112,7 +112,7 @@ function addToStagnants({ cardData, stagnantCards }) {
       ...cardData,
       alertCount: 1,
       nextAlertTime: timeStamp + hours(2),
-      lastColumnChangeTime: timeStamp
+      lastColumnChangeTime: timeStamp,
     })
   }
 }
@@ -122,8 +122,8 @@ function getJiraCard(cardNumber) {
     {
       headers: {
         Authorization: "Basic " + process.env.JIRA_TOKEN,
-        header: "Accept: application/json"
-      }
+        header: "Accept: application/json",
+      },
     }
   )
 }
@@ -147,5 +147,5 @@ module.exports = {
   getJiraCard,
   hours,
   processWebhook,
-  removeFromStagnants
+  removeFromStagnants,
 }

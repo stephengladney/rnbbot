@@ -4,10 +4,10 @@ const { hours, humanizeDay } = require("./numbers")
 const {
   slackSettings: {
     days,
-    hours: { start, stop }
+    hours: { start, stop },
   },
-  timezoneOffset
-} = require("../settings")
+  timezoneOffset,
+} = require("../../settings")
 
 function isWithinSlackHours() {
   const timeStamp = Date.now() + hours(timezoneOffset)
@@ -28,10 +28,10 @@ function sendMessage({ channel, message }) {
     method: "post",
     url: "https://slack.com/api/chat.postMessage",
     headers: {
-      Authorization: `Bearer ${process.env.SLACK_TOKEN}`
+      Authorization: `Bearer ${process.env.SLACK_TOKEN}`,
     },
     contentType: "application/x-www-form-urlencoded",
-    data: { channel: channel, text: message }
+    data: { channel: channel, text: message },
   })
 }
 
@@ -44,20 +44,20 @@ function sendEphemeral({ channel, message, user }) {
     method: "post",
     url: "https://slack.com/api/chat.postEphemeral",
     headers: {
-      Authorization: `Bearer ${process.env.SLACK_TOKEN}`
+      Authorization: `Bearer ${process.env.SLACK_TOKEN}`,
     },
     contentType: "application/x-www-form-urlencoded",
     data: {
       attachments: [],
       channel: channel,
       text: message,
-      user: user.slackId
-    }
+      user: user.slackId,
+    },
   })
 }
 
 module.exports = {
   isWithinSlackHours,
   sendEphemeral,
-  sendMessage
+  sendMessage,
 }

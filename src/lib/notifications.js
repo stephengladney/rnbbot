@@ -1,9 +1,9 @@
-const { designer, qaEngineer, productManager } = require("../team")
+const { designer, qaEngineer, productManager } = require("../../team")
 const { ordinal } = require("./numbers")
 const {
   jiraSettings,
-  slackSettings: { emojis }
-} = require("../settings")
+  slackSettings: { emojis },
+} = require("../../settings")
 const { extractLabelFromPullRequestUrl } = require("./github")
 
 const atHere = "<!here|here>"
@@ -25,7 +25,7 @@ const notifications = ({
   cardNumber,
   cardTitle,
   currentStatus,
-  pullRequests
+  pullRequests,
 }) => {
   const truncatedTitle = truncateTitle(cardTitle, 50)
   const jiraLink = !!cardNumber
@@ -86,7 +86,7 @@ const notifications = ({
           default:
             return `:grimacing: Notification is enabled for this status, but no message specified. ${jiraLink}`
         }
-      }
+      },
     },
     stagnant: {
       channel: () => {
@@ -128,8 +128,8 @@ const notifications = ({
               assignee.firstName
             }, \`${truncatedTitle}\` has been *ready for merge* for *${age}*`
         }
-      }
-    }
+      },
+    },
   }
 }
 
@@ -141,5 +141,5 @@ function truncateTitle(title, length) {
 
 module.exports = {
   isNotifyEnabled,
-  notifications
+  notifications,
 }
