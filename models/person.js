@@ -16,6 +16,7 @@ const Person = db.connection.define(
 
     id: {
       allowNull: false,
+      autoIncrement: true,
       primaryKey: true,
       type: db.Sequelize.INTEGER,
       unique: true,

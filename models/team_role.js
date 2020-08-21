@@ -2,8 +2,9 @@ const db = require("../config/sequelize")
 const TeamRole = db.connection.define(
   "team_role",
   {
-    team_role_id: {
+    id: {
       allowNull: false,
+      autoIncrement: true,
       primaryKey: true,
       type: db.Sequelize.INTEGER,
       unique: true,
@@ -18,7 +19,7 @@ const TeamRole = db.connection.define(
       unique: false,
       allowNull: false,
     },
-    role_name: {
+    role: {
       type: db.Sequelize.STRING,
       unique: false,
       allowNull: false,
