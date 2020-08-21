@@ -4,20 +4,20 @@ const Team = db.connection.define(
   {
     id: {
       allowNull: false,
+      autoIncrement: true,
       primaryKey: true,
       type: db.Sequelize.INTEGER,
       unique: true,
     },
     name: {
+      allowNull: false,
       type: db.Sequelize.STRING,
       unique: true,
-      allowNull: false,
     },
-
     slack_channel: {
+      allowNull: false,
       type: db.Sequelize.STRING,
       unique: true,
-      allowNull: false,
     },
   },
   Object.assign({}, db.preferences, {

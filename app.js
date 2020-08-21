@@ -7,14 +7,14 @@ const { checkforStagnants, processWebhook } = require("./lib/jira")
 const { processSlashCommand } = require("./lib/slash")
 const stagnantCards = []
 
-console.log(process.env.DATABASE_URL)
-
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 let statusPoller = setInterval(() => {
   checkforStagnants(stagnantCards)
 }, 60000)
+
+app.use("/api", require("./api"))
 
 app
   .post("/jirahook", (req, res) => {
@@ -37,19 +37,9 @@ app
     res.status(200).send()
   })
 
-  .get("/dbtest", (req, res) => {
-    db.createPerson({
-      firstName: "Stephen",
-      lastName: "Gladney",
-      emailAddress: "stephen.gladney@salesloft.com",
-      slackHandle: "gladney",
-      slackId: "U0JFDH6DT",
-    })
-      .then((result) => {
-        res.status(200).send(result)
-      })
-      .catch((err) => res.send(err))
-  })
+  // .get("/dbtest", (req, res) => {
+
+  // })
 
   .listen(process.env.PORT || 5000, process.env.IP, () => {
     console.log("RnBot server is now running!")
