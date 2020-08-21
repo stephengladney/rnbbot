@@ -1,11 +1,14 @@
 const express = require("express")
 const router = express.Router()
 
-router.get("/create", (req, res) => {
-  res.status(200).send("endpoint 1")
-})
-router.get("/delete", (req, res) => {
-  res.status(200).send("endpoint 2")
-})
+router.get("", (req, res) => {})
+
+router.post("", (req, res) => {})
+
+router.get("/:id", (req, res) => {})
+
+router.put("/:id", (req, res) => {})
+
+router.delete("/:id", (req, res) => {})
 
 module.exports = router
