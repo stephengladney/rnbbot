@@ -6,7 +6,7 @@ const create = (req, res) => {
 }
 
 const index = (req, res) => {
-  db.Person.findAll({
+  Person.findAll({
     where: req.query,
   })
 }
