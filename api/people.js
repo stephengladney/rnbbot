@@ -1,11 +1,25 @@
 const express = require("express")
 const router = express.Router()
 
-router.get("", (req, res) => {})
+const pg = require("pg")
+const db = require("../models")
+const { Op } = require("sequelize")
 
-router.post("", (req, res) => {})
+router.get("", (req, res) => {
+  db.Person.findAll({
+    where: req.query,
+  })
+    .then((people) => res.status(200).send(people))
+    .catch((err) => res.status(500).send(err))
+})
 
-router.get("/:id", (req, res) => {})
+router.post("", (req, res) => {
+  db.Person.create(req.query)
+})
+
+router.get("/:id", (req, res) => {
+  db.Person.findOne({ where: { id: req.params.id } })
+})
 
 router.put("/:id", (req, res) => {})
 
