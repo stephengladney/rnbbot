@@ -4,8 +4,6 @@ const app = express()
 const bodyParser = require("body-parser")
 const { checkforStagnants, processWebhook } = require("./src/lib/jira")
 const { processSlashCommand } = require("./src/lib/slash")
-const Person = require("./src/models/person")
-const sequelize = require("./src/config/sequelize")
 const stagnantCards = []
 
 app.use(bodyParser.json())
