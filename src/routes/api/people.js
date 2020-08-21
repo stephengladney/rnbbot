@@ -1,28 +1,22 @@
-// const express = require("express")
-// const router = express.Router()
+const { createRoutes } = require("../methods")
+const Person = require("../../models/person")
 
-// const pg = require("pg")
-// const db = require("../models")
-// const { Op } = require("sequelize")
+const create = (req, res) => {
+  Person.create(req.query)
+}
 
-// router.get("", (req, res) => {
-//   db.Person.findAll({
-//     where: req.query,
-//   })
-//     .then((people) => res.status(200).send(people))
-//     .catch((err) => res.status(500).send(err))
-// })
+const index = (req, res) => {
+  db.Person.findAll({
+    where: req.query,
+  })
+}
 
-// router.post("", (req, res) => {
-//   db.Person.create(req.query)
-// })
+const show = (req, res) => {
+  Person.findOne({ where: { id: req.params.id } })
+}
 
-// router.get("/:id", (req, res) => {
-//   db.Person.findOne({ where: { id: req.params.id } })
-// })
+const update = (req, res) => {}
 
-// router.put("/:id", (req, res) => {})
+const deleteFn = (req, res) => {}
 
-// router.delete("/:id", (req, res) => {})
-
-// module.exports = router
+module.exports = createRoutes({ create, index, show, update, deleteFn })
