@@ -9,7 +9,7 @@ async function create({
   slackId,
 }) {
   try {
-    await sequelize.sync()
+    // await sequelize.sync()
     return Person.create({
       first_name: firstName,
       last_name: lastName,
