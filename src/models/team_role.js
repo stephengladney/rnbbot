@@ -1,33 +1,37 @@
-const db = require("../config/sequelize")
-const TeamRole = db.connection.define(
-  "team_role",
+function create({ teamId, personId, role }) {
+  return db.TeamRole.create({ team_id: teamId, person_id: personId, role })
+}
+
+class TeamRole extends Model {
+  static create = create
+}
+
+TeamRole.init(
   {
     id: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: db.Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       unique: true,
     },
     person_id: {
-      type: db.Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       unique: false,
       allowNull: false,
     },
     team_id: {
-      type: db.Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       unique: false,
       allowNull: false,
     },
     role: {
-      type: db.Sequelize.STRING,
+      type: DataTypes.STRING,
       unique: false,
       allowNull: false,
     },
   },
-  Object.assign({}, db.preferences, {
-    hooks: {},
-  })
+  { sequelize, modelName: "team" }
 )
 
 module.exports = TeamRole

@@ -1,18 +1,20 @@
 const { Model, DataTypes } = require("sequelize")
 const sequelize = require("../config/sequelize")
 
-class Team extends Model {
-  static create = async ({ name, slackChannel }) => {
-    try {
-      await sequelize.sync()
-      return Team.create({
-        name: name,
-        slack_channel: slackChannel,
-      })
-    } catch (err) {
-      return { error: true, description: err }
-    }
+async function create({ name, slackChannel }) {
+  try {
+    await sequelize.sync()
+    return Team.create({
+      name: name,
+      slack_channel: slackChannel,
+    })
+  } catch (err) {
+    return { error: true, description: err }
   }
+}
+
+class Team extends Model {
+  static create = create
 }
 
 Team.init(
