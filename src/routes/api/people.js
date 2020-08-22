@@ -1,4 +1,4 @@
-const { createRoutes } = require("../methods")
+const { createRoutes } = require("./methods")
 const Person = require("../../models/person")
 
 const create = (req, res) => {
