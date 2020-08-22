@@ -1,6 +1,6 @@
 const router = require("express").Router()
 
-exports.createRoutes = ({ create, deleteFn, index, show, update }) => {
+export function createRoutes({ create, deleteFn, index, show, update }) {
   if (index) router.get("", index)
   if (show) router.get("/:id", show)
   if (create) router.post("", create)

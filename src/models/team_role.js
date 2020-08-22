@@ -34,4 +34,4 @@ TeamRole.init(
   { sequelize, modelName: "team" }
 )
 
-module.exports = TeamRole
+export default TeamRole

@@ -1,5 +1,5 @@
-const { createRoutes } = require("./methods")
-const Person = require("../../models/person")
+import { createRoutes } from "./methods"
+import Person from "../../models/person"
 
 const create = (req, res) => {
   Person.createNew(req.query)

@@ -1,6 +1,6 @@
-const Team = require("./team")
-const Person = require("./person")
-const TeamRole = require("./team_role")
+import Team from "./team"
+import Person from "./person"
+import TeamRole from "./team_role"
 
 module.exports = {
   Person,

@@ -1,5 +1,5 @@
-const { Model, DataTypes } = require("sequelize")
-const sequelize = require("../config/sequelize")
+import { Model, DataTypes } from "sequelize"
+import sequelize from "../config/sequelize"
 
 async function create({ name, slackChannel }) {
   try {
@@ -40,4 +40,4 @@ Team.init(
   { sequelize, modelName: "team" }
 )
 
-module.exports = Team
+export default Team

@@ -1,5 +1,5 @@
-const { Model, DataTypes } = require("sequelize")
-const sequelize = require("../config/sequelize")
+import { Model, DataTypes } from "sequelize"
+import sequelize from "../config/sequelize"
 
 class Person extends Model {
   static createNew = createNew
@@ -95,4 +95,4 @@ Person.init(
   { freezeTableName: true, sequelize, modelName: "person" }
 )
 
-module.exports = Person
+export default Person

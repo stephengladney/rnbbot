@@ -1,9 +1,10 @@
 require("dotenv").config({ path: "../.env" })
 
-const express = require("express")
+import express from "express"
+import bodyParser from "body-parser"
+import { checkforStagnants } from "./lib/jira"
+
 const app = express()
-const bodyParser = require("body-parser")
-const { checkforStagnants } = require("./lib/jira")
 const stagnantCards = []
 
 app.use(bodyParser.json())
