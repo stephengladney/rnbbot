@@ -1,7 +1,13 @@
 const { Model, DataTypes } = require("sequelize")
 const sequelize = require("../config/sequelize")
 
-async function create({
+class Person extends Model {
+  static createNew = createNew
+  static findPersonByFirstAndLastName = findPersonByFirstAndLastName
+  static findPersonByTeamAndRole = findPersonByTeamAndRole
+}
+
+async function createNew({
   firstName,
   lastName,
   emailAddress,
@@ -18,7 +24,7 @@ async function create({
       slack_id: slackId,
     })
   } catch (err) {
-    return { error: true, description: err }
+    throw err
   }
 }
 
@@ -49,12 +55,6 @@ async function findPersonByTeamAndRole({ teamName, roleName }) {
   } catch (err) {
     return { error: true, message: `${err}` }
   }
-}
-
-class Person extends Model {
-  static create = create
-  static findPersonByFirstAndLastName = findPersonByFirstAndLastName
-  static findPersonByTeamAndRole = findPersonByTeamAndRole
 }
 
 Person.init(
@@ -92,7 +92,7 @@ Person.init(
       allowNull: false,
     },
   },
-  { sequelize, modelName: "person" }
+  { freezeTableName: true, sequelize, modelName: "person" }
 )
 
 module.exports = Person

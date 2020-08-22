@@ -2,7 +2,7 @@ const { createRoutes } = require("../methods")
 const Person = require("../../models/person")
 
 const create = (req, res) => {
-  Person.create(req.query)
+  Person.createNew(req.query)
 }
 
 const index = (req, res) => {

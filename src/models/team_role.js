@@ -1,9 +1,9 @@
-function create({ teamId, personId, role }) {
-  return db.TeamRole.create({ team_id: teamId, person_id: personId, role })
-}
-
 class TeamRole extends Model {
   static create = create
+}
+
+function create({ teamId, personId, role }) {
+  return db.TeamRole.create({ team_id: teamId, person_id: personId, role })
 }
 
 TeamRole.init(

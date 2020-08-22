@@ -1,9 +1,10 @@
 const Sequelize = require("sequelize")
-const sequelize = new Sequelize(process.env.DATABASE_URL)
-
-const dbPreferences = {
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
   freezeTableName: true,
-  underscored: true,
-}
+  define: {
+    createdAt: "created_at",
+    updatedAt: "updated_at",
+  },
+})
 
 module.exports = sequelize
