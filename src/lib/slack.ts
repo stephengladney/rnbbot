@@ -4,22 +4,28 @@ const { hours, humanizeDay } = require("./numbers")
 const {
   slackSettings: {
     days,
-    hours: { start, stop },
+    hours: { start: startTime, stop: stopTime },
   },
   timezoneOffset,
 } = require("../../settings")
 
-function isWithinSlackHours() {
+export interface SendMessageProps {
+  channel: string
+  message: string
+  user?: string
+}
+
+export function isWithinSlackHours() {
   const timeStamp = Date.now() + hours(timezoneOffset)
-  const currentHour = new Date(timeStamp).getHours()
+  const currentHour: number = new Date(timeStamp).getHours()
   const currentDay = humanizeDay(new Date(timeStamp).getDay())
 
   if (!days[currentDay]) return false
-  else if (currentHour < start || currentHour >= stop) return false
+  else if (currentHour < startTime || currentHour >= stopTime) return false
   else return true
 }
 
-function sendMessage({ channel, message }) {
+export function sendMessage({ channel, message }: SendMessageProps) {
   if (!isWithinSlackHours()) {
     console.log(`[outside of hours] ${message}`)
     return
@@ -35,7 +41,7 @@ function sendMessage({ channel, message }) {
   })
 }
 
-function sendEphemeral({ channel, message, user }) {
+export function sendEphemeral({ channel, message, user }: SendMessageProps) {
   if (!isWithinSlackHours()) {
     console.log(`[outside of hours] ${message}`)
     return
@@ -54,10 +60,4 @@ function sendEphemeral({ channel, message, user }) {
       user: user.slackId,
     },
   })
-}
-
-module.exports = {
-  isWithinSlackHours,
-  sendEphemeral,
-  sendMessage,
 }
