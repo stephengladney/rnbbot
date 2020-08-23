@@ -15,7 +15,7 @@ const {
   teamName,
 } = require("../../team")
 
-interface CardData {
+export interface CardData {
   age?: string
   alertCount?: number
   assignee: string
@@ -29,9 +29,9 @@ interface CardData {
   teamAssigned: string
 }
 
-type StagnantCards = CardData[]
+export type StagnantCards = CardData[]
 
-interface JiraPayloadBody {
+export interface JiraPayloadBody {
   changelog: {
     items: { fieldId: string; fromString: string; toString: string }[]
   }
@@ -45,7 +45,7 @@ interface JiraPayloadBody {
   }
 }
 
-function composeAndSendMessage({
+export function composeAndSendMessage({
   cardData,
   event,
 }: {
@@ -79,7 +79,7 @@ function composeAndSendMessage({
     })
 }
 
-async function processWebhook({
+export async function processWebhook({
   body,
   stagnantCards,
 }: {
@@ -124,7 +124,7 @@ async function processWebhook({
     })
 }
 
-function removeFromStagnants({
+export function removeFromStagnants({
   cardData,
   stagnantCards,
 }: {
@@ -137,7 +137,10 @@ function removeFromStagnants({
   if (cardIndex !== -1) stagnantCards.splice(cardIndex, 1)
 }
 
-function findStagnants(query: string | number, stagnantCards: StagnantCards) {
+export function findStagnants(
+  query: string | number,
+  stagnantCards: StagnantCards
+) {
   const queryType = isNaN(Number(query)) ? "title" : "number"
   let match
   if (queryType === "title") {
@@ -152,7 +155,7 @@ function findStagnants(query: string | number, stagnantCards: StagnantCards) {
   return match
 }
 
-function addToStagnants({
+export function addToStagnants({
   cardData,
   stagnantCards,
 }: {
@@ -170,7 +173,7 @@ function addToStagnants({
     })
   }
 }
-function getJiraCard(cardNumber: string) {
+export function getJiraCard(cardNumber: string) {
   return axios.get(
     `https://salesloft.atlassian.net/rest/api/2/issue/${cardNumber}`,
     {
@@ -182,7 +185,7 @@ function getJiraCard(cardNumber: string) {
   )
 }
 
-function checkforStagnants(arr: StagnantCards) {
+export function checkforStagnants(arr: StagnantCards) {
   if (!isWithinSlackHours()) return
   arr.forEach((card: CardData) => {
     if (isPast(card.nextAlertTime)) {
@@ -194,12 +197,12 @@ function checkforStagnants(arr: StagnantCards) {
   })
 }
 
-module.exports = {
-  addToStagnants,
-  checkforStagnants,
-  findStagnants,
-  getJiraCard,
-  hours,
-  processWebhook,
-  removeFromStagnants,
-}
+// module.exports = {
+//   addToStagnants,
+//   checkforStagnants,
+//   findStagnants,
+//   getJiraCard,
+//   hours,
+//   processWebhook,
+//   removeFromStagnants,
+// }
