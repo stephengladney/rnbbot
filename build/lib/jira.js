@@ -46,6 +46,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.checkforStagnants = exports.getJiraCard = exports.addToStagnants = exports.findStagnants = exports.removeFromStagnants = exports.processWebhook = exports.composeAndSendMessage = void 0;
 var moment = require("moment");
 var axios = require("axios");
 require("dotenv").config();
@@ -83,6 +85,7 @@ function composeAndSendMessage(_a) {
             user: whoReceivesEphemeral(cardData.currentStatus),
         });
 }
+exports.composeAndSendMessage = composeAndSendMessage;
 function processWebhook(_a) {
     var _b;
     var body = _a.body, stagnantCards = _a.stagnantCards;
@@ -129,12 +132,14 @@ function processWebhook(_a) {
         });
     });
 }
+exports.processWebhook = processWebhook;
 function removeFromStagnants(_a) {
     var cardData = _a.cardData, stagnantCards = _a.stagnantCards;
     var cardIndex = stagnantCards.findIndex(function (card) { return card.cardNumber === cardData.cardNumber; });
     if (cardIndex !== -1)
         stagnantCards.splice(cardIndex, 1);
 }
+exports.removeFromStagnants = removeFromStagnants;
 function findStagnants(query, stagnantCards) {
     var queryType = isNaN(Number(query)) ? "title" : "number";
     var match;
@@ -150,6 +155,7 @@ function findStagnants(query, stagnantCards) {
     }
     return match;
 }
+exports.findStagnants = findStagnants;
 function addToStagnants(_a) {
     var cardData = _a.cardData, stagnantCards = _a.stagnantCards;
     var currentStatus = cardData.currentStatus;
@@ -158,6 +164,7 @@ function addToStagnants(_a) {
         stagnantCards.push(__assign(__assign({}, cardData), { alertCount: 1, nextAlertTime: timeStamp + hours(2), lastColumnChangeTime: timeStamp }));
     }
 }
+exports.addToStagnants = addToStagnants;
 function getJiraCard(cardNumber) {
     return axios.get("https://salesloft.atlassian.net/rest/api/2/issue/" + cardNumber, {
         headers: {
@@ -166,6 +173,7 @@ function getJiraCard(cardNumber) {
         },
     });
 }
+exports.getJiraCard = getJiraCard;
 function checkforStagnants(arr) {
     if (!isWithinSlackHours())
         return;
@@ -178,12 +186,13 @@ function checkforStagnants(arr) {
         }
     });
 }
-module.exports = {
-    addToStagnants: addToStagnants,
-    checkforStagnants: checkforStagnants,
-    findStagnants: findStagnants,
-    getJiraCard: getJiraCard,
-    hours: hours,
-    processWebhook: processWebhook,
-    removeFromStagnants: removeFromStagnants,
-};
+exports.checkforStagnants = checkforStagnants;
+// module.exports = {
+//   addToStagnants,
+//   checkforStagnants,
+//   findStagnants,
+//   getJiraCard,
+//   hours,
+//   processWebhook,
+//   removeFromStagnants,
+// }
