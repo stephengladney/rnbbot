@@ -1,7 +1,7 @@
 import { Model, DataTypes } from "sequelize"
 import sequelize from "../config/sequelize"
 
-async function create({ name, slackChannel }) {
+async function createNew({ name, slackChannel }) {
   try {
     await sequelize.sync()
     return Team.create({
@@ -14,7 +14,7 @@ async function create({ name, slackChannel }) {
 }
 
 class Team extends Model {
-  static create = create
+  static createNew = createNew
 }
 
 Team.init(
