@@ -137,22 +137,12 @@ export function removeFromStagnants({
   if (cardIndex !== -1) stagnantCards.splice(cardIndex, 1)
 }
 
-export function findStagnants(
-  query: string | number,
-  stagnantCards: StagnantCards
-) {
-  const queryType = isNaN(Number(query)) ? "title" : "number"
-  let match
-  if (queryType === "title") {
-    match = stagnantCards.filter((card: CardData) =>
-      card.cardTitle.toLowerCase().includes(String(query).toLowerCase())
-    )
-  } else if (queryType === "number") {
-    match = stagnantCards.filter((card: CardData) =>
-      String(card.cardNumber).includes(String(query))
-    )
-  }
-  return match
+export function findStagnants(query: string, stagnantCards: StagnantCards) {
+  return (
+    stagnantCards.filter((card: CardData) =>
+      card.cardTitle.toLowerCase().includes(query.toLowerCase())
+    ) || []
+  )
 }
 
 export function addToStagnants({
