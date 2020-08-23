@@ -15,8 +15,44 @@ const {
   teamName,
 } = require("../../team")
 
-function composeAndSendMessage({ cardData, event }) {
-  const whoReceivesEphemeral = status => {
+interface CardData {
+  age?: string
+  alertCount?: number
+  assignee: string
+  cardNumber: string
+  cardTitle: string
+  currentStatus: string
+  lastColumnChangeTime?: number
+  nextAlertTime?: string
+  previousStatus: string
+  pullRequests: []
+  teamAssigned: string
+}
+
+type StagnantCards = CardData[]
+
+interface JiraPayloadBody {
+  changelog: {
+    items: { fieldId: string; fromString: string; toString: string }[]
+  }
+  issue: {
+    fields: {
+      assignee: { displayName: string }
+      customfield_10025: { value: string }
+      summary: string
+    }
+    key: string
+  }
+}
+
+function composeAndSendMessage({
+  cardData,
+  event,
+}: {
+  cardData: CardData
+  event: string
+}) {
+  const whoReceivesEphemeral = (status: string) => {
     switch (status) {
       case "Ready for QA":
         return qaEngineer
@@ -25,7 +61,7 @@ function composeAndSendMessage({ cardData, event }) {
       case "Ready for Design Review":
         return designer
       default:
-        return findTeamMemberByFullName(body.issue.fields.assignee.displayName)
+        return findTeamMemberByFullName(cardData.assignee)
     }
   }
   const methodFromSettings = jiraSettings[cardData.currentStatus].method
@@ -43,8 +79,14 @@ function composeAndSendMessage({ cardData, event }) {
     })
 }
 
-async function processWebhook({ body, stagnantCards }) {
-  const fieldThatChanged = body.changelog.items[0].fieldId
+async function processWebhook({
+  body,
+  stagnantCards,
+}: {
+  body: JiraPayloadBody
+  stagnantCards: StagnantCards
+}) {
+  const fieldThatChanged = body?.changelog?.items[0].fieldId || ""
   const teamAssigned = body.issue.fields.customfield_10025
     ? body.issue.fields.customfield_10025.value
     : "No team assigned"
@@ -61,15 +103,15 @@ async function processWebhook({ body, stagnantCards }) {
     cardTitle: body.issue.fields.summary,
     currentStatus: body.changelog.items[0].toString,
     previousStatus: body.changelog.items[0].fromString,
-    pullRequests: foundPullRequests.some(pr => pr.includes("Error"))
+    pullRequests: foundPullRequests.some((pr: string) => pr.includes("Error"))
       ? []
       : foundPullRequests,
-    teamAssigned: teamAssigned,
+    teamAssigned,
   }
 
   removeFromStagnants({
-    cardData: cardData,
-    stagnantCards: stagnantCards,
+    cardData,
+    stagnantCards,
   })
 
   isNotifyEnabled({ status: cardData.currentStatus }).notifyOnEntry &&
@@ -82,29 +124,41 @@ async function processWebhook({ body, stagnantCards }) {
     })
 }
 
-function removeFromStagnants({ cardData, stagnantCards }) {
+function removeFromStagnants({
+  cardData,
+  stagnantCards,
+}: {
+  cardData: CardData
+  stagnantCards: StagnantCards
+}) {
   const cardIndex = stagnantCards.findIndex(
-    card => card.cardNumber === cardData.cardNumber
+    (card: CardData) => card.cardNumber === cardData.cardNumber
   )
   if (cardIndex !== -1) stagnantCards.splice(cardIndex, 1)
 }
 
-function findStagnants(query, stagnantCards) {
+function findStagnants(query: string | number, stagnantCards: StagnantCards) {
   const queryType = isNaN(Number(query)) ? "title" : "number"
   let match
   if (queryType === "title") {
-    match = stagnantCards.filter(card =>
-      card.cardTitle.toLowerCase().includes(query.toLowerCase())
+    match = stagnantCards.filter((card: CardData) =>
+      card.cardTitle.toLowerCase().includes(String(query).toLowerCase())
     )
   } else if (queryType === "number") {
-    match = stagnantCards.filter(card =>
+    match = stagnantCards.filter((card: CardData) =>
       String(card.cardNumber).includes(String(query))
     )
   }
   return match
 }
 
-function addToStagnants({ cardData, stagnantCards }) {
+function addToStagnants({
+  cardData,
+  stagnantCards,
+}: {
+  cardData: CardData
+  stagnantCards: StagnantCards
+}) {
   const currentStatus = cardData.currentStatus
   if (!!jiraSettings[currentStatus].monitorForStagnant) {
     const timeStamp = Date.now()
@@ -116,7 +170,7 @@ function addToStagnants({ cardData, stagnantCards }) {
     })
   }
 }
-function getJiraCard(cardNumber) {
+function getJiraCard(cardNumber: string) {
   return axios.get(
     `https://salesloft.atlassian.net/rest/api/2/issue/${cardNumber}`,
     {
@@ -128,11 +182,11 @@ function getJiraCard(cardNumber) {
   )
 }
 
-function checkforStagnants(arr) {
+function checkforStagnants(arr: StagnantCards) {
   if (!isWithinSlackHours()) return
-  arr.forEach(card => {
+  arr.forEach((card: CardData) => {
     if (isPast(card.nextAlertTime)) {
-      card.alertCount++
+      card.alertCount && card.alertCount++
       card.nextAlertTime = Date.now() + hours(2)
       card.age = moment().from(card.lastColumnChangeTime, true)
       composeAndSendMessage({ cardData: card, event: "stagnant" })
