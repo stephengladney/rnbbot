@@ -10,7 +10,7 @@ try {
   PRIVATE_KEY = fs.readFileSync(
     path.resolve(__dirname, "../rnbot-private-key.pem"),
     {
-      encoding: "utf-8"
+      encoding: "utf-8",
     }
   )
 } catch (err) {
@@ -21,25 +21,18 @@ const appOctokit = new Octokit({
   authStrategy: createAppAuth,
   auth: {
     id: APP_ID,
-    privateKey: PRIVATE_KEY
-  }
+    privateKey: PRIVATE_KEY,
+  },
 })
 
 function getPrNumberFromUrl(url) {
-  let result = null
-  for (i = url.length - 1; i >= 0; i--) {
-    if (url[i] === "/") {
-      result = url.substr(i + 1)
-      break
-    }
-  }
-  return result
+  return String(url).substr(url.lastIndexOf("/") + 1)
 }
 
 function retrieveToken() {
   return appOctokit.auth({
     type: "installation",
-    installationId: 5135879
+    installationId: 5135879,
   })
 }
 
@@ -49,10 +42,10 @@ async function findPullRequests(jiraTicket) {
     const octokit = new Octokit({ auth: token })
 
     results = await octokit.search.issuesAndPullRequests({
-      q: `${jiraTicket} +in:title+type:pr+is:open+org:salesloft`
+      q: `${jiraTicket} +in:title+type:pr+is:open+org:salesloft`,
     })
 
-    return results.data.items.map(item => item.html_url)
+    return results.data.items.map((item) => item.html_url)
   } catch (err) {
     return [`Error: ${err}`]
   }
@@ -75,5 +68,5 @@ module.exports = {
   findPullRequests,
   getPrNumberFromUrl,
   listRepos,
-  extractLabelFromPullRequestUrl
+  extractLabelFromPullRequestUrl,
 }

@@ -1,8 +1,8 @@
 class TeamRole extends Model {
-  static create = create
+  static createNew = createNew
 }
 
-function create({ teamId, personId, role }) {
+function createNew({ teamId, personId, role }) {
   return db.TeamRole.create({ team_id: teamId, person_id: personId, role })
 }
 
@@ -31,7 +31,7 @@ TeamRole.init(
       allowNull: false,
     },
   },
-  { sequelize, modelName: "team" }
+  { sequelize, modelName: "team_role" }
 )
 
 export default TeamRole
