@@ -12,7 +12,7 @@ const {
 export interface SendMessageProps {
   channel: string
   message: string
-  user?: string
+  user?: { slackId: string }
 }
 
 export function isWithinSlackHours() {
@@ -57,7 +57,7 @@ export function sendEphemeral({ channel, message, user }: SendMessageProps) {
       attachments: [],
       channel: channel,
       text: message,
-      user: user.slackId,
+      user: user && user.slackId,
     },
   })
 }
