@@ -22,7 +22,7 @@ interface NotificationParams {
   cardTitle: string
   currentStatus: string
   messageType: "entry" | "stagnant"
-  pullRequests: any[]
+  pullRequests: string[]
 }
 
 const atHere = "<!here|here>"
