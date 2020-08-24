@@ -29,9 +29,11 @@ const notifications = ({
   pullRequests,
 }) => {
   const truncatedTitle = truncateTitle(cardTitle, 50)
+
   const jiraLink = !!cardNumber
     ? `${emojis.jira} <https://salesloft.atlassian.net/browse/${cardNumber}|${cardNumber}>`
     : `${emojis.jira} N/A`
+
   const githubLinks =
     pullRequests.map(buildPullRequestLink).join(" ") || `${emojis.github} N/A`
 
