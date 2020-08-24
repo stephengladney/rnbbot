@@ -60,11 +60,11 @@ const slackSettings = {
     ignore: ":see_no_evil:",
     jira: ":jira2:",
     github: ":github:",
-    readyForAcceptance: ":parking:",
-    readyForDesignReview: ":pencil2:",
-    readyForQa: ":in_qa:",
-    readyForReview: ":eyes:",
-    readyforMerge: ":white_check_mark:",
+    "Ready for Acceptance": ":parking:",
+    "Ready for Design Review": ":pencil2:",
+    "Ready For QA": ":in_qa:",
+    "Ready for Review": ":eyes:",
+    "Ready for Merge": ":white_check_mark:",
   },
 }
 const timezoneOffset = -4 // UTC
