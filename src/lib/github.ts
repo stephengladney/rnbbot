@@ -25,7 +25,7 @@ const appOctokit = new Octokit({
   },
 })
 
-function getPrNumberFromUrl(url) {
+function getPrNumberFromUrl(url: string) {
   return String(url).substr(url.lastIndexOf("/") + 1)
 }
 
@@ -36,26 +36,22 @@ function retrieveToken() {
   })
 }
 
-async function findPullRequests(jiraTicket) {
+async function findPullRequests(jiraTicket: string) {
   try {
     const { token } = await retrieveToken()
     const octokit = new Octokit({ auth: token })
 
-    results = await octokit.search.issuesAndPullRequests({
+    const results = await octokit.search.issuesAndPullRequests({
       q: `${jiraTicket} +in:title+type:pr+is:open+org:salesloft`,
     })
 
-    return results.data.items.map((item) => item.html_url)
+    return results.data.items.map((item: { html_url: string }) => item.html_url)
   } catch (err) {
     return [`Error: ${err}`]
   }
 }
 
-function listRepos() {
-  return octokit.repos.list()
-}
-
-function extractLabelFromPullRequestUrl(pullRequestUrl) {
+function extractLabelFromPullRequestUrl(pullRequestUrl: string) {
   const url = new URL(pullRequestUrl)
   const [_, repoName, prNumber] =
     url.pathname.match(/\/(\w+)\/pull\/(\d+)/) || []
@@ -67,6 +63,5 @@ function extractLabelFromPullRequestUrl(pullRequestUrl) {
 module.exports = {
   findPullRequests,
   getPrNumberFromUrl,
-  listRepos,
   extractLabelFromPullRequestUrl,
 }
