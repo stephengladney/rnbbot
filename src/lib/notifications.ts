@@ -4,21 +4,40 @@ const {
   jiraSettings,
   slackSettings: { emojis },
 } = require("../../settings")
-const { extractLabelFromPullRequestUrl } = require("./github")
+import { extractLabelFromPullRequestUrl } from "./github"
+
+interface Person {
+  firstName: string
+  lastName: string
+  email: string
+  slackHandle: string
+  slackId: string
+}
+
+interface NotificationParams {
+  age: string
+  alertCount: number
+  assignee: Person
+  cardNumber: string
+  cardTitle: string
+  currentStatus: string
+  messageType: "entry" | "stagnant"
+  pullRequests: any[]
+}
 
 const atHere = "<!here|here>"
-const atMention = (person) =>
+const atMention = (person: Person) =>
   person.slackHandle ? `<@${person.slackHandle}>` : ``
-const buildPullRequestLink = (pullRequest) =>
+const buildPullRequestLink = (pullRequest: string) =>
   `${emojis.github} <${pullRequest}|${extractLabelFromPullRequestUrl(
     pullRequest
   )}>`
 
-function isNotifyEnabled({ status }) {
+export function isNotifyEnabled({ status }: { status: string }) {
   return !jiraSettings[status] ? false : jiraSettings[status]
 }
 
-const notifications = ({
+export const notifications = ({
   age,
   alertCount,
   assignee,
@@ -27,7 +46,7 @@ const notifications = ({
   currentStatus,
   messageType,
   pullRequests,
-}) => {
+}: NotificationParams) => {
   const truncatedTitle = truncateTitle(cardTitle, 50)
 
   const jiraLink = !!cardNumber
@@ -38,19 +57,26 @@ const notifications = ({
     pullRequests.map(buildPullRequestLink).join(" ") || `${emojis.github} N/A`
 
   const stagnantReminder =
-    messageType == "stagant" ? `${ordinal(alertCount)}  reminder | ` : ""
+    messageType === "stagnant" ? `${ordinal(alertCount)}  reminder | ` : ""
 
   const notificationMessage =
     messageType == "stagnant"
       ? `has been *${currentStatus.toLowerCase()}* for *${age}*`
       : `is *${currentStatus.toLowerCase()}*`
 
-  const whoToMention = {
-    "Ready for Acceptance": atMention(productManager),
-    "Ready for Design Review": atMention(designer),
-    "Ready For QA": atMention(qaEngineer),
-    "Ready for Review": atHere,
-    "Ready for Merge": atMention(assignee),
+  const whoToMention = (status: string) => {
+    switch (status) {
+      case "Ready for Acceptance":
+        return atMention(productManager)
+      case "Ready for Design Review":
+        return atMention(designer)
+      case "Ready For QA":
+        return atMention(qaEngineer)
+      case "Ready for Merge":
+        return atMention(assignee)
+      default:
+        return atHere
+    }
   }
 
   return `${emojis[currentStatus]} | ${stagnantReminder}
@@ -59,13 +85,8 @@ const notifications = ({
   )}`
 }
 
-function truncateTitle(title, length) {
+function truncateTitle(title: string, length: number) {
   return String(title).length <= length
     ? title
     : `${String(title).substr(0, length)}...`
-}
-
-module.exports = {
-  isNotifyEnabled,
-  notifications,
 }

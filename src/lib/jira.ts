@@ -23,7 +23,7 @@ export interface CardData {
   cardTitle: string
   currentStatus: string
   lastColumnChangeTime?: number
-  nextAlertTime?: string
+  nextAlertTime?: number
   previousStatus: string
   pullRequests: []
   teamAssigned: string
