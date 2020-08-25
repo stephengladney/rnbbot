@@ -1,6 +1,14 @@
 import { Model, DataTypes } from "sequelize"
 import sequelize from "../config/sequelize"
 
+interface PersonProps {
+  firstName: string
+  lastName: string
+  emailAddress: string
+  slackHandle: string
+  slackId: string
+}
+
 class Person extends Model {
   static createNew = createNew
   static findPersonByFirstAndLastName = findPersonByFirstAndLastName
@@ -13,7 +21,7 @@ async function createNew({
   emailAddress,
   slackHandle,
   slackId,
-}) {
+}: PersonProps) {
   try {
     await sequelize.sync()
     return Person.create({
@@ -28,8 +36,8 @@ async function createNew({
   }
 }
 
-function findPersonByFirstAndLastName(first, last) {
-  return db.Person.findOne({
+function findPersonByFirstAndLastName(first: string, last: string) {
+  return Person.findOne({
     where: {
       first_name: first,
       last_name: last,
@@ -37,7 +45,13 @@ function findPersonByFirstAndLastName(first, last) {
   })
 }
 
-async function findPersonByTeamAndRole({ teamName, roleName }) {
+async function findPersonByTeamAndRole({
+  teamName,
+  roleName,
+}: {
+  teamName: string
+  roleName: string
+}) {
   try {
     const { id: teamId } = await exports.getTeamByName(teamName)
     const matches = await db.TeamRole.findAll({

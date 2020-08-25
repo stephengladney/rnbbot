@@ -1,7 +1,12 @@
 import { Model, DataTypes } from "sequelize"
 import sequelize from "../config/sequelize"
 
-async function createNew({ name, slackChannel }) {
+interface TeamProps {
+  name: string
+  slackChannel: string
+}
+
+async function createNew({ name, slackChannel }: TeamProps) {
   try {
     await sequelize.sync()
     return Team.create({

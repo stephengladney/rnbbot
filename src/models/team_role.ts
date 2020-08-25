@@ -1,9 +1,18 @@
+import { Model, DataTypes } from "sequelize"
+import sequelize from "../config/sequelize"
+
+interface TeamRoleProps {
+  teamId: number
+  personId: number
+  role: string
+}
+
 class TeamRole extends Model {
   static createNew = createNew
 }
 
-function createNew({ teamId, personId, role }) {
-  return db.TeamRole.create({ team_id: teamId, person_id: personId, role })
+function createNew({ teamId, personId, role }: TeamRoleProps) {
+  return TeamRole.create({ team_id: teamId, person_id: personId, role })
 }
 
 TeamRole.init(
