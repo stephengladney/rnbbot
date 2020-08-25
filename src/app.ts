@@ -5,7 +5,7 @@ import bodyParser from "body-parser"
 import { checkforStagnants } from "./lib/jira"
 
 const app = express()
-const stagnantCards: [] = []
+export const stagnantCards: [] = []
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))

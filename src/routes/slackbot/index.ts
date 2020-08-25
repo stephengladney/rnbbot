@@ -1,15 +1,15 @@
 const router = require("express").Router()
-import { processSlashCommand } from "../../lib/slack"
+import { processSlashCommand } from "../../lib/slack/slash_commands"
+import { stagnantCards } from "../../app"
 
 router.post("/slash/", (req, res) => {
   const user = req.body.user_id
   const text = req.body.text
   processSlashCommand({
-    stagnantCards: stagnantCards,
-    text: text,
-    user: user,
+    text,
+    user,
   })
   res.status(200).send()
 })
 
-module.exports = router
+export default router

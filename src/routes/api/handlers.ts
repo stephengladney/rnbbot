@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express"
 
-type Handler = (req: Request, res: Response) => void
+export type Handler = (req: Request, res: Response) => void
 type Handlers = {
   index?: Handler
   show?: Handler

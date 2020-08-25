@@ -24,7 +24,7 @@ function ignore({ params, user }: IgnoreParams) {
   const stagnantCards: StagnantCards = [] // <<--------FIX THIS
   const cardsInParams = String(params).replace(/ /g, "").split(",")
 
-  cardsInParams.forEach((query) => {
+  cardsInParams.forEach(query => {
     const matches: CardData[] = findStagnants(query, stagnantCards)
     if (matches.length === 0) {
       sendEphemeral({
