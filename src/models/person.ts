@@ -1,7 +1,8 @@
 import { Model, DataTypes } from "sequelize"
 import sequelize from "../config/sequelize"
+import TeamRole from "./team_role"
 
-interface PersonProps {
+export interface PersonProps {
   firstName: string
   lastName: string
   emailAddress: string
@@ -54,13 +55,13 @@ async function findPersonByTeamAndRole({
 }) {
   try {
     const { id: teamId } = await exports.getTeamByName(teamName)
-    const matches = await db.TeamRole.findAll({
+    const matches: TeamRole[] = await TeamRole.findAll({
       where: {
         team_id: teamId,
         role_name: roleName,
       },
     })
-    const matchingPerson = await db.Person.findOne({
+    const matchingPerson = await Person.findOne({
       where: {
         id: matches[0].person_id,
       },

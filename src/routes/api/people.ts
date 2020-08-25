@@ -1,9 +1,10 @@
 import { createRoutes } from "./handlers"
-import Person from "../../models/person"
+import Person, { PersonProps } from "../../models/person"
 import { Handler } from "./handlers"
 
 const create: Handler = (req, res) => {
-  Person.createNew(req.query)
+  const newPersonProps: PersonProps = req.body
+  Person.createNew(newPersonProps)
 }
 
 const index: Handler = (req, res) => {
