@@ -20,6 +20,7 @@ async function createNew({ name, slackChannel }: TeamProps) {
 
 class Team extends Model {
   static createNew = createNew
+  static findT
 }
 
 Team.init(

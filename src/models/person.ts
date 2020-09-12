@@ -12,8 +12,8 @@ export interface PersonProps {
 
 class Person extends Model {
   static createNew = createNew
-  static findPersonByFirstAndLastName = findPersonByFirstAndLastName
-  static findPersonByTeamAndRole = findPersonByTeamAndRole
+  static findByFirstAndLastName = findByFirstAndLastName
+  static findByTeamAndRole = findByTeamAndRole
 }
 
 async function createNew({
@@ -37,7 +37,7 @@ async function createNew({
   }
 }
 
-function findPersonByFirstAndLastName(first: string, last: string) {
+function findByFirstAndLastName(first: string, last: string) {
   return Person.findOne({
     where: {
       first_name: first,
@@ -46,7 +46,7 @@ function findPersonByFirstAndLastName(first: string, last: string) {
   })
 }
 
-async function findPersonByTeamAndRole({
+export async function findByTeamAndRole({
   teamName,
   roleName,
 }: {
@@ -63,6 +63,7 @@ async function findPersonByTeamAndRole({
     })
     const matchingPerson = await Person.findOne({
       where: {
+        //@ts-ignore
         id: matches[0].person_id,
       },
     })

@@ -1,5 +1,6 @@
-const { designer, qaEngineer, productManager } = require("../../team")
-const { ordinal } = require("./numbers")
+import { find } from "../models/team_role"
+import { ordinal } from "./numbers"
+
 const {
   jiraSettings,
   slackSettings: { emojis },
