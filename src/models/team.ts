@@ -6,9 +6,14 @@ interface TeamProps {
   slackChannel: string
 }
 
+class Team extends Model {
+  static createNew = createNew
+  static findByName = findByName
+}
+
 async function createNew({ name, slackChannel }: TeamProps) {
   try {
-    await sequelize.sync()
+    // await sequelize.sync()
     return Team.create({
       name: name,
       slack_channel: slackChannel,
@@ -18,8 +23,15 @@ async function createNew({ name, slackChannel }: TeamProps) {
   }
 }
 
-class Team extends Model {
-  static createNew = createNew
+async function findByName({ name }: Pick<TeamProps, "name">) {
+  try {
+    // await sequelize.sync()
+    return Team.findOne({
+      where: { name },
+    })
+  } catch (err) {
+    return { error: true, description: err }
+  }
 }
 
 Team.init(

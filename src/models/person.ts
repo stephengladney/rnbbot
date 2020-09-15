@@ -12,8 +12,8 @@ export interface PersonProps {
 
 class Person extends Model {
   static createNew = createNew
-  static findPersonByFirstAndLastName = findPersonByFirstAndLastName
-  static findPersonByTeamAndRole = findPersonByTeamAndRole
+  static findByFirstAndLastName = findByFirstAndLastName
+  static findByTeamAndRole = findByTeamAndRole
 }
 
 async function createNew({
@@ -24,7 +24,7 @@ async function createNew({
   slackId,
 }: PersonProps) {
   try {
-    await sequelize.sync()
+    // await sequelize.sync()
     return Person.create({
       first_name: firstName,
       last_name: lastName,
@@ -37,7 +37,7 @@ async function createNew({
   }
 }
 
-function findPersonByFirstAndLastName(first: string, last: string) {
+function findByFirstAndLastName(first: string, last: string) {
   return Person.findOne({
     where: {
       first_name: first,
@@ -46,7 +46,7 @@ function findPersonByFirstAndLastName(first: string, last: string) {
   })
 }
 
-async function findPersonByTeamAndRole({
+export async function findByTeamAndRole({
   teamName,
   roleName,
 }: {
