@@ -7,7 +7,16 @@ interface TeamRoleProps {
   role: string
 }
 
-class TeamRole extends Model {
+interface TeamRoleAttributes {
+  id: number
+  team_id: number
+  person_id: number
+  role: string
+}
+
+type TeamRoleCreationAttributes = Omit<TeamRoleAttributes, "id">
+
+class TeamRole extends Model<TeamRoleAttributes, TeamRoleCreationAttributes> {
   static createNew = createNew
 }
 

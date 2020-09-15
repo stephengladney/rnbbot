@@ -58,11 +58,13 @@ async function findPersonByTeamAndRole({
     const matches: TeamRole[] = await TeamRole.findAll({
       where: {
         team_id: teamId,
-        role_name: roleName,
+        role: roleName,
       },
     })
     const matchingPerson = await Person.findOne({
       where: {
+        // TODO: figure out why it doesn't work
+        // @ts-ignore
         id: matches[0].person_id,
       },
     })
@@ -107,7 +109,7 @@ Person.init(
       allowNull: false,
     },
   },
-  { freezeTableName: true, sequelize, modelName: "person" }
+  { sequelize, modelName: "person" }
 )
 
 export default Person
