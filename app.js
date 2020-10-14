@@ -15,11 +15,6 @@ let statusPoller = setInterval(() => {
 
 app
   .post("/jirahook", (req, res) => {
-    console.log(`10500: ${JSON.stringify(req.body.issue.fields.customfield_10500)}`)
-    console.log(`10900: ${JSON.stringify(req.body.issue.fields.customfield_10900)}`)
-    console.log(`10025: ${JSON.stringify(req.body.issue.fields.customfield_10025)}`)
-    console.log(`11830: ${JSON.stringify(req.body.issue.fields.customfield_11830)}`)
-    
     processWebhook({
       body: req.body,
       stagnantCards: stagnantCards
