@@ -1,4 +1,4 @@
-import { find } from "../models/team_role"
+import Person, {PersonProps} from "../models/person"
 import { ordinal } from "./numbers"
 
 const {
@@ -6,14 +6,6 @@ const {
   slackSettings: { emojis },
 } = require("../../settings")
 import { extractLabelFromPullRequestUrl } from "./github"
-
-interface Person {
-  firstName: string
-  lastName: string
-  email: string
-  slackHandle: string
-  slackId: string
-}
 
 interface NotificationParams {
   age: string
@@ -24,10 +16,11 @@ interface NotificationParams {
   currentStatus: string
   messageType: "entry" | "stagnant"
   pullRequests: string[]
+  teamName: string
 }
 
 const atHere = "<!here|here>"
-const atMention = (person: Person) =>
+const atMention = (person: PersonProps) =>
   person.slackHandle ? `<@${person.slackHandle}>` : ``
 const buildPullRequestLink = (pullRequest: string) =>
   `${emojis.github} <${pullRequest}|${extractLabelFromPullRequestUrl(
@@ -47,6 +40,7 @@ export const notifications = ({
   currentStatus,
   messageType,
   pullRequests,
+  teamName,
 }: NotificationParams) => {
   const truncatedTitle = truncateTitle(cardTitle, 50)
 

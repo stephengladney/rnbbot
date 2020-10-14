@@ -46,7 +46,7 @@ function findByFirstAndLastName(first: string, last: string) {
   })
 }
 
-export async function findByTeamAndRole({
+async function findByTeamAndRole({
   teamName,
   roleName,
 }: {
