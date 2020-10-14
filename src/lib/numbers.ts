@@ -1,7 +1,7 @@
 export const hours = (n: number) => Number(n) * 3600000
 
-export const isPast = (time: number) =>
-  Math.floor(Date.now() / 60000) >= Math.floor(time / 60000)
+export const isPast = (time: number | undefined) =>
+  time ? Math.floor(Date.now() / 60000) >= Math.floor(time / 60000) : undefined
 
 export const ordinal = (n: number) => {
   if (n >= 11 && n <= 13) return `${String(n)}th`

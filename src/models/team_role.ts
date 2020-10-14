@@ -11,6 +11,7 @@ interface TeamRoleAttributes {
   id: number
   team_id: number
   person_id: number
+  /* "design" | "engineer" | "product" | "qa" */ 
   role: string
 }
 
@@ -21,7 +22,7 @@ class TeamRole extends Model<TeamRoleAttributes, TeamRoleCreationAttributes> {
 }
 
 function createNew({ teamId, personId, role }: TeamRoleProps) {
-  return TeamRole.create({ team_id: teamId, person_id: personId, role })
+  return TeamRole.create({ team_id: teamId, person_id: personId, role})
 }
 
 TeamRole.init(

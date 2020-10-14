@@ -1,47 +1,48 @@
-import Person, {PersonProps} from "../models/person"
+import Person, { PersonProps } from "../models/person"
 import { ordinal } from "./numbers"
 
-const {
-  jiraSettings,
-  slackSettings: { emojis },
-} = require("../../settings")
+import { jiraSettings, slackSettings } from "../settings"
 import { extractLabelFromPullRequestUrl } from "./github"
+import { Status } from "./jira"
+
+const { emojis } = slackSettings
 
 interface NotificationParams {
-  age: string
-  alertCount: number
-  assignee: Person
+  age?: string
+  alertCount?: number
+  assignee: string
   cardNumber: string
   cardTitle: string
   currentStatus: string
-  messageType: "entry" | "stagnant"
+  event: "entry" | "stagnant"
   pullRequests: string[]
-  teamName: string
+  teamAssigned: string
 }
 
 const atHere = "<!here|here>"
 const atMention = (person: PersonProps) =>
   person.slackHandle ? `<@${person.slackHandle}>` : ``
+
 const buildPullRequestLink = (pullRequest: string) =>
   `${emojis.github} <${pullRequest}|${extractLabelFromPullRequestUrl(
     pullRequest
   )}>`
 
-export function isNotifyEnabled({ status }: { status: string }) {
+export function isNotifyEnabled({ status }: { status: Status }) {
   return !jiraSettings[status] ? false : jiraSettings[status]
 }
 
-export const notifications = ({
+export const notifications = async ({
   age,
   alertCount,
   assignee,
   cardNumber,
   cardTitle,
   currentStatus,
-  messageType,
+  event,
   pullRequests,
-  teamName,
-}: NotificationParams) => {
+  teamAssigned,
+}: NotificationParams): Promise<string> => {
   const truncatedTitle = truncateTitle(cardTitle, 50)
 
   const jiraLink = !!cardNumber
@@ -52,32 +53,27 @@ export const notifications = ({
     pullRequests.map(buildPullRequestLink).join(" ") || `${emojis.github} N/A`
 
   const stagnantReminder =
-    messageType === "stagnant" ? `${ordinal(alertCount)}  reminder | ` : ""
+    event === "stagnant" ? `${ordinal(alertCount || 1)}  reminder | ` : ""
 
   const notificationMessage =
-    messageType == "stagnant"
+    event === "stagnant"
       ? `has been *${currentStatus.toLowerCase()}* for *${age}*`
       : `is *${currentStatus.toLowerCase()}*`
 
-  const whoToMention = (status: string) => {
-    switch (status) {
-      case "Ready for Acceptance":
-        return atMention(productManager)
-      case "Ready for Design Review":
-        return atMention(designer)
-      case "Ready For QA":
-        return atMention(qaEngineer)
-      case "Ready for Merge":
-        return atMention(assignee)
-      default:
-        return atHere
-    }
+  const roleToMention = {
+    "Ready for Acceptance": "product",
+    "Ready for Design Review": "design",
+    "Ready For QA": "qa",
+    "Ready for Merge": "engineer",
   }
 
+  const whoToMention = await Person.findByTeamAndRole({
+    roleName: roleToMention[currentStatus],
+    teamName: teamAssigned,
+  })
+
   return `${emojis[currentStatus]} | ${stagnantReminder}
-    ${jiraLink} ${githubLinks} | \`${truncatedTitle}\` ${notificationMessage} | ${whoToMention(
-    currentStatus
-  )}`
+    ${jiraLink} ${githubLinks} | \`${truncatedTitle}\` ${notificationMessage} | ${whoToMention}`
 }
 
 function truncateTitle(title: string, length: number) {

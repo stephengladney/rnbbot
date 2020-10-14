@@ -1,4 +1,4 @@
-const jiraSettings = {
+export const jiraSettings = {
   Unassigned: {
     method: "ephemeral",
     monitorForStagnant: false,
@@ -41,7 +41,7 @@ const jiraSettings = {
   },
 }
 
-const slackSettings = {
+export const slackSettings = {
   days: {
     Sunday: false,
     Monday: true,
@@ -67,10 +67,4 @@ const slackSettings = {
     "Ready for Merge": ":white_check_mark:",
   },
 }
-const timezoneOffset = -4 // UTC
-
-module.exports = {
-  slackSettings,
-  jiraSettings,
-  timezoneOffset,
-}
+export const timezoneOffset = -4 // UTC

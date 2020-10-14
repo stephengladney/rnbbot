@@ -1,27 +1,29 @@
-const moment = require("moment")
-const axios = require("axios")
+import moment from "moment"
+import axios from "axios"
+import { hours, isPast } from "./numbers"
+import { isWithinSlackHours, sendEphemeral, sendMessage } from "./slack"
+import { isNotifyEnabled, notifications } from "./notifications"
+import { jiraSettings } from "../settings"
+import { findPullRequests } from "./github"
 require("dotenv").config()
-const { hours, isPast } = require("./numbers")
-const { isWithinSlackHours, sendEphemeral, sendMessage } = require("./slack")
-const { isNotifyEnabled, notifications } = require("./notifications")
-const { jiraSettings } = require("../../settings")
-const { findPullRequests } = require("./github")
-const {
-  designer,
-  findTeamMemberByFullName,
-  qaEngineer,
-  productManager,
-  slackChannel,
-  teamName,
-} = require("../../team")
 
+export type Status =
+  | "Unassigned"
+  | "In Development"
+  | "Ready for Code Review"
+  | "Ready for Design Review"
+  | "Ready for QA"
+  | "Ready for Acceptance"
+  | "Ready for Merge"
+  | "Done"
+  | string
 export interface CardData {
   age?: string
   alertCount?: number
   assignee: string
   cardNumber: string
   cardTitle: string
-  currentStatus: string
+  currentStatus: Status
   lastColumnChangeTime?: number
   nextAlertTime?: number
   previousStatus: string
@@ -45,17 +47,17 @@ export interface JiraPayloadBody {
   }
 }
 
-export function composeAndSendMessage({
+export async function composeAndSendMessage({
   cardData,
   event,
 }: {
   cardData: CardData
-  event: string
+  event: "entry" | "stagnant"
 }) {
   const whoReceivesEphemeral = (status: string) => {
     switch (status) {
       case "Ready for QA":
-        return qaEngineer
+        return 1
       case "Ready for Acceptance":
         return productManager
       case "Ready for Design Review":
@@ -64,19 +66,22 @@ export function composeAndSendMessage({
         return findTeamMemberByFullName(cardData.assignee)
     }
   }
+  //@ts-ignore
   const methodFromSettings = jiraSettings[cardData.currentStatus].method
-  const message = notifications(cardData)[event][methodFromSettings]()
-  methodFromSettings === "channel" &&
+  const message = await notifications({ ...cardData, event })
+  if (methodFromSettings === "channel") {
     sendMessage({
       channel: slackChannel,
       message,
     })
-  methodFromSettings === "ephemeral" &&
+  }
+  if (methodFromSettings === "ephemeral") {
     sendEphemeral({
       channel: slackChannel,
       message,
       user: whoReceivesEphemeral(cardData.currentStatus),
     })
+  }
 }
 
 export async function processWebhook({
@@ -96,9 +101,7 @@ export async function processWebhook({
   const foundPullRequests = await findPullRequests(body.issue.key.substr(3))
 
   const cardData = {
-    assignee: body.issue.fields.assignee
-      ? findTeamMemberByFullName(body.issue.fields.assignee.displayName)
-      : { firstName: "No", lastName: "assignee", slackHandle: "notassigned" },
+    assignee: body.issue.fields.assignee.displayName,
     cardNumber: body.issue.key,
     cardTitle: body.issue.fields.summary,
     currentStatus: body.changelog.items[0].toString,
@@ -153,7 +156,8 @@ export function addToStagnants({
   stagnantCards: StagnantCards
 }) {
   const currentStatus = cardData.currentStatus
-  if (!!jiraSettings[currentStatus].monitorForStagnant) {
+  //@ts-ignore
+  if (jiraSettings[currentStatus].monitorForStagnant) {
     const timeStamp = Date.now()
     stagnantCards.push({
       ...cardData,
@@ -163,6 +167,7 @@ export function addToStagnants({
     })
   }
 }
+
 export function getJiraCard(cardNumber: string) {
   return axios.get(
     `https://salesloft.atlassian.net/rest/api/2/issue/${cardNumber}`,
@@ -186,13 +191,3 @@ export function checkforStagnants(arr: StagnantCards) {
     }
   })
 }
-
-// module.exports = {
-//   addToStagnants,
-//   checkforStagnants,
-//   findStagnants,
-//   getJiraCard,
-//   hours,
-//   processWebhook,
-//   removeFromStagnants,
-// }
