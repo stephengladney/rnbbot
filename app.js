@@ -15,10 +15,10 @@ let statusPoller = setInterval(() => {
 
 app
   .post("/jirahook", (req, res) => {
-    console.log(`10500: ${req.body.fields.issue.customfield_10500}`)
-    console.log(`10900: ${req.body.fields.issue.customfield_10900}`)
-    console.log(`10025: ${req.body.fields.issue.customfield_10025}`)
-    console.log(`11830: ${req.body.fields.issue.customfield_11830}`)
+    console.log(`10500: ${req.body.issue.fields.customfield_10500}`)
+    console.log(`10900: ${req.body.issue.fields.customfield_10900}`)
+    console.log(`10025: ${req.body.issue.fields.customfield_10025}`)
+    console.log(`11830: ${req.body.issue.fields.customfield_11830}`)
     
     processWebhook({
       body: req.body,
