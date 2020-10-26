@@ -1,88 +1,16 @@
 import moment from "moment"
 import axios from "axios"
 import { hours, isPast } from "./numbers"
-import { isWithinSlackHours, sendEphemeral, sendMessage } from "./slack"
-import { isNotifyEnabled, notifications } from "./notifications"
+import { handleEntryNotification, composeAndSendMessage } from "./notifications"
+import { isWithinSlackHours } from "./slack"
 import { jiraSettings } from "../settings"
 import { findPullRequests } from "./github"
+import { Status, CardData, StagnantCards, JiraPayloadBody } from "./jira.types"
+import Team from "../models/team"
+import Configuration from "../models/configuration"
+import { convertCase } from "./case"
+import { logError } from "./logging"
 require("dotenv").config()
-
-export type Status =
-  | "Unassigned"
-  | "In Development"
-  | "Ready for Code Review"
-  | "Ready for Design Review"
-  | "Ready for QA"
-  | "Ready for Acceptance"
-  | "Ready for Merge"
-  | "Done"
-  | string
-export interface CardData {
-  age?: string
-  alertCount?: number
-  assignee: string
-  cardNumber: string
-  cardTitle: string
-  currentStatus: Status
-  lastColumnChangeTime?: number
-  nextAlertTime?: number
-  previousStatus: string
-  pullRequests: []
-  teamAssigned: string
-}
-
-export type StagnantCards = CardData[]
-
-export interface JiraPayloadBody {
-  changelog: {
-    items: { fieldId: string; fromString: string; toString: string }[]
-  }
-  issue: {
-    fields: {
-      assignee: { displayName: string }
-      customfield_10025: { value: string }
-      summary: string
-    }
-    key: string
-  }
-}
-
-export async function composeAndSendMessage({
-  cardData,
-  event,
-}: {
-  cardData: CardData
-  event: "entry" | "stagnant"
-}) {
-  const whoReceivesEphemeral = (status: string) => {
-    switch (status) {
-      case "Ready for QA":
-        return 1
-      case "Ready for Acceptance":
-        return productManager
-      case "Ready for Design Review":
-        return designer
-      default:
-        return findTeamMemberByFullName(cardData.assignee)
-    }
-  }
-  //@ts-ignore
-  const methodFromSettings = jiraSettings[cardData.currentStatus].method
-  const message = await notifications({ ...cardData, event })
-  if (methodFromSettings === "channel") {
-    sendMessage({
-      channel: slackChannel,
-      message,
-    })
-  }
-  if (methodFromSettings === "ephemeral") {
-    sendEphemeral({
-      channel: slackChannel,
-      message,
-      user: whoReceivesEphemeral(cardData.currentStatus),
-    })
-  }
-}
 
 export async function processWebhook({
   body,
@@ -100,11 +28,11 @@ export async function processWebhook({
 
   const foundPullRequests = await findPullRequests(body.issue.key.substr(3))
 
-  const cardData = {
+  const cardData: CardData = {
     assignee: body.issue.fields.assignee.displayName,
     cardNumber: body.issue.key,
     cardTitle: body.issue.fields.summary,
-    currentStatus: body.changelog.items[0].toString,
+    currentStatus: body.changelog.items[0].toString as Status,
     previousStatus: body.changelog.items[0].fromString,
     pullRequests: foundPullRequests.some((pr: string) => pr.includes("Error"))
       ? []
@@ -117,14 +45,26 @@ export async function processWebhook({
     stagnantCards,
   })
 
-  isNotifyEnabled({ status: cardData.currentStatus }).notifyOnEntry &&
-    composeAndSendMessage({ cardData, event: "entry" })
-
-  isNotifyEnabled({ status: cardData.currentStatus }).monitorForStagnant &&
-    addToStagnants({
-      cardData: cardData,
-      stagnantCards: stagnantCards,
+  try {
+    const teamSettings = await getTeamAndSettingForStatus({
+      status: cardData.currentStatus,
+      teamName: cardData.teamAssigned,
     })
+
+    if (!teamSettings) throw "No team settings returned"
+
+    if (teamSettings.monitorForStagnant) {
+      addToStagnants({
+        cardData: cardData,
+        stagnantCards: stagnantCards,
+      })
+    }
+
+    if (teamSettings.notifyOnEntry)
+      handleEntryNotification({ cardData, teamSettings })
+  } catch (err) {
+    logError(`jira.processWebbhook: ${err}`)
+  }
 }
 
 export function removeFromStagnants({
@@ -146,6 +86,36 @@ export function findStagnants(query: string, stagnantCards: StagnantCards) {
       card.cardTitle.toLowerCase().includes(query.toLowerCase())
     ) || []
   )
+}
+
+export async function getTeamAndSettingForStatus({
+  status,
+  teamName,
+}: {
+  status: Status
+  teamName: string
+}) {
+  try {
+    const team = await Team.findByName({ name: teamName })
+    if (!team) throw `No team by the name ${teamName} found`
+
+    //@ts-ignore - still not recognizing attributes on db models
+    const configuration = await Configuration.findByTeamId({ teamId: team.id })
+    const statusKeyPrefix = convertCase(status).toSnake()
+    return {
+      //@ts-ignore - still not recognizing attributes on db models
+      method: configuration[`${statusKeyPrefix}_method`],
+      //@ts-ignore - still not recognizing attributes on db models
+      notifyOnEntry: configuration[`${statusKeyPrefix}_notify_on_entry`],
+      monitorForStagnant:
+        //@ts-ignore - still not recognizing attributes on db models
+        configuration[`${statusKeyPrefix}_monitor_for_stagnants`],
+      team,
+    }
+  } catch (err) {
+    logError(`jira.getTeamSettingForStatus: ${err}`)
+    return undefined
+  }
 }
 
 export function addToStagnants({
@@ -180,14 +150,21 @@ export function getJiraCard(cardNumber: string) {
   )
 }
 
-export function checkforStagnants(arr: StagnantCards) {
+export async function checkforStagnants(arr: StagnantCards) {
   if (!isWithinSlackHours()) return
-  arr.forEach((card: CardData) => {
+  arr.forEach(async (card: CardData) => {
     if (isPast(card.nextAlertTime)) {
       card.alertCount && card.alertCount++
       card.nextAlertTime = Date.now() + hours(2)
       card.age = moment().from(card.lastColumnChangeTime, true)
-      composeAndSendMessage({ cardData: card, event: "stagnant" })
+
+      try {
+        const team = await Team.findByName({ name: card.teamAssigned })
+        if (!team) throw `No team found with name ${card.teamAssigned}`
+        composeAndSendMessage({ cardData: card, event: "stagnant", team })
+      } catch (err) {
+        logError(`jira.checkForStagnants.Team.findByName: ${err}`)
+      }
     }
   })
 }

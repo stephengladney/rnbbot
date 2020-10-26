@@ -1,3 +1,4 @@
+import { Status } from "./lib/jira.types"
 export const jiraSettings = {
   Unassigned: {
     method: "ephemeral",
@@ -55,16 +56,41 @@ export const slackSettings = {
     start: 9,
     stop: 17,
   },
-  emojis: {
-    error: ":exclamation:",
-    ignore: ":see_no_evil:",
-    jira: ":jira2:",
-    github: ":github:",
-    "Ready for Acceptance": ":parking:",
-    "Ready for Design Review": ":pencil2:",
-    "Ready For QA": ":in_qa:",
-    "Ready for Review": ":eyes:",
-    "Ready for Merge": ":white_check_mark:",
-  },
 }
 export const timezoneOffset = -4 // UTC
+
+interface Emojis {
+  error: string
+  ignore: string
+  jira: string
+  github: string
+  "Ready for Acceptance": string
+  "Ready for Design Review": string
+  "Ready For QA": string
+  "Ready for Review": string
+  "Ready for Merge": string
+}
+
+export const emojis = {
+  error: ":exclamation:",
+  ignore: ":see_no_evil:",
+  jira: ":jira2:",
+  github: ":github:",
+}
+
+export const statusEmojis = (status: Status) => {
+  switch (status) {
+    case "Ready for Acceptance":
+      return ":parking:"
+    case "Ready for Design Review":
+      return ":pencil2:"
+    case "Ready for QA":
+      return ":in_qa:"
+    case "Ready for Code Review":
+      return ":eyes:"
+    case "Ready for Merge":
+      return ":white_check_mark:"
+    default:
+      return ""
+  }
+}

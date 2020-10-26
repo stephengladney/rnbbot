@@ -1,6 +1,7 @@
 import { Model, DataTypes } from "sequelize"
 import sequelize from "../config/sequelize"
 import TeamRole from "./team_role"
+import Team from "./team"
 
 export interface PersonProps {
   firstName: string
@@ -13,7 +14,7 @@ export interface PersonProps {
 class Person extends Model {
   static createNew = createNew
   static findByFirstAndLastName = findByFirstAndLastName
-  static findByTeamAndRole = findByTeamAndRole
+  static findByTeamIdAndRole = findByTeamIdAndRole
 }
 
 async function createNew({
@@ -46,31 +47,36 @@ function findByFirstAndLastName(first: string, last: string) {
   })
 }
 
-async function findByTeamAndRole({
-  teamName,
+async function findByTeamIdAndRole({
+  teamId,
   roleName,
 }: {
-  teamName: string
+  teamId: string
   roleName: string
 }) {
   try {
-    const { id: teamId } = await exports.getTeamByName(teamName)
+    //@ts-ignore
     const matches: TeamRole[] = await TeamRole.findAll({
       where: {
         team_id: teamId,
         role: roleName,
       },
     })
-    const matchingPerson = await Person.findOne({
-      where: {
-        // TODO: figure out why it doesn't work
-        // @ts-ignore
-        id: matches[0].person_id,
-      },
+
+    const matchingPersons = matches.map(async (match) => {
+      const matchingPerson = await Person.findOne({
+        where: {
+          // TODO: figure out why it doesn't work
+          // @ts-ignore
+          id: match.person_id,
+        },
+      })
+      return matchingPerson
     })
-    return matchingPerson
+
+    return matchingPersons.filter((matchingPerson) => !!matchingPerson)
   } catch (err) {
-    return { error: true, message: `${err}` }
+    throw err
   }
 }
 

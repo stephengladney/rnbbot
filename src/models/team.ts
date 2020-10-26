@@ -2,6 +2,7 @@ import { Model, DataTypes } from "sequelize"
 import sequelize from "../config/sequelize"
 
 interface TeamProps {
+  id: number
   name: string
   slackChannel: string
 }
@@ -11,27 +12,17 @@ class Team extends Model {
   static findByName = findByName
 }
 
-async function createNew({ name, slackChannel }: TeamProps) {
-  try {
-    // await sequelize.sync()
-    return Team.create({
-      name: name,
-      slack_channel: slackChannel,
-    })
-  } catch (err) {
-    return { error: true, description: err }
-  }
+async function createNew({ name, slackChannel }: Omit<TeamProps, "id">) {
+  return Team.create({
+    name: name,
+    slack_channel: slackChannel,
+  })
 }
 
 async function findByName({ name }: Pick<TeamProps, "name">) {
-  try {
-    // await sequelize.sync()
-    return Team.findOne({
-      where: { name },
-    })
-  } catch (err) {
-    return { error: true, description: err }
-  }
+  return Team.findOne({
+    where: { name },
+  })
 }
 
 Team.init(

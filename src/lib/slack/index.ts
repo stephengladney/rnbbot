@@ -1,3 +1,4 @@
+import Person from "../../models/person"
 require("dotenv").config()
 const axios = require("axios")
 const { hours, humanizeDay } = require("../numbers")
@@ -15,7 +16,7 @@ export interface SendMessageProps {
 }
 
 export interface SendEphemeralProps extends SendMessageProps {
-  user: string
+  userId: string
 }
 
 export function isWithinSlackHours() {
@@ -44,7 +45,11 @@ export function sendMessage({ channel, message }: SendMessageProps) {
   })
 }
 
-export function sendEphemeral({ channel, message, user }: SendEphemeralProps) {
+export function sendEphemeral({
+  channel,
+  message,
+  userId,
+}: SendEphemeralProps) {
   if (!isWithinSlackHours()) {
     console.log(`[outside of hours] ${message}`)
     return
@@ -60,7 +65,7 @@ export function sendEphemeral({ channel, message, user }: SendEphemeralProps) {
       attachments: [],
       channel: channel,
       text: message,
-      user,
+      user: userId,
     },
   })
 }
