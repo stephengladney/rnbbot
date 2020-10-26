@@ -36,12 +36,12 @@ Configuration.init(
     },
     slack_start_hour: {
       allowNull: false,
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
       unique: false,
     },
     slack_stop_hour: {
       allowNull: false,
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
       unique: false,
     },
     unassigned_method: {
