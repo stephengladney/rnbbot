@@ -1,4 +1,4 @@
-require("dotenv").config({ path: "../.env" })
+require("dotenv").config()
 
 import express from "express"
 import bodyParser from "body-parser"
@@ -11,7 +11,7 @@ export const stagnantCards: [] = []
 sequelize.sync()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(require("./routes"))
+app.use(() => require("./routes"))
 
 let statusPoller = setInterval(() => {
   checkforStagnants(stagnantCards)
