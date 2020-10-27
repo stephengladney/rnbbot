@@ -1,7 +1,28 @@
 const slackChannel = "rnbot"
 const teamName = "Rhythm and Blues"
+
+interface TeamMemberProps {
+  firstName: string
+  lastName?: string
+  email?: string
+  slackHandle?: string
+  slackId?: string
+}
+
 class TeamMember {
-  constructor({ firstName, lastName, email, slackHandle, slackId }) {
+  firstName: string
+  lastName?: string
+  email?: string
+  slackHandle?: string
+  slackId?: string
+
+  constructor({
+    firstName,
+    lastName,
+    email,
+    slackHandle,
+    slackId,
+  }: TeamMemberProps) {
     this.firstName = firstName
     this.lastName = lastName
     this.email = email
@@ -73,31 +94,28 @@ const engineers = [
 
 const team = [qaEngineer, designer, productManager, ...engineers]
 
-const findTeamMemberByEmail = email => {
+const findTeamMemberByEmail = (email: string) => {
   return (
-    team.find(member => member.email === email) ||
+    team.find((member) => member.email === email) ||
     new TeamMember({
       firstName: "A non-team member",
-      lastName: null,
       email: `${email}`,
-      slackHandle: null,
     })
   )
 }
 
-function findTeamMemberByFullName(fullName) {
+function findTeamMemberByFullName(fullName: string) {
   const space = fullName.indexOf(" ")
   const firstName = fullName.substring(0, space)
   const lastName = fullName.substring(space + 1)
   return (
     team.find(
-      member => member.firstName === firstName && member.lastName === lastName
+      (member: TeamMemberProps) =>
+        member.firstName === firstName && member.lastName === lastName
     ) ||
     new TeamMember({
       firstName: firstName,
       lastName: lastName,
-      email: null,
-      slackHandle: null,
     })
   )
 }

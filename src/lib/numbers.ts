@@ -1,9 +1,9 @@
-const hours = n => Number(n) * 3600000
+export const hours = (n: number) => Number(n) * 3600000
 
-const isPast = time =>
-  Math.floor(Date.now() / 60000) >= Math.floor(time / 60000)
+export const isPast = (time: number | undefined) =>
+  time ? Math.floor(Date.now() / 60000) >= Math.floor(time / 60000) : undefined
 
-const ordinal = n => {
+export const ordinal = (n: number) => {
   if (n >= 11 && n <= 13) return `${String(n)}th`
   switch (String(n).substr(-1)) {
     case "1":
@@ -17,7 +17,7 @@ const ordinal = n => {
   }
 }
 
-const humanizeDay = day => {
+export const humanizeDay = (day: number) => {
   switch (day) {
     case 0:
       return "Sunday"
@@ -36,11 +36,4 @@ const humanizeDay = day => {
     default:
       return "Invalid"
   }
-}
-
-module.exports = {
-  hours,
-  humanizeDay,
-  isPast,
-  ordinal
 }
