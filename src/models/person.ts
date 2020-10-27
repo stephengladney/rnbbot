@@ -1,14 +1,22 @@
 import { Model, DataTypes } from "sequelize"
 import sequelize from "../config/sequelize"
 import TeamRole from "./team_role"
-import Team from "./team"
+import { logError } from "../lib/logging"
+
+// export interface PersonProps {
+//   firstName: string
+//   lastName: string
+//   emailAddress: string
+//   slackHandle: string
+//   slackId: string
+// }
 
 export interface PersonProps {
-  firstName: string
-  lastName: string
-  emailAddress: string
-  slackHandle: string
-  slackId: string
+  first_name: string
+  last_name: string
+  email_address: string
+  slack_handle: string
+  slack_id: string
 }
 
 class Person extends Model {
@@ -18,22 +26,23 @@ class Person extends Model {
 }
 
 async function createNew({
-  firstName,
-  lastName,
-  emailAddress,
-  slackHandle,
-  slackId,
+  first_name,
+  last_name,
+  email_address,
+  slack_handle,
+  slack_id,
 }: PersonProps) {
   try {
     // await sequelize.sync()
     return Person.create({
-      first_name: firstName,
-      last_name: lastName,
-      email_address: emailAddress,
-      slack_handle: slackHandle,
-      slack_id: slackId,
+      first_name,
+      last_name,
+      email_address,
+      slack_handle,
+      slack_id,
     })
   } catch (err) {
+    logError(`models.person.create: ${err}`)
     throw err
   }
 }
@@ -63,7 +72,7 @@ async function findByTeamIdAndRole({
       },
     })
 
-    const matchingPersons = matches.map(async (match) => {
+    const matchingPersons = matches.map(async match => {
       const matchingPerson = await Person.findOne({
         where: {
           // TODO: figure out why it doesn't work
@@ -74,7 +83,7 @@ async function findByTeamIdAndRole({
       return matchingPerson
     })
 
-    return matchingPersons.filter((matchingPerson) => !!matchingPerson)
+    return matchingPersons.filter(matchingPerson => !!matchingPerson)
   } catch (err) {
     throw err
   }

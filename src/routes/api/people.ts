@@ -1,10 +1,16 @@
 import { createRoutes } from "./handlers"
 import Person, { PersonProps } from "../../models/person"
 import { Handler } from "./handlers"
+import { logError } from "../../lib/logging"
 
-const create: Handler = (req, res) => {
+const create: Handler = async (req, res) => {
   const newPersonProps: PersonProps = req.body
-  Person.createNew(newPersonProps)
+  try {
+    Person.createNew(newPersonProps)
+  } catch (err) {
+    logError(`routes.people.create: ${err}`)
+    throw err
+  }
 }
 
 const index: Handler = (req, res) => {
