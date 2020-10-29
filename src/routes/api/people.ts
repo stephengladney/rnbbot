@@ -33,7 +33,15 @@ const show: Handler = async (req, res) => {
   }
 }
 
-const update: Handler = (req, res) => {}
+const update: Handler = async (req, res) => {
+  try {
+    await Person.update(req.query, { where: { id: req.params.id } })
+    res.status(200).send()
+  } catch (err) {
+    res.status(500).send()
+    logError(`routes.people.update: ${err}`)
+  }
+}
 
 const deleteFn: Handler = (req, res) => {}
 
