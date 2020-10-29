@@ -7,9 +7,7 @@ const create: Handler = (req, res) => {
 }
 
 const index: Handler = (req, res) => {
-  Team.findAll({
-    where: req.query,
-  })
+  Team.findAll()
 }
 
 const show: Handler = (req, res) => {

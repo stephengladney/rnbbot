@@ -1,7 +1,9 @@
 const router = require("express").Router()
-
-router.use("/api", () => require("./api"))
-router.use("/slackbot", () => require("./slackbot"))
-router.use("/webhooks", () => require("./webhooks"))
+import apiRouter from "./api"
+import slackbotRouter from "./slackbot"
+import webhooksRouter from "./webhooks"
+router.use("/api", apiRouter)
+router.use("/slackbot", slackbotRouter)
+router.use("/webhooks", webhooksRouter)
 
 export default router

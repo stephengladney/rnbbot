@@ -4,19 +4,23 @@ import { Handler } from "./handlers"
 import { logError } from "../../lib/logging"
 
 const create: Handler = async (req, res) => {
-  const newPersonProps: PersonProps = req.body
   try {
-    Person.createNew(newPersonProps)
+    await Person.create(req.query)
+    res.status(201).send()
   } catch (err) {
+    res.status(500).send()
     logError(`routes.people.create: ${err}`)
-    throw err
   }
 }
 
-const index: Handler = (req, res) => {
-  Person.findAll({
-    where: req.query,
-  })
+const index: Handler = async (req, res) => {
+  try {
+    const people = await Person.findAll()
+    res.status(200).send(people)
+  } catch (err) {
+    res.status(500).send()
+    logError(`routes.people.index: ${err}`)
+  }
 }
 
 const show: Handler = (req, res) => {

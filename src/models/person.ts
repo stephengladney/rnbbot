@@ -1,15 +1,8 @@
-import { Model, DataTypes } from "sequelize"
+import { DataTypes } from "sequelize"
 import sequelize from "../config/sequelize"
 import TeamRole from "./team_role"
 import { logError } from "../lib/logging"
-
-// export interface PersonProps {
-//   firstName: string
-//   lastName: string
-//   emailAddress: string
-//   slackHandle: string
-//   slackId: string
-// }
+import { Model, Column, Table } from "sequelize-typescript"
 
 export interface PersonProps {
   first_name: string
@@ -19,32 +12,16 @@ export interface PersonProps {
   slack_id: string
 }
 
-class Person extends Model {
-  static createNew = createNew
+@Table
+class Person extends Model<Person> {
   static findByFirstAndLastName = findByFirstAndLastName
   static findByTeamIdAndRole = findByTeamIdAndRole
-}
 
-async function createNew({
-  first_name,
-  last_name,
-  email_address,
-  slack_handle,
-  slack_id,
-}: PersonProps) {
-  try {
-    // await sequelize.sync()
-    return Person.create({
-      first_name,
-      last_name,
-      email_address,
-      slack_handle,
-      slack_id,
-    })
-  } catch (err) {
-    logError(`models.person.create: ${err}`)
-    throw err
-  }
+  @Column
+  first_name: string
+
+  @Column
+  last_name: string
 }
 
 function findByFirstAndLastName(first: string, last: string) {
