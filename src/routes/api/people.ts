@@ -23,8 +23,14 @@ const index: Handler = async (req, res) => {
   }
 }
 
-const show: Handler = (req, res) => {
-  Person.findOne({ where: { id: req.params.id } })
+const show: Handler = async (req, res) => {
+  try {
+    const person = await Person.findOne({ where: { id: req.params.id } })
+    res.status(200).send(person)
+  } catch (err) {
+    res.status(500).send()
+    logError(`routes.people.show: ${err}`)
+  }
 }
 
 const update: Handler = (req, res) => {}
