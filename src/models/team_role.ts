@@ -1,29 +1,18 @@
-import { Model, DataTypes } from "sequelize"
+import { DataTypes } from "sequelize"
+import { Model, Table } from "sequelize-typescript"
 import sequelize from "../config/sequelize"
 
 interface TeamRoleProps {
-  teamId: number
-  personId: number
-  role: string
-}
-
-interface TeamRoleAttributes {
   id: number
   team_id: number
   person_id: number
-  /* "design" | "engineer" | "product" | "qa" */ 
   role: string
 }
 
-type TeamRoleCreationAttributes = Omit<TeamRoleAttributes, "id">
+// type TeamRoleCreationAttributes = Omit<TeamRoleAttributes, "id">
 
-class TeamRole extends Model<TeamRoleAttributes, TeamRoleCreationAttributes> {
-  static createNew = createNew
-}
-
-function createNew({ teamId, personId, role }: TeamRoleProps) {
-  return TeamRole.create({ team_id: teamId, person_id: personId, role})
-}
+@Table
+class TeamRole extends Model<TeamRoleProps> {}
 
 TeamRole.init(
   {
@@ -50,7 +39,7 @@ TeamRole.init(
       allowNull: false,
     },
   },
-  { sequelize, modelName: "team_role" }
+  { freezeTableName: true, sequelize, modelName: "team_role" }
 )
 
 export default TeamRole

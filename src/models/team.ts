@@ -1,4 +1,11 @@
-import { Model, DataTypes } from "sequelize"
+import { DataTypes } from "sequelize"
+import {
+  Model,
+  Column,
+  Table,
+  AutoIncrement,
+  AllowNull,
+} from "sequelize-typescript"
 import sequelize from "../config/sequelize"
 
 interface TeamProps {
@@ -7,16 +14,12 @@ interface TeamProps {
   slackChannel: string
 }
 
-class Team extends Model {
-  static createNew = createNew
+@Table
+class Team extends Model<Team> {
   static findByName = findByName
-}
 
-async function createNew({ name, slackChannel }: Omit<TeamProps, "id">) {
-  return Team.create({
-    name: name,
-    slack_channel: slackChannel,
-  })
+  @Column
+  name: string
 }
 
 async function findByName({ name }: Pick<TeamProps, "name">) {
@@ -45,7 +48,7 @@ Team.init(
       unique: true,
     },
   },
-  { sequelize, modelName: "team" }
+  { freezeTableName: true,sequelize, modelName: "team" }
 )
 
 export default Team

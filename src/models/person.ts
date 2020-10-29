@@ -1,7 +1,6 @@
 import { DataTypes } from "sequelize"
 import sequelize from "../config/sequelize"
 import TeamRole from "./team_role"
-import { logError } from "../lib/logging"
 import { Model, Column, Table } from "sequelize-typescript"
 
 export interface PersonProps {
@@ -101,7 +100,7 @@ Person.init(
       allowNull: false,
     },
   },
-  { sequelize, modelName: "person" }
+  { freezeTableName: true, sequelize, modelName: "person" }
 )
 
 export default Person
