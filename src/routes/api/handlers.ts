@@ -1,4 +1,5 @@
 import { Request, Response, Router } from "express"
+import { logError } from "../../lib/logging"
 
 export type Handler = (req: Request, res: Response) => void
 type Handlers = {
@@ -23,4 +24,17 @@ export function createRoutes(handlers: Handlers) {
   if (handlers.extendRouter) handlers.extendRouter(router)
 
   return router
+}
+
+export function handleError({
+  err,
+  res,
+  trace,
+}: {
+  err: any
+  res: Response
+  trace: string
+}) {
+  res.status(500).send()
+  logError(`${trace}: ${err}`)
 }

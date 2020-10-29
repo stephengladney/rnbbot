@@ -1,15 +1,13 @@
 import { createRoutes } from "./handlers"
-import Person, { PersonProps } from "../../models/person"
-import { Handler } from "./handlers"
-import { logError } from "../../lib/logging"
+import Person from "../../models/person"
+import { Handler, handleError } from "./handlers"
 
 const create: Handler = async (req, res) => {
   try {
     await Person.create(req.query)
     res.status(201).send()
   } catch (err) {
-    res.status(500).send()
-    logError(`routes.people.create: ${err}`)
+    handleError({ err, res, trace: "routes.people.create" })
   }
 }
 
@@ -18,8 +16,7 @@ const index: Handler = async (req, res) => {
     const people = await Person.findAll()
     res.status(200).send(people)
   } catch (err) {
-    res.status(500).send()
-    logError(`routes.people.index: ${err}`)
+    handleError({ err, res, trace: "routes.people.index" })
   }
 }
 
@@ -28,8 +25,7 @@ const show: Handler = async (req, res) => {
     const person = await Person.findOne({ where: { id: req.params.id } })
     res.status(200).send(person)
   } catch (err) {
-    res.status(500).send()
-    logError(`routes.people.show: ${err}`)
+    handleError({ err, res, trace: "routes.people.show" })
   }
 }
 
@@ -38,8 +34,7 @@ const update: Handler = async (req, res) => {
     await Person.update(req.query, { where: { id: req.params.id } })
     res.status(200).send()
   } catch (err) {
-    res.status(500).send()
-    logError(`routes.people.update: ${err}`)
+    handleError({ err, res, trace: "routes.people.update" })
   }
 }
 
@@ -48,8 +43,7 @@ const deleteFn: Handler = async (req, res) => {
     await Person.destroy({ where: { id: req.params.id } })
     res.status(200).send()
   } catch (err) {
-    res.status(500).send()
-    logError(`routes.people.delete: ${err}`)
+    handleError({ err, res, trace: "routes.people.delete" })
   }
 }
 
