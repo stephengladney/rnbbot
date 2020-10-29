@@ -43,6 +43,14 @@ const update: Handler = async (req, res) => {
   }
 }
 
-const deleteFn: Handler = (req, res) => {}
+const deleteFn: Handler = async (req, res) => {
+  try {
+    await Person.destroy({ where: { id: req.params.id } })
+    res.status(200).send()
+  } catch (err) {
+    res.status(500).send()
+    logError(`routes.people.delete: ${err}`)
+  }
+}
 
 export default createRoutes({ create, index, show, update, deleteFn })
