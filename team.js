@@ -10,11 +10,11 @@ class TeamMember {
   }
 }
 const qaEngineer = new TeamMember({
-  firstName: "Jeff",
-  lastName: "Thoensen",
-  email: "jeff.thoensen@salesloft.com",
-  slackHandle: "jeff",
-  slackId: "U0DM1N3SL",
+  firstName: "Logan",
+  lastName: "Antcliff",
+  email: "logan.antcliff@salesloft.com",
+  slackHandle: "logan.antcliff",
+  slackId: "U01AJE59QRK",
 })
 
 const designer = new TeamMember({
@@ -68,6 +68,13 @@ const engineers = [
     email: "patrick.hoydar@salesloft.com",
     slackHandle: "Hodar",
     slackId: "U727JM1F0",
+  }),
+  new TeamMember({
+    firstName: "Shaundai",
+    lastName: "Person",
+    email: "shaundai.person@salesloft.com",
+    slackHandle: "Shaundai",
+    slackId: "UHFFF848G",
   }),
 ]
 
