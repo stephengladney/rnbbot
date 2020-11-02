@@ -9,8 +9,6 @@ interface TeamRoleProps {
   role: string
 }
 
-// type TeamRoleCreationAttributes = Omit<TeamRoleAttributes, "id">
-
 @Table
 class TeamRole extends Model<TeamRoleProps> {}
 
