@@ -100,7 +100,7 @@ Person.init(
       allowNull: false,
     },
   },
-  { freezeTableName: true, sequelize, modelName: "person" }
+  { sequelize, modelName: "person" }
 )
 
 export default Person

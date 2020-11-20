@@ -60,7 +60,7 @@ Configuration.init(
       unique: false,
     },
   },
-  { sequelize, modelName: "team" }
+  { sequelize, modelName: "configuration" }
 )
 
 export default Configuration

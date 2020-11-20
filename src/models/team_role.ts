@@ -37,7 +37,7 @@ TeamRole.init(
       allowNull: false,
     },
   },
-  { freezeTableName: true, sequelize, modelName: "team_role" }
+  { sequelize, modelName: "team_role" }
 )
 
 export default TeamRole

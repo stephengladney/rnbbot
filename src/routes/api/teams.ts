@@ -4,9 +4,10 @@ import { Handler, handleError } from "./handlers"
 
 const create: Handler = async (req, res) => {
   try {
-    await Team.create(req.query)
-    res.status(201).send()
+    const team = await Team.create(req.query)
+    res.status(201).send(team)
   } catch (err) {
+    console.log(err)
     handleError({ err, res, trace: "routes.teams.create" })
   }
 }

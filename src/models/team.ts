@@ -3,23 +3,21 @@ import {
   Model,
   Column,
   Table,
-  AutoIncrement,
-  AllowNull,
 } from "sequelize-typescript"
 import sequelize from "../config/sequelize"
 
 interface TeamProps {
   id: number
   name: string
-  slackChannel: string
+  slack_channel: string
 }
 
 @Table
 class Team extends Model<Team> {
   static findByName = findByName
 
-  @Column
-  name: string
+  // @Column
+  // name: string
 }
 
 async function findByName({ name }: Pick<TeamProps, "name">) {
@@ -48,7 +46,7 @@ Team.init(
       unique: true,
     },
   },
-  { freezeTableName: true,sequelize, modelName: "team" }
+  { sequelize, modelName: "team" }
 )
 
 export default Team
