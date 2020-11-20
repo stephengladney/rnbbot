@@ -35,6 +35,6 @@ export function handleError({
   res: Response
   trace: string
 }) {
-  res.status(500).send()
-  logError(`${trace}: ${err}`)
+  res.status(400).send(err.errors[0].message)
+  logError(`${trace}: ${err.errors[0].message}`)
 }

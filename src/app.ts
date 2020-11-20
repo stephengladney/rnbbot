@@ -13,7 +13,6 @@ sequelize.sync()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(routes)
-app.get("/hello", (req, res) => res.send("hi there"))
 
 let statusPoller = setInterval(() => {
   checkforStagnants(stagnantCards)
