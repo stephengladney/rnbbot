@@ -35,7 +35,7 @@ const update: Handler = async (req, res) => {
     const [rowsAffected, _] = await Person.update(req.query, {
       where: { id: req.params.id },
     })
-    if (rowsAffected === 0) throw `person with id ${req.params.id} not found`
+    if (rowsAffected === 0) throw `unable to update person. check id or params`
     res.status(200).send()
   } catch (err) {
     handleError({ err, res, trace: "routes.people.update" })
