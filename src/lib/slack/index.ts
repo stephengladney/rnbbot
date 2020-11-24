@@ -12,6 +12,7 @@ const {
 
 export interface SendMessageProps {
   channel: string
+  ignoreHours?: boolean
   message: string
 }
 
@@ -29,8 +30,8 @@ export function isWithinSlackHours() {
   else return true
 }
 
-export function sendMessage({ channel, message }: SendMessageProps) {
-  if (!isWithinSlackHours()) {
+export function sendMessage({ channel, ignoreHours = false, message }: SendMessageProps) {
+  if (!isWithinSlackHours() && !ignoreHours) {
     console.log(`[outside of hours] ${message}`)
     return
   }
