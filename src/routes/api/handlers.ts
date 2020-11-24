@@ -1,5 +1,6 @@
 import { Request, Response, Router } from "express"
 import { logError } from "../../lib/logging"
+import {sendMessage} from "../../lib/slack/index"
 
 export type Handler = (req: Request, res: Response) => void
 type Handlers = {
@@ -35,6 +36,8 @@ export function handleError({
   res: Response
   trace: string
 }) {
-  res.status(400).send(err.errors[0].message)
-  logError(`${trace}: ${err.errors[0].message}`)
+  const errorMessage = err.errors ? err.errors[0].message : err
+  res.status(400).send(errorMessage)
+  logError(`${trace}: ${errorMessage}`)
+  sendMessage({channel: "rnbot-alerts", message: `<ERR> ${trace}: ${errorMessage}`})
 }
