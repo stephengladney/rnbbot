@@ -23,9 +23,7 @@ const index: Handler = async (req, res) => {
 const show: Handler = async (req, res) => {
   try {
     const person = await Person.findOne({ where: { id: req.params.id } })
-    if (!person) {
-      throw `person with id ${req.params.id} not found`
-    }
+    if (!person) throw `person with id ${req.params.id} not found`
     res.status(200).send(person)
   } catch (err) {
     handleError({ err, res, trace: "routes.people.show" })
@@ -34,7 +32,10 @@ const show: Handler = async (req, res) => {
 
 const update: Handler = async (req, res) => {
   try {
-    await Person.update(req.query, { where: { id: req.params.id } })
+    const [rowsAffected, _] = await Person.update(req.query, {
+      where: { id: req.params.id },
+    })
+    if (rowsAffected === 0) throw `person with id ${req.params.id} not found`
     res.status(200).send()
   } catch (err) {
     handleError({ err, res, trace: "routes.people.update" })
