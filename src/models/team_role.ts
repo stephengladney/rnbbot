@@ -6,7 +6,7 @@ interface TeamRoleProps {
   id: number
   team_id: number
   person_id: number
-  role: string
+  role: "design" | "engineer" | "product" | "qa"
 }
 
 @Table
