@@ -24,6 +24,9 @@ const index: Handler = async (_, res) => {
 const show: Handler = async (req, res) => {
   try {
     const team = await Team.findOne({ where: { id: req.params.id } })
+    if (!team) {
+      throw `team with id ${req.params.id} not found`
+    }
     res.status(200).send(team)
   } catch (err) {
     handleError({ err, res, trace: "routes.teams.show" })

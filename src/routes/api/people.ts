@@ -23,6 +23,9 @@ const index: Handler = async (req, res) => {
 const show: Handler = async (req, res) => {
   try {
     const person = await Person.findOne({ where: { id: req.params.id } })
+    if (!person) {
+      throw `person with id ${req.params.id} not found`
+    }
     res.status(200).send(person)
   } catch (err) {
     handleError({ err, res, trace: "routes.people.show" })
