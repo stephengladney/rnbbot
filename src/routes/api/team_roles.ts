@@ -21,7 +21,7 @@ const create: Handler = async (req, res) => {
     //Validate role does not already exist for team
     const role = String(req.query.role)
     const matchingTeamRole = await TeamRole.findOne({
-      where: { role, person_id, team_id },
+      where: { role, team_id },
     })
     if (matchingTeamRole) {
       throw `role of ${role} is already taken for team with id ${team_id}`
